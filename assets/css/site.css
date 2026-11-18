@@ -1044,3 +1044,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 
 /* v88: adresa de contact afișată ca text, fără link */
 .join-mail { font-weight: 700; color: var(--ink); user-select: all; overflow-wrap: anywhere; }
+
+/* v89: pe telefon, butonul de meniu (☰) stă în dreapta sus și când „Semnează” din antet e ascuns (Alex, 18.11.2026) */
+@media (max-width: 760px) {
+  body.has-sign-bar .menu-toggle { margin-left: auto; }
+}

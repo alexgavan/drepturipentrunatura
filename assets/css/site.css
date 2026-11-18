@@ -1026,3 +1026,4 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   body.has-sign-bar .chapter-cta .btn { display: none; }
   body.has-sign-bar .chapter-cta { margin-top: .5rem; }
 }
+.sheet-toggle { font-size: 1.25rem; padding: .45rem .8rem; line-height: 1; }

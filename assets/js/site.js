@@ -386,3 +386,92 @@
     });
   }
 })();
+
+// v71: file (tabs) pentru „Exemple din România” și „Oamenii”. Fără JavaScript se văd toate panourile, unul sub altul.
+(function () {
+  var n = 0;
+  var grupuri = [];
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tabs]'), function (box) {
+    var panouri = Array.prototype.filter.call(box.children, function (c) { return c.hasAttribute('data-tab'); });
+    if (panouri.length < 2) return;
+    var lista = document.createElement('div');
+    lista.className = 'tab-list';
+    lista.setAttribute('role', 'tablist');
+    var butoane = panouri.map(function (p, i) {
+      n++;
+      if (!p.id) p.id = 'fila-' + n;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tab-btn';
+      b.id = 'fila-btn-' + n;
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-controls', p.id);
+      b.textContent = p.getAttribute('data-tab');
+      p.setAttribute('role', 'tabpanel');
+      p.setAttribute('aria-labelledby', b.id);
+      b.addEventListener('click', function () { arata(i, true); });
+      b.addEventListener('keydown', function (e) {
+        var k = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (k) { e.preventDefault(); var j = (i + k + panouri.length) % panouri.length; arata(j, true); butoane[j].focus(); }
+      });
+      lista.appendChild(b);
+      return b;
+    });
+    box.insertBefore(lista, box.firstChild);
+    box.classList.add('tabs-on');
+    function arata(i, dinClic) {
+      panouri.forEach(function (p, j) { p.hidden = j !== i; });
+      butoane.forEach(function (b, j) {
+        b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+        b.tabIndex = j === i ? 0 : -1;
+      });
+      // listele „pe un rând” își recalculează rândurile după ce panoul devine vizibil
+      if (dinClic) window.dispatchEvent(new Event('resize'));
+    }
+    arata(0, false);
+    grupuri.push({ panouri: panouri, arata: arata });
+  });
+  // Legăturile din meniu (#parteneri, #rosia...) deschid fila care conține ținta.
+  function deschideFila(id) {
+    var t = id && document.getElementById(id);
+    if (!t) return false;
+    var gasit = false;
+    grupuri.forEach(function (g) {
+      g.panouri.forEach(function (p, i) { if (p === t || p.contains(t)) { g.arata(i, true); gasit = true; } });
+    });
+    return gasit;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    if (deschideFila(id)) {
+      var t = document.getElementById(id);
+      var box = t.closest('[data-tabs]');
+      setTimeout(function () { (box || t).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 0);
+      e.preventDefault();
+      history.replaceState(null, '', '#' + id);
+    }
+  });
+  if (location.hash) deschideFila(decodeURIComponent(location.hash.slice(1)));
+})();
+
+// v71: „Copiază linkul” și, pe telefoane, meniul de distribuire al sistemului.
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('.share'), function (box) {
+    var url = box.getAttribute('data-share-url'), text = box.getAttribute('data-share-text');
+    var copy = box.querySelector('.share-copy'), nat = box.querySelector('.share-native');
+    if (copy && navigator.clipboard) {
+      copy.hidden = false;
+      copy.addEventListener('click', function () {
+        navigator.clipboard.writeText(url).then(function () {
+          var t = copy.textContent; copy.textContent = 'Link copiat'; setTimeout(function () { copy.textContent = t; }, 2000);
+        }).catch(function () {});
+      });
+    }
+    if (nat && navigator.share) {
+      nat.hidden = false;
+      nat.addEventListener('click', function () { navigator.share({ title: 'Drepturi pentru Natură', text: text, url: url }).catch(function () {}); });
+    }
+  });
+})();

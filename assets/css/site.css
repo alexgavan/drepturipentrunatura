@@ -966,3 +966,17 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .docs-strip a.doc-title::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .docs-strip .doc .plus-btn { position: relative; z-index: 1; }
 .docs-strip .doc:hover a.doc-title { color: var(--yellow); }
+
+/* v80: trecerea dinamică între cele două exemple */
+.tabs-exemple > .tab-list { position: relative; isolation: isolate; }
+.tabs-exemple > .tab-list::before { content: ""; position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc((100% - 6px) / var(--file, 2));
+  border-radius: inherit; background: var(--indigo); transform: translateX(calc(100% * var(--fila, 0))); transition: transform .45s cubic-bezier(.65,0,.35,1); }
+.tabs-exemple .tab-btn, .tabs-exemple .tab-btn[aria-selected="true"], .tabs-exemple .tab-btn:hover { background: transparent; transition: color .3s; }
+.tabs-exemple .tab-btn[aria-selected="true"] { color: var(--yellow); }
+.tabs-exemple > .tab-panel.intra-dr { animation: fila-dr .55s cubic-bezier(.2,.7,.2,1); }
+.tabs-exemple > .tab-panel.intra-st { animation: fila-st .55s cubic-bezier(.2,.7,.2,1); }
+@keyframes fila-dr { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: none; } }
+@keyframes fila-st { from { opacity: 0; transform: translateX(-48px); } to { opacity: 1; transform: none; } }
+.tabs-exemple .tab-next { display: inline-flex; align-items: center; gap: .5rem; font-size: .95rem; padding: .7rem 1.2rem; border: 2px solid var(--indigo); border-radius: 999px; }
+.tabs-exemple .tab-next:hover { background: var(--indigo); color: var(--yellow); }
+@media (prefers-reduced-motion: reduce) { .tabs-exemple > .tab-panel { animation: none !important; } .tabs-exemple > .tab-list::before { transition: none; } }

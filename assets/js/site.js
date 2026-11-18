@@ -487,3 +487,59 @@
     }
   });
 })();
+
+// v77: navigare între secțiuni: pe calculator, o coloană de puncte în dreapta; pe telefon, butonul „Secțiuni”
+// din bara de jos deschide lista secțiunilor. Secțiunea curentă e marcată în ambele.
+(function () {
+  var SECTIUNI = [['sus', 'Început'], ['problema', 'Problema'], ['precedente', 'Precedente'], ['propunerea', 'Ce propunem'],
+    ['castig', 'Ce câștigăm'], ['exemple', 'Exemple din România'], ['drumul', 'Drumul până la lege'],
+    ['intrebari', 'Întrebări frecvente'], ['oamenii', 'Oamenii'], ['semneaza', 'Semnează']];
+  var lista = SECTIUNI.filter(function (x) { return document.getElementById(x[0]); });
+  if (!lista.length) return;
+  function link(x, cls) {
+    var a = document.createElement('a'); a.href = '#' + x[0]; a.className = cls; a.setAttribute('data-sec', x[0]);
+    a.innerHTML = '<span class="nav-dot" aria-hidden="true"></span><span class="nav-label"></span>';
+    a.querySelector('.nav-label').textContent = x[1];
+    return a;
+  }
+  // coloana de puncte
+  var rail = document.createElement('nav'); rail.className = 'section-rail'; rail.setAttribute('aria-label', 'Secțiunile paginii');
+  lista.forEach(function (x) { rail.appendChild(link(x, 'rail-link')); });
+  document.body.appendChild(rail);
+  // foaia de pe telefon
+  var bar = document.getElementById('bara-semneaza');
+  var sheet = document.createElement('div'); sheet.className = 'section-sheet'; sheet.id = 'foaie-sectiuni'; sheet.hidden = true;
+  sheet.innerHTML = '<p class="sheet-title">Mergi la</p>';
+  var grid = document.createElement('nav'); grid.className = 'sheet-links'; grid.setAttribute('aria-label', 'Secțiunile paginii');
+  lista.forEach(function (x) { grid.appendChild(link(x, 'sheet-link')); });
+  sheet.appendChild(grid);
+  document.body.appendChild(sheet);
+  if (bar) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'sheet-toggle';
+    b.setAttribute('aria-controls', 'foaie-sectiuni'); b.setAttribute('aria-expanded', 'false');
+    b.innerHTML = '<span aria-hidden="true">☰</span> Secțiuni';
+    bar.insertBefore(b, bar.firstChild);
+    var inchide = function () { sheet.hidden = true; b.setAttribute('aria-expanded', 'false'); };
+    b.addEventListener('click', function () { var d = sheet.hidden; sheet.hidden = !d; b.setAttribute('aria-expanded', d ? 'true' : 'false'); });
+    sheet.addEventListener('click', function (e) { if (e.target.closest('a')) inchide(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') inchide(); });
+    document.addEventListener('click', function (e) { if (!sheet.hidden && !sheet.contains(e.target) && !b.contains(e.target)) inchide(); });
+  }
+  // secțiunea curentă
+  var curent = null;
+  function marcheaza() {
+    var y = window.innerHeight * 0.35, gasit = lista[0][0];
+    lista.forEach(function (x) { var el = document.getElementById(x[0]); if (el.getBoundingClientRect().top <= y) gasit = x[0]; });
+    if (gasit === curent) return;
+    curent = gasit;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sec]'), function (a) {
+      var on = a.getAttribute('data-sec') === gasit;
+      a.classList.toggle('is-current', on);
+      if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    rail.classList.toggle('is-shown', window.scrollY > 300);
+  }
+  var t;
+  window.addEventListener('scroll', function () { if (t) return; t = requestAnimationFrame(function () { t = null; marcheaza(); }); }, { passive: true });
+  marcheaza();
+})();

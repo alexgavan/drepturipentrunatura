@@ -980,3 +980,19 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .tabs-exemple .tab-next { display: inline-flex; align-items: center; gap: .5rem; font-size: .95rem; padding: .7rem 1.2rem; border: 2px solid var(--indigo); border-radius: 999px; }
 .tabs-exemple .tab-next:hover { background: var(--indigo); color: var(--yellow); }
 @media (prefers-reduced-motion: reduce) { .tabs-exemple > .tab-panel { animation: none !important; } .tabs-exemple > .tab-list::before { transition: none; } }
+
+/* v81: „Semnează”, în două coloane: caseta cu butonul și distribuirea; alături, informațiile, cu „Completează cu atenție” primul */
+.sign-grid { display: grid; gap: clamp(1.25rem, 3vw, 2rem); align-items: start; }
+@media (min-width: 960px) { .sign-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); } }
+.sign-grid .together { max-width: none; gap: .9rem; }
+.sign-grid .together .sign-cta { margin-top: .4rem; }
+.sign-grid .together .share { margin-top: .5rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); }
+.sign-grid .together .share-label { color: var(--yellow); }
+.sign-grid .together .share-btn, .sign .sign-grid .together .share-btn:not(.share-friend) { background: transparent; color: var(--paper); border-color: color-mix(in srgb, var(--paper) 55%, transparent); }
+.sign-grid .together .share-btn:hover { background: var(--paper); color: var(--indigo); }
+.sign-grid .sign-facts { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.sign-grid .sign-fact { padding-top: .8rem; }
+.sign-important { background: var(--paper); border: 0; border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: 1rem 1.1rem !important; }
+.sign-important h3 { color: var(--link); }
+.sign-important p { font-weight: 600; }
+.sign-grid .together .share-row { gap: .4rem; } .sign-grid .together .share-btn { font-size: .74rem; padding: .55rem .8rem; }

@@ -598,3 +598,17 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .tl-item:last-child { padding-bottom: 0; }
   #drumul .aside-card { max-width: 52rem; }
 }
+
+/* v62: fundaluri diferite (pasărea din ilustrația campaniei apare doar pe prima pagină) */
+.band-art-delta { background: url("../img/fundal-delta-dunarii.webp") 50% 60% / cover no-repeat; }
+@media (max-width: 760px) { .band-art-delta { background-image: url("../img/fundal-delta-dunarii-640.webp"); background-size: cover; background-position: 50% 50%; } }
+.quote-art-dune { background: url("../img/fundal-dunele-marii-negre.webp") 50% 55% / cover no-repeat; }
+.quote-art-dealuri { background: url("../img/fundal-dealuri-si-paduri.webp") 50% 40% / cover no-repeat; }
+.quote-art-libelula { background: url("../img/fundal-zborul-libelulei.webp") 50% 60% / cover no-repeat; }
+.quote-duty .quote-art-dealuri, .closing .quote-art-libelula { background-size: cover; }
+@media (max-width: 760px) {
+  .quote-art-dune { background-image: url("../img/fundal-dunele-marii-negre-640.webp"); }
+  .quote-art-dealuri { background-image: url("../img/fundal-dealuri-si-paduri-640.webp"); }
+}
+.quote-art-dune::after, .quote-art-dealuri::after { background: color-mix(in srgb, var(--indigo) 78%, transparent); }
+.closing .quote-art-libelula::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 92%, transparent) 0%, color-mix(in srgb, var(--indigo) 60%, transparent) 55%, color-mix(in srgb, var(--indigo) 15%, transparent) 100%); }

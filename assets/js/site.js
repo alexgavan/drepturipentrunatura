@@ -11,7 +11,7 @@
   var lastY = window.scrollY;
   function setScrolled() {
     var y = window.scrollY;
-    var limit = hero ? Math.max(120, hero.offsetHeight - 220) : 120;
+    var limit = 40; // v65: antetul devine plin imediat ce se derulează, ca să nu acopere textul
     var scrolled = y > limit;
     header.classList.toggle('is-scrolled', scrolled);
     if (!scrolled || header.classList.contains('is-open')) header.classList.remove('is-hidden');

@@ -1,0 +1,174 @@
+{
+ "sursa": "Registrul Comisiei Europene, pagina inițiativei ECI(2026)000006: https://citizens-initiative.europa.eu/initiatives/details/2026/000006_ro",
+ "nota": "Cifrele nu au fost verificate de autoritățile naționale responsabile (mențiunea registrului).",
+ "actualizare": "2026-11-13T22:20",
+ "actualizare_text": "13 noiembrie 2026, ora 22:20",
+ "citit_la": "2026-11-13",
+ "macheta_data": "12 noiembrie 2026",
+ "tinta": 1000000,
+ "total": 74871,
+ "tari": [
+  {
+   "cod": "AT",
+   "tara": "Austria",
+   "semnaturi": 2396,
+   "prag": 14400
+  },
+  {
+   "cod": "BE",
+   "tara": "Belgia",
+   "semnaturi": 6651,
+   "prag": 15840
+  },
+  {
+   "cod": "BG",
+   "tara": "Bulgaria",
+   "semnaturi": 364,
+   "prag": 12240
+  },
+  {
+   "cod": "CY",
+   "tara": "Cipru",
+   "semnaturi": 55,
+   "prag": 4320
+  },
+  {
+   "cod": "HR",
+   "tara": "Croația",
+   "semnaturi": 342,
+   "prag": 8640
+  },
+  {
+   "cod": "CZ",
+   "tara": "Cehia",
+   "semnaturi": 1234,
+   "prag": 15120
+  },
+  {
+   "cod": "DK",
+   "tara": "Danemarca",
+   "semnaturi": 2059,
+   "prag": 10800
+  },
+  {
+   "cod": "EE",
+   "tara": "Estonia",
+   "semnaturi": 319,
+   "prag": 5040
+  },
+  {
+   "cod": "FI",
+   "tara": "Finlanda",
+   "semnaturi": 1886,
+   "prag": 10800
+  },
+  {
+   "cod": "FR",
+   "tara": "Franța",
+   "semnaturi": 7786,
+   "prag": 58320
+  },
+  {
+   "cod": "DE",
+   "tara": "Germania",
+   "semnaturi": 13989,
+   "prag": 69120
+  },
+  {
+   "cod": "GR",
+   "tara": "Grecia",
+   "semnaturi": 455,
+   "prag": 15120
+  },
+  {
+   "cod": "IE",
+   "tara": "Irlanda",
+   "semnaturi": 2736,
+   "prag": 10080
+  },
+  {
+   "cod": "IT",
+   "tara": "Italia",
+   "semnaturi": 2458,
+   "prag": 54720
+  },
+  {
+   "cod": "LV",
+   "tara": "Letonia",
+   "semnaturi": 601,
+   "prag": 6480
+  },
+  {
+   "cod": "LT",
+   "tara": "Lituania",
+   "semnaturi": 361,
+   "prag": 7920
+  },
+  {
+   "cod": "LU",
+   "tara": "Luxemburg",
+   "semnaturi": 463,
+   "prag": 4320
+  },
+  {
+   "cod": "MT",
+   "tara": "Malta",
+   "semnaturi": 65,
+   "prag": 4320
+  },
+  {
+   "cod": "PL",
+   "tara": "Polonia",
+   "semnaturi": 4806,
+   "prag": 38160
+  },
+  {
+   "cod": "PT",
+   "tara": "Portugalia",
+   "semnaturi": 1244,
+   "prag": 15120
+  },
+  {
+   "cod": "RO",
+   "tara": "România",
+   "semnaturi": 1413,
+   "prag": 23760
+  },
+  {
+   "cod": "SK",
+   "tara": "Slovacia",
+   "semnaturi": 494,
+   "prag": 10800
+  },
+  {
+   "cod": "SI",
+   "tara": "Slovenia",
+   "semnaturi": 281,
+   "prag": 6480
+  },
+  {
+   "cod": "ES",
+   "tara": "Spania",
+   "semnaturi": 5008,
+   "prag": 43920
+  },
+  {
+   "cod": "SE",
+   "tara": "Suedia",
+   "semnaturi": 5657,
+   "prag": 15120
+  },
+  {
+   "cod": "NL",
+   "tara": "Țările de Jos",
+   "semnaturi": 11176,
+   "prag": 22320
+  },
+  {
+   "cod": "HU",
+   "tara": "Ungaria",
+   "semnaturi": 572,
+   "prag": 15120
+  }
+ ]
+}

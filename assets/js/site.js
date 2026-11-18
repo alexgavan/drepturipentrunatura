@@ -159,6 +159,7 @@
     lista.parentNode.insertBefore(p, lista.nextSibling);
     var deschis = false;
     function aseaza() {
+      var y = window.scrollY; // v81: recalcularea nu mișcă pagina
       items.forEach(function (li) { li.classList.remove('row-more'); });
       if (deschis) { p.hidden = false; return; }
       var sus = elementVizibil(items[0]).getBoundingClientRect().top;
@@ -167,6 +168,7 @@
         if (elementVizibil(li).getBoundingClientRect().top > sus + 4) { li.classList.add('row-more'); ascunse++; }
       });
       p.hidden = ascunse === 0;
+      if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y);
     }
     btn.addEventListener('click', function () {
       deschis = !deschis;
@@ -434,12 +436,15 @@
     function arata(i, dinClic) {
       // v80: trecerea între file: panoul nou intră glisând din partea în care merge utilizatorul
       var dir = i > activ ? 1 : (i < activ ? -1 : 0);
+      // v81: bara cu file rămâne pe loc pe ecran (fără salt de pagină la schimbarea panoului)
+      var sus0 = dinClic ? lista.getBoundingClientRect().top : null;
       panouri.forEach(function (p, j) {
         p.hidden = j !== i;
         p.classList.remove('intra-dr', 'intra-st');
         if (j === i && dinClic && dir) { void p.offsetWidth; p.classList.add(dir > 0 ? 'intra-dr' : 'intra-st'); }
       });
       activ = i;
+      if (sus0 !== null) { var d = lista.getBoundingClientRect().top - sus0; if (Math.abs(d) > 1) window.scrollBy(0, d); }
       box.style.setProperty('--fila', i);
       box.style.setProperty('--file', panouri.length);
       butoane.forEach(function (b, j) {
@@ -447,7 +452,6 @@
         b.tabIndex = j === i ? 0 : -1;
       });
       // listele „pe un rând” își recalculează rândurile după ce panoul devine vizibil
-      if (dinClic) window.dispatchEvent(new Event('resize'));
     }
     arata(0, false);
     // pe telefon: glisare la stânga / la dreapta

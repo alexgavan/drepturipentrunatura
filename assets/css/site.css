@@ -999,3 +999,23 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .tabs { overflow-anchor: none; }
 /* v81: „Ce câștigăm”: fără paralaxă (paralaxa mărea imaginea cu 28 % și o făcea neclară) */
 .anim .band-art.band-art-castig { inset: 0; transform: none; will-change: auto; }
+
+/* v82: toți partenerii pe fond alb; siglele albe sau foarte deschise, întunecate prin filtru */
+.partners-logos .is-ro a, .partners-logos .is-ro .sup-card, .partners-logos .fond-inchis a { background: var(--paper); border-color: var(--line); }
+.partners-logos .is-ro .sup-country { color: var(--link); }
+.partners-logos .sigla-alba img { filter: brightness(0) saturate(100%); opacity: .85; }
+.partners-logos .sigla-pal img { filter: brightness(.55) contrast(1.3); }
+
+/* v82: „Drumul până la lege”: cei 6 pași pe un rând; caseta „Comisia nu este obligată” pe toată lățimea, cu calendarul alături */
+@media (min-width: 1100px) {
+  .timeline { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .9rem; }
+  .tl-item h3 { font-size: .98rem; }
+  #drumul .aside-card { max-width: none; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
+  #drumul .aside-card > :not(.toggles) { grid-column: 1; }
+  #drumul .aside-card > .toggles { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; }
+}
+/* v82: „Ce câștigăm”: imaginea (originalul are 1672 px) ocupă doar partea dreaptă a benzii, ca să rămână clară */
+@media (min-width: 761px) {
+  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { left: 36%; right: 0; top: 0; bottom: 0; background-position: 50% 50%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%); mask-image: linear-gradient(to right, transparent 0, #000 16%); }
+}

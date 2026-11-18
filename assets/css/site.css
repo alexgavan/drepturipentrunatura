@@ -661,10 +661,9 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 
 /* v63: cardurile se ridică la trecerea mouse-ului */
 @media (hover: hover) {
-  .step, .lesson, .pattern, .stat, .ambassador, .aside-card, .note-card, .right-art, .section-art img { transition: transform .2s ease, box-shadow .2s ease; }
+  .step, .lesson, .pattern, .stat, .ambassador, .aside-card, .note-card { transition: transform .2s ease, box-shadow .2s ease; }
   .step:hover, .lesson:hover, .pattern:hover, .ambassador:hover, .aside-card:hover, .note-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px color-mix(in srgb, var(--ink) 14%, transparent); }
   .stat:hover { transform: translateY(-4px); }
-  .right:hover .right-art, .section-art:hover img { transform: scale(1.02); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -681,3 +680,14 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (min-width: 900px) { .example-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
 .row-toggle .plus-btn { margin-top: .25rem; }
 #parteneri > header .plus-btn { margin-top: .5rem; }
+
+/* v65: imaginile aliniate sus, cu textul de lângă ele; pe desktop rămân pe loc la derulare (lipite sub antet) */
+.head-row { align-items: start; }
+.example { align-items: start; }
+@media (min-width: 900px) {
+  .example-art { position: sticky; top: 6.5rem; margin-top: .35rem; }
+}
+@media (min-width: 761px) {
+  .head-art { margin-top: .35rem; }
+}
+.section-art img { display: block; width: 100%; height: auto; }

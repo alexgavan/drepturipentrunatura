@@ -492,6 +492,35 @@
   if (location.hash) deschideFila(decodeURIComponent(location.hash.slice(1)));
 })();
 
+// v87: după semnare. Linkul de semnare se deschide în altă filă; când omul revine pe pagina noastră,
+// îi arătăm o fâșie cu butoanele de distribuire. Nu știm dacă a semnat cu adevărat, de aceea textul e o întrebare.
+(function () {
+  var CHEIE = 'rfn-semneaza-clic', share = document.querySelector('#semneaza .share');
+  if (!share) return;
+  function citeste() { try { return +sessionStorage.getItem(CHEIE) || 0; } catch (e) { return 0; } }
+  function scrie(v) { try { if (v) sessionStorage.setItem(CHEIE, String(v)); else sessionStorage.removeItem(CHEIE); } catch (e) {} }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="eci.ec.europa.eu"]');
+    if (a) scrie(Date.now());
+  });
+  var fasie = document.createElement('div');
+  fasie.className = 'back-strip'; fasie.setAttribute('role', 'status'); fasie.hidden = true;
+  fasie.innerHTML = '<p class="back-text"><strong>Ai semnat? Mulțumim!</strong> Acum adu încă un om:</p>' +
+    '<button type="button" class="back-close" aria-label="Închide">×</button>';
+  var copie = share.cloneNode(true), et = copie.querySelector('.share-label');
+  if (et) et.remove();
+  fasie.insertBefore(copie, fasie.querySelector('.back-close'));
+  document.body.appendChild(fasie);
+  fasie.querySelector('.back-close').addEventListener('click', function () { fasie.hidden = true; });
+  function verifica() {
+    var t = citeste();
+    if (document.visibilityState === 'visible' && t && Date.now() - t > 8000) { scrie(0); fasie.hidden = false; }
+  }
+  document.addEventListener('visibilitychange', verifica);
+  window.addEventListener('focus', verifica);
+  window.addEventListener('pageshow', verifica);
+})();
+
 // v71: „Copiază linkul” și, pe telefoane, meniul de distribuire al sistemului.
 (function () {
   Array.prototype.forEach.call(document.querySelectorAll('.share'), function (box) {

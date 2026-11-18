@@ -549,3 +549,15 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .figure-lead .stat-num { font-size: clamp(3.2rem, 8vw, 4.8rem); }
 .figure-lead p { font-size: 1.05rem; max-width: 48ch; }
 .note-wrap { max-width: 44rem; }
+
+/* v59: textul suplimentar se deschide cu „+” (pașii, drepturile, problema) */
+.plus-btn { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; margin-top: .45rem; padding: 0; border: 2px solid var(--orange); border-radius: 50%; background: transparent; color: var(--indigo); font: 700 1.35rem/1 var(--font-display); cursor: pointer; transition: background .15s, color .15s; }
+.plus-btn:hover, .plus-btn[aria-expanded="true"] { background: var(--orange); color: var(--ink); }
+.plus-btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.section-dark .plus-btn { color: var(--paper); }
+.section-dark .plus-btn:hover, .section-dark .plus-btn[aria-expanded="true"] { color: var(--ink); }
+.right .plus-btn { grid-column: 2; justify-self: start; }
+.step-title .plus-btn { justify-self: start; }
+.plus-body[hidden] { display: none !important; }
+.prose > .plus-body { display: grid; gap: 1rem; }
+.prose > .plus-body > p { max-width: 66ch; }

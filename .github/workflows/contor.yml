@@ -1,0 +1,48 @@
+# Contorul de semnături al machetei drepturipentrunatura.ro (v78, 18.11.2026).
+# La fiecare 3 ore citește registrul Comisiei Europene și, dacă cifrele s-au schimbat, scrie data/contor.json.
+# Pagina citește fișierul direct din depozit; site-ul nu trebuie reconstruit. Gratuit pentru depozitele publice.
+name: Contor semnaturi
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: contor
+jobs:
+  contor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Citeste registrul Comisiei
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, datetime, os
+          URL = 'https://register.eci.ec.europa.eu/core/api/register/details/2026/000006'
+          req = urllib.request.Request(URL, headers={'User-Agent': 'drepturipentrunatura.ro contor', 'Accept': 'application/json'})
+          with urllib.request.urlopen(req, timeout=60) as r:
+              j = json.load(r)
+          sos = j['sosReport']
+          tari = {e['countryCodeType']: int(e['total']) for e in sos['entry']}
+          nou = {'sursa': URL, 'total': int(sos['totalSignatures']), 'ro': tari.get('RO', 0), 'tari': dict(sorted(tari.items())),
+                 'actualizat_registru': sos.get('onlineSosUpdateDate')}
+          os.makedirs('data', exist_ok=True)
+          vechi = {}
+          if os.path.exists('data/contor.json'):
+              with open('data/contor.json', encoding='utf-8') as f:
+                  vechi = json.load(f)
+          if {k: v for k, v in vechi.items() if k != 'citit_la'} != nou:
+              nou['citit_la'] = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%MZ')
+              with open('data/contor.json', 'w', encoding='utf-8') as f:
+                  json.dump(nou, f, ensure_ascii=False, indent=1)
+              print('actualizat:', nou['total'], 'total,', nou['ro'], 'RO')
+          else:
+              print('neschimbat:', nou['total'])
+          PY
+      - name: Salveaza
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/contor.json
+          git diff --cached --quiet || (git commit -m "contor: $(date -u '+%Y-%m-%d %H:%M') UTC" && git push)

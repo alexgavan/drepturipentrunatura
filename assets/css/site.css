@@ -24,7 +24,7 @@
   --gap: 16px;
   --line: color-mix(in srgb, var(--indigo) 22%, transparent);
   --line-on-dark: color-mix(in srgb, var(--paper) 26%, transparent);
-  --img-ilustratie: url("../img/ilustratie-rfn.jpg");
+  --img-ilustratie: url("../img/ilustratie-rfn.webp");
   color-scheme: light;
 }
 
@@ -501,7 +501,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .to-top[hidden] { display: none; }
 @media (max-width: 760px) { body.has-sign-bar .to-top { bottom: calc(4.6rem + env(safe-area-inset-bottom, 0px)); } }
 @media (prefers-reduced-motion: reduce) { .sign-bar, .site-header { transition: none; } }
-@media (max-width: 760px) { .band-art-castig { background-image: url("../img/vizual-vecinii-si-copacii-700.webp"); } }
+@media (max-width: 760px) { .band-art-castig { background-image: url("../img/vizual-vecinii-si-copacii-mobil.webp"); } }
 
 /* v42: cele trei tipare din inventar; „Ce câștigăm”: caseta mai îngustă, ca scena din ilustrație (femeia din fața drujbelor) să rămână la vedere */
 .patterns-wrap { display: grid; gap: .9rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
@@ -524,7 +524,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v44: ilustrațiile, în interiorul capitolelor (nu benzi separate) */
 .section-art { margin: 0; }
 .section-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
-.section-art-wide img.art-centura { aspect-ratio: 2 / 1; object-fit: cover; object-position: 50% 0; }
+/* v69: imaginea întreagă, ca lebăda să nu atingă marginea */
+.section-art-wide img.art-centura { aspect-ratio: auto; }
 .head-row { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
 @media (min-width: 900px) {
   .head-row { grid-template-columns: minmax(0, 1fr) minmax(0, 40%); }
@@ -601,14 +602,14 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 
 /* v62: fundaluri diferite (pasărea din ilustrația campaniei apare doar pe prima pagină) */
 .band-art-delta { background: url("../img/fundal-delta-dunarii.webp") 50% 60% / cover no-repeat; }
-@media (max-width: 760px) { .band-art-delta { background-image: url("../img/fundal-delta-dunarii-640.webp"); background-size: cover; background-position: 50% 50%; } }
+@media (max-width: 760px) { .band-art-delta { background-image: url("../img/fundal-delta-dunarii-mobil.webp"); background-size: cover; background-position: 50% 50%; } }
 .quote-art-dune { background: url("../img/fundal-dunele-marii-negre.webp") 50% 55% / cover no-repeat; }
 .quote-art-dealuri { background: url("../img/fundal-dealuri-si-paduri.webp") 50% 40% / cover no-repeat; }
 .quote-art-libelula { background: url("../img/fundal-zborul-libelulei.webp") 50% 60% / cover no-repeat; }
 .quote-duty .quote-art-dealuri, .closing .quote-art-libelula { background-size: cover; }
 @media (max-width: 760px) {
-  .quote-art-dune { background-image: url("../img/fundal-dunele-marii-negre-640.webp"); }
-  .quote-art-dealuri { background-image: url("../img/fundal-dealuri-si-paduri-640.webp"); }
+  .quote-art-dune { background-image: url("../img/fundal-dunele-marii-negre-mobil.webp"); }
+  .quote-art-dealuri { background-image: url("../img/fundal-dealuri-si-paduri-mobil.webp"); }
 }
 .quote-art-dune::after, .quote-art-dealuri::after { background: color-mix(in srgb, var(--indigo) 78%, transparent); }
 .closing .quote-art-libelula::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 92%, transparent) 0%, color-mix(in srgb, var(--indigo) 60%, transparent) 55%, color-mix(in srgb, var(--indigo) 15%, transparent) 100%); }
@@ -744,3 +745,22 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 
 /* v68: pe telefon, la „Ce propunem”, fără imaginea mare (ar sta lipită de imaginea primului drept) */
 @media (max-width: 760px) { #propunerea .head-art-square { display: none; } }
+
+/* v69: libelula zboară încet, în buclă, pe prima pagină; din când în când trece și prin restul site-ului */
+.anim .hero-libelula { animation: zbor-bucla 16s cubic-bezier(.45,.05,.35,1) .6s infinite; }
+@keyframes zbor-bucla {
+  0%   { left: -12%; top: 72%; opacity: 0; transform: rotate(18deg) scale(.7); }
+  5%   { opacity: 1; }
+  22%  { left: 28%; top: 48%; transform: rotate(-6deg) scale(.85); }
+  36%  { left: 46%; top: 58%; transform: rotate(10deg) scale(.9); }
+  52%  { left: 70%; top: 30%; transform: rotate(-12deg) scale(.95); opacity: 1; }
+  66%  { left: 112%; top: 12%; transform: rotate(-20deg) scale(1); opacity: 0; }
+  100% { left: 112%; top: 12%; opacity: 0; }
+}
+.libelula-trece { position: fixed; z-index: 40; width: clamp(44px, 5vw, 80px); height: auto; left: -10vw; top: 50vh; opacity: 0; pointer-events: none; }
+.libelula-trece.zboara { animation: trece 7s cubic-bezier(.45,.05,.35,1) 1 forwards; }
+.libelula-trece.invers { transform: scaleX(-1); }
+.libelula-trece.invers.zboara { animation-name: trece-invers; }
+@keyframes trece { 0% { left: -10vw; opacity: 0; margin-top: 0; } 10% { opacity: .95; } 35% { margin-top: -6vh; } 60% { margin-top: 4vh; } 90% { opacity: .95; } 100% { left: 108vw; opacity: 0; margin-top: -10vh; } }
+@keyframes trece-invers { 0% { left: 108vw; opacity: 0; margin-top: 0; } 10% { opacity: .95; } 35% { margin-top: -6vh; } 60% { margin-top: 4vh; } 90% { opacity: .95; } 100% { left: -10vw; opacity: 0; margin-top: -10vh; } }
+@media (prefers-reduced-motion: reduce) { .libelula-trece { display: none; } }

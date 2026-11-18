@@ -430,8 +430,18 @@
       p.appendChild(nb);
     });
     box.classList.add('tabs-on');
+    var activ = 0;
     function arata(i, dinClic) {
-      panouri.forEach(function (p, j) { p.hidden = j !== i; });
+      // v80: trecerea între file: panoul nou intră glisând din partea în care merge utilizatorul
+      var dir = i > activ ? 1 : (i < activ ? -1 : 0);
+      panouri.forEach(function (p, j) {
+        p.hidden = j !== i;
+        p.classList.remove('intra-dr', 'intra-st');
+        if (j === i && dinClic && dir) { void p.offsetWidth; p.classList.add(dir > 0 ? 'intra-dr' : 'intra-st'); }
+      });
+      activ = i;
+      box.style.setProperty('--fila', i);
+      box.style.setProperty('--file', panouri.length);
       butoane.forEach(function (b, j) {
         b.setAttribute('aria-selected', j === i ? 'true' : 'false');
         b.tabIndex = j === i ? 0 : -1;
@@ -440,6 +450,17 @@
       if (dinClic) window.dispatchEvent(new Event('resize'));
     }
     arata(0, false);
+    // pe telefon: glisare la stânga / la dreapta
+    var x0 = null, y0 = null;
+    box.addEventListener('touchstart', function (e) { var t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0; x0 = null;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        var j = Math.max(0, Math.min(panouri.length - 1, activ + (dx < 0 ? 1 : -1)));
+        if (j !== activ) arata(j, true);
+      }
+    }, { passive: true });
     grupuri.push({ panouri: panouri, arata: arata });
   });
   // Legăturile din meniu (#parteneri, #rosia...) deschid fila care conține ținta.

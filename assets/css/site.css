@@ -216,7 +216,7 @@ strong, b { font-weight: 700; }
 .goal-foot .source { color: color-mix(in srgb, var(--ink) 74%, transparent); }
 
 /* ---------- Capitole ---------- */
-.section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.section { padding-block: clamp(2.6rem, 6vw, 4.9rem); }
 .section-mist { background: var(--mist); }
 .section-dark { background: var(--indigo); color: var(--paper); }
 .section-dark h2, .section-dark h3 { color: var(--paper); }
@@ -252,7 +252,7 @@ strong, b { font-weight: 700; }
 .section-dark .toggle > summary::before { color: var(--yellow); }
 
 /* bandă cu imagine și casetă de text */
-.band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); }
+.band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(2.3rem, 5.3vw, 4.1rem); }
 .band-art { position: absolute; inset: 0; background: var(--img-ilustratie) 22% 58% / 135% auto no-repeat; }
 .band-panel { position: relative; background: var(--indigo); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3.5vw, 2.75rem); max-width: 40rem; display: grid; gap: 1rem; box-shadow: 0 10px 40px color-mix(in srgb, var(--ink) 35%, transparent); }
 .band-panel h2 { color: var(--yellow); }
@@ -332,7 +332,7 @@ th { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transf
 td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-variant-numeric: tabular-nums; }
 
 /* citate peste imagine */
-.quote-band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(4rem, 10vw, 7.5rem); }
+.quote-band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(3rem, 7.5vw, 5.6rem); }
 .quote-art { position: absolute; inset: 0; background: var(--img-ilustratie) 85% 12% / 150% auto no-repeat; }
 .quote-art::after { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, var(--indigo) 84%, transparent); }
 /* Citatele din benzi stau pe mijloc, ca și citatele oamenilor. */
@@ -340,7 +340,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .quote-text { font: 600 clamp(1.5rem, 3.6vw, 2.5rem)/1.2 var(--font-display); color: var(--yellow); text-wrap: balance; }
 .quote-band cite { font-style: normal; font-size: .9rem; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 84%, transparent); }
 /* Citatele oamenilor: benzi deschise, ca să despartă capitolele închise la culoare, nu să se lipească de ele. */
-.quote-person { background: var(--mist); color: var(--ink); padding-block: clamp(3rem, 7vw, 5rem); }
+.quote-person { background: var(--mist); color: var(--ink); padding-block: clamp(2.25rem, 5.3vw, 3.75rem); }
 /* Banda lui Alex vine după o fâșie gri, deci este albă; a Alexandrei vine după o secțiune albă, deci este gri. */
 .quote-person:not(.quote-alexandra) { background: var(--paper); }
 .quote-row { display: flex; align-items: center; justify-content: center; gap: clamp(1.25rem, 3.5vw, 2.5rem); }
@@ -372,7 +372,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .closing { padding-block: clamp(4rem, 9vw, 6.5rem) clamp(9rem, 22vw, 15rem); }
 
 /* oamenii */
-.people-band { padding-block: clamp(2.75rem, 6vw, 4.5rem); }
+.people-band { padding-block: clamp(2rem, 4.5vw, 3.4rem); }
 .people-band:first-child { padding-top: clamp(3.5rem, 8vw, 6.5rem); }
 .people { display: grid; gap: clamp(3rem, 7vw, 5rem); }
 .people-block { display: grid; gap: 1.5rem; scroll-margin-top: 1.5rem; }
@@ -747,7 +747,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { #propunerea .head-art-square { display: none; } }
 
 /* v69: libelula zboară încet, în buclă, pe prima pagină; din când în când trece și prin restul site-ului */
-.anim .hero-libelula { animation: zbor-bucla 16s cubic-bezier(.45,.05,.35,1) .6s infinite; }
+.anim .hero-libelula { animation: zbor-bucla 26s cubic-bezier(.45,.05,.35,1) .6s infinite; }
 @keyframes zbor-bucla {
   0%   { left: -12%; top: 72%; opacity: 0; transform: rotate(18deg) scale(.7); }
   5%   { opacity: 1; }
@@ -758,7 +758,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   100% { left: 112%; top: 12%; opacity: 0; }
 }
 .libelula-trece { position: fixed; z-index: 40; width: clamp(44px, 5vw, 80px); height: auto; left: -10vw; top: 50vh; opacity: 0; pointer-events: none; }
-.libelula-trece.zboara { animation: trece 7s cubic-bezier(.45,.05,.35,1) 1 forwards; }
+.libelula-trece.zboara { animation: trece 12s cubic-bezier(.45,.05,.35,1) 1 forwards; }
 .libelula-trece.invers { transform: scaleX(-1); }
 .libelula-trece.invers.zboara { animation-name: trece-invers; }
 @keyframes trece { 0% { left: -10vw; opacity: 0; margin-top: 0; } 10% { opacity: .95; } 35% { margin-top: -6vh; } 60% { margin-top: 4vh; } 90% { opacity: .95; } 100% { left: 108vw; opacity: 0; margin-top: -10vh; } }
@@ -786,3 +786,83 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .quote-band-mare .quote-art-dune { background-position: 50% 100%; }
 .quote-band-mare .quote-art-dune::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0%, color-mix(in srgb, var(--indigo) 62%, transparent) 45%, color-mix(in srgb, var(--indigo) 0%, transparent) 85%); }
 @media (max-width: 760px) { .quote-band-mare .quote-art-dune { background-position: 50% 100%; } }
+
+/* v71: textul care se deschide cu „+” e puțin mai mic decât textul principal */
+.plus-body { font-size: .92em; }
+.chip.plus-body, .doc-meta.plus-body { font-size: .82rem; }
+
+/* v71: imaginea de la „Problema” mai mică */
+.section-art-wide { max-width: 900px; margin-inline: auto; }
+
+/* v71: pașii directivei, în aceeași secțiune cu drepturile */
+.sub-head { font: 600 clamp(1.25rem, 2.2vw, 1.6rem)/1.2 var(--font-display); text-transform: uppercase; letter-spacing: .02em; margin-top: clamp(1rem, 3vw, 2rem); }
+.section-dark .sub-head { color: var(--yellow); }
+@media (min-width: 1100px) { .steps.steps-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.section-dark .step { color: var(--ink); }
+.section-dark .steps { border-color: var(--line-on-dark); }
+@media (max-width: 1099px) { .section-dark .step { border-top-color: var(--line-on-dark); color: inherit; } .section-dark .step-num { color: var(--yellow); } .section-dark .step-title .kicker { color: var(--yellow); } }
+.keeps-wrap { max-width: 62rem; }
+.section-dark .keeps-wrap h3 { color: var(--yellow); }
+
+/* v71: documentele, într-o bandă compactă */
+.docs-strip { display: grid; gap: .6rem; }
+.docs-strip .docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: .6rem; border: 0; }
+.docs-strip .doc { background: var(--paper); color: var(--ink); border: 0; border-radius: var(--radius-md); padding: .75rem .9rem; align-content: start; }
+.docs-strip .docs-group { color: var(--yellow); }
+.docs-strip .docs-lead { color: inherit; }
+
+/* v71: „Comisia nu este obligată”: fraza de bază, scoasă în evidență */
+.aside-key { font: 600 clamp(1.1rem, 1.7vw, 1.3rem)/1.35 var(--font-display); color: var(--indigo); padding-left: .9rem; border-left: 3px solid var(--orange); }
+
+/* v71: finalul */
+.closing .quote-text .closing-you { display: block; margin-top: .35em; color: var(--yellow); font-size: 1.35em; }
+
+/* v71: file (tabs) */
+.tab-list { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: clamp(1.2rem, 3vw, 2rem); }
+.tab-btn { font: 600 .85rem/1.2 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: .7rem 1.1rem; border-radius: 999px; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; }
+.tab-btn[aria-selected="true"] { background: var(--indigo); color: var(--yellow); }
+.tab-btn:hover { background: color-mix(in srgb, var(--indigo) 10%, transparent); }
+.tab-btn[aria-selected="true"]:hover { background: var(--indigo); }
+.tab-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.tabs { scroll-margin-top: calc(var(--antet, 80px) + 1rem); }
+.tabs:not(.tabs-on) > .tab-panel + .tab-panel { margin-top: clamp(2rem, 5vw, 3.5rem); }
+.tabs-on .people-block > header > h3 { display: none; }
+.tabs-on .people-block > header:empty, .tabs-on .people-block > header:has(> h3:only-child) { display: none; }
+
+/* v71: siglele partenerilor, cu țara sub siglă */
+.sup-country { display: block; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: .35rem; text-align: center; }
+.castig-lead { font-size: clamp(1.05rem, 1.6vw, 1.2rem); font-weight: 600; }
+/* v71: pașii și documentele sunt cartonașe albe în secțiunea închisă */
+@media (min-width: 1100px) {
+  .section-dark .step h3 { color: var(--indigo); }
+  .section-dark .step .plus-btn { color: var(--indigo); }
+  .section-dark .step .plus-btn:hover, .section-dark .step .plus-btn[aria-expanded="true"] { color: var(--ink); }
+}
+.section-dark .docs-strip .doc .plus-btn { color: var(--indigo); }
+.section-dark .docs-strip .doc .plus-btn:hover, .section-dark .docs-strip .doc .plus-btn[aria-expanded="true"] { color: var(--ink); }
+.section-dark .docs-strip .doc-title { color: var(--indigo); }
+.closing .quote-text .closing-line { display: block; font-size: .78em; line-height: 1.3; }
+.people > .tabs { margin-top: -1rem; }
+
+/* v71: distribuire și alăturare */
+.share { display: grid; gap: .6rem; justify-items: start; margin-top: 1.25rem; }
+.closing .share { justify-items: center; }
+.share-label { font: 600 .75rem/1.2 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--link); }
+.on-dark .share-label, .closing .share-label { color: var(--yellow); }
+.share-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.closing .share-row { justify-content: center; }
+.share-btn { font: 600 .8rem/1 var(--font-display); letter-spacing: .03em; padding: .65rem .95rem; border-radius: 999px; border: 1.5px solid var(--indigo); color: var(--indigo); background: var(--paper); text-decoration: none; cursor: pointer; }
+.share-btn:hover { background: var(--indigo); color: var(--paper); }
+.share-friend { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+.closing .share-btn { border-color: color-mix(in srgb, var(--paper) 70%, transparent); background: color-mix(in srgb, var(--indigo) 55%, transparent); color: var(--paper); }
+.closing .share-friend { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+.closing .share-btn:hover { background: var(--paper); color: var(--indigo); }
+.join-cta { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background: var(--mist); }
+.join-cta p { font-weight: 600; color: var(--indigo); }
+.join-cta .btn-ghost { color: var(--indigo); border-color: var(--indigo); }
+.join-cta .btn-ghost:hover { background: var(--indigo); color: var(--paper); }
+.partners-logos .is-ro a, .partners-logos .is-ro .sup-card { background: var(--indigo); border-color: var(--indigo); }
+.partners-logos .is-ro .sup-country { color: var(--yellow); }
+.sign .share-friend { background: var(--indigo); border-color: var(--indigo); color: var(--paper); }
+.sign .share-btn:not(.share-friend) { background: transparent; }
+.people > .section-head { margin-bottom: 0; }

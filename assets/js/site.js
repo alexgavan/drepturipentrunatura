@@ -359,8 +359,8 @@
   // libelula trece din când în când prin site (după prima pagină), la 35–70 de secunde
   var hero = document.querySelector('.hero'), sursa = document.querySelector('.hero-libelula');
   if (hero && sursa) {
-    var trece = document.createElement('img');
-    trece.src = sursa.getAttribute('src'); trece.alt = ''; trece.className = 'libelula-trece'; trece.setAttribute('aria-hidden', 'true');
+    var trece = sursa.cloneNode(true);
+    trece.className = 'libelula-trece libelula-aripi'; trece.setAttribute('aria-hidden', 'true');
     document.body.appendChild(trece);
     var invers = false;
     var urmatoarea = function () { setTimeout(zboara, 35000 + Math.random() * 35000); };

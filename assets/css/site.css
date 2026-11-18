@@ -562,3 +562,39 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .prose > .plus-body { display: grid; gap: 1rem; }
 .prose > .plus-body > p { max-width: 66ch; }
 .pattern .plus-btn, .tl-item .plus-btn { justify-self: start; margin-top: .1rem; }
+
+/* v61: titlul deschide textul; „Deschide toate”; așezări noi pe desktop */
+.plus-titlu { cursor: pointer; }
+.plus-titlu:hover { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: .2em; }
+.plus-tools { margin: 0; }
+.section-dark .plus-tools .btn-outline, .band-panel .plus-tools .btn-outline { border-color: var(--paper); color: var(--paper); }
+.section-dark .plus-tools .btn-outline:hover, .band-panel .plus-tools .btn-outline:hover { background: color-mix(in srgb, var(--paper) 12%, transparent); }
+.gains li[data-plus] { display: block; }
+.gain-title { cursor: pointer; }
+.gains .plus-btn { width: 1.6rem; height: 1.6rem; font-size: 1.05rem; margin: 0 0 0 .5rem; vertical-align: middle; border-color: var(--yellow); color: var(--paper); }
+.gains .plus-body:not([hidden]) { display: block; margin-top: .25rem; }
+.band-castig .band-panel { background: color-mix(in srgb, var(--indigo) 86%, transparent); }
+.doc .plus-btn { width: 1.7rem; height: 1.7rem; font-size: 1.05rem; margin: 0; flex: none; }
+.doc .doc-title { flex: 1 1 0; min-width: 0; }
+.doc .doc-desc, .doc .doc-meta { flex-basis: 100%; }
+.cols-problema { grid-template-columns: 1fr; }
+.cols-problema .prose { max-width: 66ch; }
+@media (min-width: 761px) { .cols-problema .stats { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) {
+  .steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; border-bottom: 0; }
+  .step { grid-template-columns: 1fr; align-content: start; padding: 1.1rem 1rem 1.2rem; border: 1px solid var(--line); border-top: 3px solid var(--orange); border-radius: var(--radius-md); background: var(--paper); }
+  .step-text { grid-column: auto; font-size: .92rem; }
+  .rights { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem; }
+  .right { grid-template-columns: 1fr; }
+  .right-num { grid-row: auto; justify-self: start; padding: 0 0 .45rem; border-right: 0; border-bottom: 2px solid var(--orange); }
+  .right h3 { font-size: 1.05rem; }
+  .right .plus-btn { grid-column: auto; }
+  #drumul .cols { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+  .tl-item { padding: 3.3rem 0 0 0; }
+  .tl-item::before { top: 0; }
+  .tl-item::after { top: 1.2rem; left: 3rem; right: -1rem; bottom: auto; width: auto; height: 2px; }
+  .tl-item:last-child::after { display: none; }
+  .tl-item:last-child { padding-bottom: 0; }
+  #drumul .aside-card { max-width: 52rem; }
+}

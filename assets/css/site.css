@@ -996,3 +996,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .sign-important h3 { color: var(--link); }
 .sign-important p { font-weight: 600; }
 .sign-grid .together .share-row { gap: .4rem; } .sign-grid .together .share-btn { font-size: .74rem; padding: .55rem .8rem; }
+.tabs { overflow-anchor: none; }
+/* v81: „Ce câștigăm”: fără paralaxă (paralaxa mărea imaginea cu 28 % și o făcea neclară) */
+.anim .band-art.band-art-castig { inset: 0; transform: none; will-change: auto; }

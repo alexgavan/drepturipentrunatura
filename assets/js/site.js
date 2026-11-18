@@ -542,7 +542,7 @@
   if (bar) {
     var b = document.createElement('button'); b.type = 'button'; b.className = 'sheet-toggle';
     b.setAttribute('aria-controls', 'foaie-sectiuni'); b.setAttribute('aria-expanded', 'false');
-    b.innerHTML = '<span aria-hidden="true">☰</span> Secțiuni';
+    b.innerHTML = '<span aria-hidden="true">☰</span>'; b.setAttribute('aria-label', 'Secțiunile paginii'); b.title = 'Secțiunile paginii';
     bar.insertBefore(b, bar.firstChild);
     var inchide = function () { sheet.hidden = true; b.setAttribute('aria-expanded', 'false'); };
     b.addEventListener('click', function () { var d = sheet.hidden; sheet.hidden = !d; b.setAttribute('aria-expanded', d ? 'true' : 'false'); });

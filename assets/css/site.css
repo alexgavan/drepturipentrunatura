@@ -691,3 +691,30 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .head-art { margin-top: .35rem; }
 }
 .section-art img { display: block; width: 100%; height: auto; }
+
+/* v66: pe ecrane late (de la 1600 px), ilustrația din prima pagină apare întreagă, lipită de marginea din dreapta, nu mărită ca să acopere tot */
+@media (min-width: 1600px) {
+  .hero-art { left: auto; right: 0; width: auto; aspect-ratio: 1536 / 1024; min-width: 62%; background-size: cover; background-position: 50% 50%; }
+  .hero-art::after {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--indigo) 85%, transparent) 0, color-mix(in srgb, var(--indigo) 0%, transparent) 12rem),
+      linear-gradient(270deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 92%, transparent) 24%, color-mix(in srgb, var(--indigo) 35%, transparent) 42%, color-mix(in srgb, var(--indigo) 0%, transparent) 54%);
+  }
+}
+
+/* v66: fără spații goale pe desktop */
+@media (min-width: 900px) {
+  .cols-problema { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: center; }
+  .cols-problema .stats { grid-column: 1 / -1; }
+  .cta-aside { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem 0 1.5rem 2rem; border-left: 3px solid var(--orange); }
+  .cta-aside p { order: -1; font: 600 clamp(1.35rem, 2.2vw, 1.75rem)/1.25 var(--font-display); color: var(--indigo); }
+  .lead-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: end; }
+  .note-wrap { max-width: none; }
+  .note-wrap .note-card { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: center; column-gap: 2.5rem; }
+}
+.lead-pair { display: grid; gap: 1.5rem; }
+
+/* v66: transparență unde textul stă peste ilustrație */
+.band-panel { background: color-mix(in srgb, var(--indigo) 74%, transparent); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.band-castig .band-panel { background: color-mix(in srgb, var(--indigo) 74%, transparent); }
+@media (max-width: 760px) { .band-castig .band-panel { background: var(--indigo); } }

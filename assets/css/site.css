@@ -612,3 +612,67 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 }
 .quote-art-dune::after, .quote-art-dealuri::after { background: color-mix(in srgb, var(--indigo) 78%, transparent); }
 .closing .quote-art-libelula::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 92%, transparent) 0%, color-mix(in srgb, var(--indigo) 60%, transparent) 55%, color-mix(in srgb, var(--indigo) 15%, transparent) 100%); }
+
+/* v63: imaginile drepturilor */
+.right-art { grid-column: 1 / -1; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); margin-bottom: .6rem; }
+@media (max-width: 1099px) { .right-art { max-width: min(100%, 22rem); min-width: 0; } }
+.right { min-width: 0; }
+
+/* v63: filmul de la final */
+.quote-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+
+/* v63: libelula din prima pagină */
+.hero-libelula { position: absolute; z-index: 1; width: clamp(60px, 7vw, 110px); height: auto; left: -12%; top: 70%; opacity: 0; pointer-events: none; }
+.anim .hero-libelula { animation: zbor 5.5s cubic-bezier(.45,.05,.35,1) .6s 1 forwards; }
+@keyframes zbor {
+  0%   { left: -12%; top: 72%; opacity: 0; transform: rotate(18deg) scale(.7); }
+  10%  { opacity: 1; }
+  35%  { left: 28%; top: 48%; transform: rotate(-6deg) scale(.85); }
+  55%  { left: 46%; top: 58%; transform: rotate(10deg) scale(.9); }
+  80%  { left: 70%; top: 30%; transform: rotate(-12deg) scale(.95); opacity: 1; }
+  100% { left: 112%; top: 12%; transform: rotate(-20deg) scale(1); opacity: 0; }
+}
+@keyframes bataie { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-3px) rotate(-4deg); } 75% { transform: translateY(2px) rotate(3deg); } }
+.anim .brand.zboara img { animation: bataie .6s ease-in-out 2; }
+
+/* v63: apariție la derulare */
+.anim .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.anim .reveal.is-in { opacity: 1; transform: none; }
+
+/* v63: paralaxă (numai pe ecrane mari) */
+@media (min-width: 761px) {
+  .anim .band-art, .anim .quote-art { inset: -14% 0; transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
+}
+
+/* v63: bara de citire */
+.read-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--orange); transform-origin: 0 50%; transform: scaleX(var(--citit, 0)); pointer-events: none; }
+
+/* v63: liniile drumului se desenează */
+.anim .timeline .tl-item::after { transform: scaleY(0); transform-origin: 50% 0; transition: transform .9s ease; }
+.anim .timeline.is-in .tl-item::after { transform: none; }
+.anim .timeline.is-in .tl-item:nth-child(2)::after { transition-delay: .25s; }
+.anim .timeline.is-in .tl-item:nth-child(3)::after { transition-delay: .5s; }
+.anim .timeline.is-in .tl-item:nth-child(4)::after { transition-delay: .75s; }
+@media (min-width: 1100px) { .anim .timeline .tl-item::after { transform: scaleX(0); transform-origin: 0 50%; } .anim .timeline.is-in .tl-item::after { transform: none; } }
+
+/* v63: barele contorului se umplu */
+.anim .meter-fill { width: 0; transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
+.anim .meters.is-in .meter-fill { width: var(--p); }
+
+/* v63: cardurile se ridică la trecerea mouse-ului */
+@media (hover: hover) {
+  .step, .lesson, .pattern, .stat, .ambassador, .aside-card, .note-card, .right-art, .section-art img { transition: transform .2s ease, box-shadow .2s ease; }
+  .step:hover, .lesson:hover, .pattern:hover, .ambassador:hover, .aside-card:hover, .note-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px color-mix(in srgb, var(--ink) 14%, transparent); }
+  .stat:hover { transform: translateY(-4px); }
+  .right:hover .right-art, .section-art:hover img { transform: scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-libelula { display: none; }
+  .anim .reveal { opacity: 1; transform: none; transition: none; }
+}
+/* v63: cardul unui drept, pe o coloană la toate lățimile (imagine, număr, titlu, „+”) */
+.right { grid-template-columns: minmax(0, 1fr); }
+.right-num { grid-row: auto; justify-self: start; padding: 0 0 .45rem; border-right: 0; border-bottom: 2px solid var(--orange); }
+.right .plus-btn { grid-column: auto; }
+.right-art { grid-column: auto; }

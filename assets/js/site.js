@@ -262,3 +262,104 @@
     actualizeazaGrup(grup);
   });
 })();
+
+
+// v63: mișcare (apariție, cifre, paralaxă, film, bara de citire, libelula). Nimic pentru „mișcare redusă”.
+(function () {
+  var redus = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  // bara de citire (și pentru mișcare redusă: nu e animație)
+  var antet = document.getElementById('antet');
+  if (antet) {
+    var bara = document.createElement('div'); bara.className = 'read-progress'; bara.setAttribute('aria-hidden', 'true');
+    antet.appendChild(bara);
+    var citit = function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bara.style.setProperty('--citit', h > 0 ? Math.min(1, scrollY / h) : 0);
+    };
+    addEventListener('scroll', citit, { passive: true }); addEventListener('resize', citit); citit();
+  }
+  if (redus || !('IntersectionObserver' in window)) return;
+  root.classList.add('anim');
+
+  // apariție la derulare
+  var sel = '.section-head, .step, .right, .lesson, .pattern, .tl-item, .stat, .figure-line, .section-art, .doc, .ambassador, .note-card, .aside-card, .band-panel, .example-text, .toggle, .partner-card, .initiator, .quote-band blockquote, .closing-inner, .keeps li';
+  var io = new IntersectionObserver(function (intrari) {
+    intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  Array.prototype.forEach.call(document.querySelectorAll(sel), function (el, i) {
+    if (el.closest('.hero') || el.closest('[hidden]')) return;
+    var r = el.getBoundingClientRect();
+    if (r.top < innerHeight) return; // deja pe ecran: nu-l ascundem
+    el.classList.add('reveal');
+    el.style.transitionDelay = ((i % 5) * 0.06) + 's';
+    io.observe(el);
+  });
+
+  // linia drumului și barele contorului
+  var io2 = new IntersectionObserver(function (intrari) {
+    intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io2.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  Array.prototype.forEach.call(document.querySelectorAll('.timeline, .meters'), function (el) { io2.observe(el); });
+
+  // cifrele numără în sus
+  function format(n, model) {
+    var s = String(Math.round(n));
+    if (/\d[   ]\d{3}/.test(model)) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return s;
+  }
+  var io3 = new IntersectionObserver(function (intrari) {
+    intrari.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io3.unobserve(e.target);
+      var el = e.target, final = el.textContent, m = final.match(/\d[\d   ]*\d|\d/);
+      if (!m) return;
+      var tinta = parseInt(m[0].replace(/\D/g, ''), 10), t0 = null, dur = 1400;
+      var pas = function (t) {
+        if (!t0) t0 = t;
+        var k = Math.min(1, (t - t0) / dur), v = tinta * (1 - Math.pow(1 - k, 3));
+        el.textContent = k < 1 ? final.replace(m[0], format(v, m[0])) : final;
+        if (k < 1) requestAnimationFrame(pas);
+      };
+      requestAnimationFrame(pas);
+    });
+  }, { threshold: 0.6 });
+  Array.prototype.forEach.call(document.querySelectorAll('.stat-num, .meter-num b'), function (el) { io3.observe(el); });
+
+  // paralaxă pe fundalurile benzilor (ecrane mari)
+  var fundaluri = Array.prototype.slice.call(document.querySelectorAll('.band-art, .quote-art'));
+  var paralaxa = function () {
+    if (innerWidth <= 760) return;
+    fundaluri.forEach(function (f) {
+      var r = f.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      f.style.setProperty('--py', (k * -60).toFixed(1) + 'px');
+    });
+  };
+  addEventListener('scroll', paralaxa, { passive: true }); addEventListener('resize', paralaxa); paralaxa();
+
+  // filmul de la final pornește când ajunge pe ecran
+  var film = document.querySelector('.quote-video');
+  if (film) {
+    var io4 = new IntersectionObserver(function (intrari) {
+      intrari.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (!film.getAttribute('src')) film.setAttribute('src', film.getAttribute('data-src'));
+          var pr = film.play(); if (pr && pr.catch) pr.catch(function () {});
+        } else { film.pause(); }
+      });
+    }, { threshold: 0.15 });
+    io4.observe(film.parentElement);
+  }
+
+  // libelula din siglă bate din aripi când treci peste „Semnează”
+  var brand = document.querySelector('.site-header .brand');
+  if (brand) {
+    Array.prototype.forEach.call(document.querySelectorAll('.btn-cta'), function (b) {
+      b.addEventListener('mouseenter', function () {
+        brand.classList.remove('zboara'); void brand.offsetWidth; brand.classList.add('zboara');
+      });
+    });
+  }
+})();

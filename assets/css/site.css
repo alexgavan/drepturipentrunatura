@@ -676,3 +676,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .right-num { grid-row: auto; justify-self: start; padding: 0 0 .45rem; border-right: 0; border-bottom: 2px solid var(--orange); }
 .right .plus-btn { grid-column: auto; }
 .right-art { grid-column: auto; }
+
+/* v64: Roșia Montană, textul în stânga și imaginea în dreapta */
+@media (min-width: 900px) { .example-rev { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
+.row-toggle .plus-btn { margin-top: .25rem; }
+#parteneri > header .plus-btn { margin-top: .5rem; }

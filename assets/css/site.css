@@ -561,3 +561,4 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .plus-body[hidden] { display: none !important; }
 .prose > .plus-body { display: grid; gap: 1rem; }
 .prose > .plus-body > p { max-width: 66ch; }
+.pattern .plus-btn, .tl-item .plus-btn { justify-self: start; margin-top: .1rem; }

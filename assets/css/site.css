@@ -764,3 +764,25 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @keyframes trece { 0% { left: -10vw; opacity: 0; margin-top: 0; } 10% { opacity: .95; } 35% { margin-top: -6vh; } 60% { margin-top: 4vh; } 90% { opacity: .95; } 100% { left: 108vw; opacity: 0; margin-top: -10vh; } }
 @keyframes trece-invers { 0% { left: 108vw; opacity: 0; margin-top: 0; } 10% { opacity: .95; } 35% { margin-top: -6vh; } 60% { margin-top: 4vh; } 90% { opacity: .95; } 100% { left: -10vw; opacity: 0; margin-top: -10vh; } }
 @media (prefers-reduced-motion: reduce) { .libelula-trece { display: none; } }
+
+/* v70: Vâlsan și Roșia Montană în două coloane echilibrate; imaginea nu mai e lipită, ci urmată de cifre */
+.example-side { display: grid; gap: 1.1rem; align-content: start; }
+.example-side .example-art { position: static; margin-top: 0; }
+@media (max-width: 899px) {
+  #valsan .example, #rosia .example { gap: 1.1rem; }
+  #valsan .example-side, #valsan .example-text, #rosia .example-side, #rosia .example-text { display: contents; }
+  #valsan .example-art, #rosia .example-art { order: 0; margin-bottom: .4rem; }
+  #valsan .eyebrow, #rosia .eyebrow { order: 1; }
+  #valsan h2, #rosia h2 { order: 2; }
+  #valsan .lead, #rosia .lead { order: 3; }
+  #valsan .facts, #rosia .facts { order: 4; }
+  #valsan .pull { order: 5; }
+  #valsan .threats, #rosia .mini-timeline { order: 6; }
+  #valsan .takeaway, #rosia .takeaway { order: 7; }
+}
+
+/* v70: citatul din Constituție lasă să se vadă malul mării, cu păsările */
+.quote-band-mare { padding-block: clamp(4rem, 8vw, 6rem) clamp(11rem, 22vw, 20rem); }
+.quote-band-mare .quote-art-dune { background-position: 50% 100%; }
+.quote-band-mare .quote-art-dune::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0%, color-mix(in srgb, var(--indigo) 62%, transparent) 45%, color-mix(in srgb, var(--indigo) 0%, transparent) 85%); }
+@media (max-width: 760px) { .quote-band-mare .quote-art-dune { background-position: 50% 100%; } }

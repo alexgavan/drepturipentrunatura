@@ -148,9 +148,11 @@
     var items = Array.prototype.slice.call(lista.children);
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'btn btn-outline btn-small';
+    var cuPlus = lista.hasAttribute('data-un-rand-plus');
+    btn.className = cuPlus ? 'plus-btn' : 'btn btn-outline btn-small';
     btn.setAttribute('aria-expanded', 'false');
     var textInchis = lista.getAttribute('data-un-rand-text') || 'Vezi toate';
+    if (cuPlus) btn.setAttribute('aria-label', textInchis);
     var p = document.createElement('p');
     p.className = 'row-toggle';
     p.appendChild(btn);
@@ -169,11 +171,12 @@
     btn.addEventListener('click', function () {
       deschis = !deschis;
       btn.setAttribute('aria-expanded', deschis ? 'true' : 'false');
-      btn.textContent = deschis ? 'Arată mai puține' : textInchis;
+      if (cuPlus) { btn.textContent = deschis ? '−' : '+'; btn.setAttribute('aria-label', deschis ? 'Arată mai puține' : textInchis); }
+      else btn.textContent = deschis ? 'Arată mai puține' : textInchis;
       aseaza();
       if (!deschis) lista.scrollIntoView({ block: 'nearest' });
     });
-    btn.textContent = textInchis;
+    btn.textContent = cuPlus ? '+' : textInchis;
     aseaza();
     var t;
     window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(aseaza, 120); });

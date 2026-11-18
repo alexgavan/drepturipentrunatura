@@ -545,9 +545,9 @@
 // v77: navigare între secțiuni: pe calculator, o coloană de puncte în dreapta; pe telefon, butonul „Secțiuni”
 // din bara de jos deschide lista secțiunilor. Secțiunea curentă e marcată în ambele.
 (function () {
-  var SECTIUNI = [['sus', 'Început'], ['problema', 'Problema'], ['precedente', 'Precedente'], ['propunerea', 'Ce propunem'],
-    ['castig', 'Ce câștigăm'], ['exemple', 'Exemple din România'], ['drumul', 'Drumul până la lege'],
-    ['intrebari', 'Întrebări frecvente'], ['oamenii', 'Oamenii'], ['semneaza', 'Semnează']];
+  var SECTIUNI = [['sus', 'Început'], ['problema', 'Problema'], ['exemple', 'Exemple din România'], ['propunerea', 'Ce propunem'],
+    ['castig', 'Ce câștigăm'], ['precedente', 'Precedente'], ['drumul', 'Drumul până la lege'],
+    ['oamenii', 'Oamenii'], ['intrebari', 'Întrebări frecvente'], ['semneaza', 'Semnează']];
   var lista = SECTIUNI.filter(function (x) { return document.getElementById(x[0]); });
   if (!lista.length) return;
   function link(x, cls) {
@@ -622,4 +622,12 @@
       var v = d[el.getAttribute('data-contor-nr')]; if (typeof v === 'number') el.textContent = nr(v);
     });
   }).catch(function () {});
+})();
+
+// v90: adresa de contact se compune aici, din bucăți inversate, ca să nu apară în HTML (fără link, Alex, 18.11.2026)
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('.join-mail[data-u]'), function (el) {
+    var r = function (s) { return s.split('').reverse().join(''); };
+    el.textContent = r(el.getAttribute('data-u')) + String.fromCharCode(64) + r(el.getAttribute('data-d'));
+  });
 })();

@@ -201,29 +201,64 @@
   window.addEventListener('hashchange', dinAdresa);
 })();
 
-// v59: „+” deschide textul suplimentar (pașii, drepturile, problema); fără JavaScript se vede tot
+// v59–v61: „+” deschide textul suplimentar; clic pe titlu face același lucru; „Deschide toate” pe fiecare listă.
+// Fără JavaScript se vede tot textul.
 (function () {
   var n = 0;
+  function seteaza(bloc, deschis) {
+    bloc._plusCorpuri.forEach(function (el) { el.hidden = !deschis; });
+    var b = bloc._plusBtn;
+    b.setAttribute('aria-expanded', deschis ? 'true' : 'false');
+    b.textContent = deschis ? '−' : '+';
+    b.setAttribute('aria-label', (deschis ? 'Mai puțin: ' : 'Mai mult: ') + bloc._plusNume);
+    if (bloc._plusGrup) actualizeazaGrup(bloc._plusGrup);
+  }
+  function actualizeazaGrup(grup) {
+    if (!grup._plusTool) return;
+    var toate = grup._plusBlocuri.every(function (b) { return b._plusBtn.getAttribute('aria-expanded') === 'true'; });
+    grup._plusTool.textContent = toate ? 'Închide toate' : 'Deschide toate';
+    grup._plusTool.setAttribute('aria-expanded', toate ? 'true' : 'false');
+  }
   Array.prototype.forEach.call(document.querySelectorAll('[data-plus]'), function (bloc) {
     var corpuri = Array.prototype.filter.call(bloc.querySelectorAll('.plus-body'), function (el) { return el.closest('[data-plus]') === bloc; });
     if (!corpuri.length) return;
-    var titlu = bloc.querySelector('.step-title, h3, .lesson-rule') || bloc.querySelector('.lead');
-    var nume = (bloc.querySelector('h3, .lesson-rule') || {}).textContent || 'acest text';
-    var ids = corpuri.map(function (el) { if (!el.id) el.id = 'plus-' + (++n); el.hidden = true; return el.id; });
+    var titlu = bloc.querySelector('.step-title, h3, .lesson-rule, .gain-title, .doc-title') || bloc.querySelector('.lead');
+    bloc._plusNume = ((bloc.querySelector('h3, .lesson-rule, .gain-title, .doc-title') || {}).textContent || 'acest text').trim().replace(/:$/, '');
+    bloc._plusCorpuri = corpuri;
+    var ids = corpuri.map(function (el) { if (!el.id) el.id = 'plus-' + (++n); return el.id; });
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'plus-btn';
-    b.setAttribute('aria-expanded', 'false');
     b.setAttribute('aria-controls', ids.join(' '));
-    b.setAttribute('aria-label', 'Mai mult: ' + nume.trim());
-    b.textContent = '+';
-    if (titlu.classList && titlu.classList.contains('step-title')) titlu.appendChild(b);
+    bloc._plusBtn = b;
+    if (titlu.classList.contains('step-title')) titlu.appendChild(b);
     else titlu.insertAdjacentElement('afterend', b);
-    b.addEventListener('click', function () {
-      var deschis = b.getAttribute('aria-expanded') === 'true';
-      corpuri.forEach(function (el) { el.hidden = deschis; });
-      b.setAttribute('aria-expanded', deschis ? 'false' : 'true');
-      b.textContent = deschis ? '+' : '−';
+    b.addEventListener('click', function (e) { e.stopPropagation(); seteaza(bloc, b.getAttribute('aria-expanded') !== 'true'); });
+    if (titlu.tagName !== 'A' && !titlu.classList.contains('lead')) {
+      titlu.classList.add('plus-titlu');
+      titlu.addEventListener('click', function (e) {
+        if (e.target.closest('a, button')) return;
+        seteaza(bloc, b.getAttribute('aria-expanded') !== 'true');
+      });
+    }
+    var grup = bloc.parentElement && bloc.parentElement.closest('[data-plus-grup]');
+    if (grup) { bloc._plusGrup = grup; (grup._plusBlocuri = grup._plusBlocuri || []).push(bloc); }
+    seteaza(bloc, false);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-plus-grup]'), function (grup) {
+    if (!grup._plusBlocuri || grup._plusBlocuri.length < 2) return;
+    var p = document.createElement('p');
+    p.className = 'plus-tools';
+    var t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'btn btn-outline btn-small';
+    p.appendChild(t);
+    grup.parentNode.insertBefore(p, grup);
+    grup._plusTool = t;
+    t.addEventListener('click', function () {
+      var deschide = t.getAttribute('aria-expanded') !== 'true';
+      grup._plusBlocuri.forEach(function (b) { seteaza(b, deschide); });
     });
+    actualizeazaGrup(grup);
   });
 })();

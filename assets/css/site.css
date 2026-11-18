@@ -1,0 +1,551 @@
+/* Cadrul (meniu pe două rânduri, capitole lungi, „Semnează” după fiecare capitol, oamenii, semnarea)
+   în sistemul vizual rightsfornature.eu (valorile de mai jos sunt cele din foile de stil ale site-ului campaniei). */
+:root {
+  --indigo: #2C367E;
+  --orange: #FF774A;
+  --orange-hover: #FF946C;
+  --yellow: #FFF278;
+  --green: #88EC40;
+  --ink: #111518;
+  --muted: #566067;
+  --paper: #ffffff;
+  --mist: #edeff2;
+  --link: #A63816;
+
+  /* Titluri: NewEdge 666 pe site-ul campaniei; aici Archivo (lățime 112, greutate 600), până vine fișierul cu diacritice. */
+  --font-display: "RFN Display", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "RFN Mono", "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --max: 1200px;
+  --gutter: 20px;
+  --gap: 16px;
+  --line: color-mix(in srgb, var(--indigo) 22%, transparent);
+  --line-on-dark: color-mix(in srgb, var(--paper) 26%, transparent);
+  --img-ilustratie: url("../img/ilustratie-rfn.jpg");
+  color-scheme: light;
+}
+
+@font-face { font-family: "RFN Display"; src: url("../fonts/RFNDisplay-Regular.woff2") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "RFN Mono"; src: url("../fonts/RFNMono-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "RFN Mono"; src: url("../fonts/RFNMono-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--link); text-underline-offset: .18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.on-dark :focus-visible, .site-header :focus-visible, .site-footer :focus-visible { outline-color: var(--yellow); }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.wrap {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+.skip { position: absolute; left: -999rem; top: 0; z-index: 100; background: var(--yellow); color: var(--ink); padding: .6rem 1rem; font-weight: 700; }
+.skip:focus { left: max(var(--gutter), env(safe-area-inset-left, 0px)); top: calc(env(safe-area-inset-top, 0px) + .5rem); }
+
+/* ---------- Tipografie ---------- */
+h1, h2, h3, .display { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; text-wrap: balance; }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); line-height: 1.1; color: var(--indigo); }
+h3 { font-size: clamp(1.1rem, 1.9vw, 1.3rem); line-height: 1.2; color: var(--indigo); letter-spacing: .01em; }
+.eyebrow { font: 600 .9rem/1.4 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--link); }
+.eyebrow-on-light { color: var(--link); }
+.on-dark .eyebrow { color: var(--yellow); }
+.band-panel .eyebrow { color: color-mix(in srgb, var(--paper) 84%, transparent); }
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.55; max-width: 62ch; }
+.prose { display: grid; gap: 1rem; }
+.prose > p, .prose > ul { max-width: 66ch; }
+.source { font-size: .7rem; line-height: 1.5; color: color-mix(in srgb, var(--ink) 68%, transparent); max-width: 78ch; }
+.nb { white-space: nowrap; }
+.on-dark .source { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+strong, b { font-weight: 700; }
+
+/* ---------- Butoane ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  font: 700 .875rem/1.6 var(--font-body); letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+  padding: .75rem 1.5rem; border-radius: var(--radius-sm); border: 2px solid transparent;
+  cursor: pointer; transition: background-color .15s, color .15s, border-color .15s;
+}
+.btn-cta { background: var(--orange); color: var(--ink); }
+.btn-cta:hover { background: var(--orange-hover); }
+.btn-ghost { border-color: currentColor; color: var(--paper); background: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--paper) 14%, transparent); }
+.btn-outline { border-color: var(--indigo); color: var(--indigo); background: transparent; }
+.btn-outline:hover { background: color-mix(in srgb, var(--indigo) 8%, transparent); }
+.btn-arrow::after { content: ""; flex: none; width: .72em; height: .72em; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 1h8v8H9V4.4L2.4 11 1 9.6 7.6 3H3z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 1h8v8H9V4.4L2.4 11 1 9.6 7.6 3H3z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+/* ---------- Antet: meniu pe două rânduri ---------- */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  padding-top: env(safe-area-inset-top, 0px);
+  color: var(--paper);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--ink) 46%, transparent), color-mix(in srgb, var(--ink) 0%, transparent));
+  transition: background-color .3s, box-shadow .3s;
+}
+.site-header.is-scrolled, .site-header.is-open { background: var(--indigo); box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 30%, transparent); }
+.draft-strip { background: var(--ink); color: var(--yellow); font-size: .7rem; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; text-align: center; padding-block: .3rem; }
+.header-inner { display: flex; align-items: center; gap: 1rem 2.25rem; min-height: 120px; max-width: 1325px; transition: min-height .3s; }
+.is-scrolled .header-inner { min-height: 64px; }
+.brand { display: flex; align-items: flex-end; gap: .7rem; text-decoration: none; color: var(--yellow); flex: none; }
+.brand img { height: 92px; width: auto; transition: height .3s; }
+.is-scrolled .brand img { height: 44px; }
+/* Proporțiile meniului: sus, oamenii (mic, cu majuscule); dedesubt, capitolele (mare, aldin). */
+.nav { margin-left: auto; display: grid; gap: 0; justify-items: end; }
+.nav ul { display: flex; flex-wrap: nowrap; justify-content: flex-end; }
+.nav a { display: block; color: var(--paper); text-decoration: none; padding: 5px 0; white-space: nowrap; transition: color .2s; }
+.nav a:hover { color: var(--yellow); }
+.nav-people { gap: 1.5rem; }
+.nav-people a { font: 700 .875rem/1.4 var(--font-body); text-transform: uppercase; letter-spacing: .02em; }
+.nav-chapters { gap: clamp(1rem, 1.75vw, 1.6rem); }
+.nav-chapters a { font: 600 clamp(1.05rem, 1.46vw, 1.3125rem)/1.4 var(--font-display); letter-spacing: 0; }
+.nav a[aria-current="true"] { color: var(--yellow); box-shadow: inset 0 -2px 0 var(--yellow); }
+.is-scrolled .nav-people { display: none; }
+.is-scrolled .nav-chapters a { font-size: 1rem; }
+.header-cta { flex: none; font-size: 1rem; padding: 1.05rem 2.2rem; transition: padding .3s; }
+.is-scrolled .header-cta { padding: .4rem 1.1rem; font-size: .875rem; }
+.menu-toggle {
+  display: none; flex: none; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0;
+  color: var(--paper); background: transparent; border: 0; border-radius: var(--radius-sm); cursor: pointer;
+}
+.menu-toggle:hover { background: color-mix(in srgb, var(--paper) 14%, transparent); }
+.bars { display: grid; gap: 6px; width: 28px; }
+.bars span { display: block; height: 3px; border-radius: 2px; background: currentColor; transition: transform .2s, opacity .2s; }
+.is-open .bars span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.is-open .bars span:nth-child(2) { opacity: 0; }
+.is-open .bars span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+/* La coborâre antetul iese din ecran; aici reapare când urci. */
+.site-header { transition: background-color .3s, box-shadow .3s, transform .3s; }
+.site-header.is-hidden { transform: translateY(-100%); }
+.mobile-menu { background: var(--indigo); border-top: 1px solid var(--line-on-dark); padding-block: 1rem 1.5rem; max-height: calc(100vh - 6rem); overflow-y: auto; }
+.mobile-menu .wrap { display: grid; gap: 1.25rem; }
+.mobile-menu h2 { font: 600 .75rem/1.4 var(--font-display); letter-spacing: .1em; color: color-mix(in srgb, var(--paper) 72%, transparent); margin-bottom: .35rem; }
+.mobile-menu a { display: block; padding: .55rem 0; color: var(--yellow); text-decoration: none; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--line-on-dark); }
+
+/* Ecrane înguste: la începutul paginii secțiunile rămân la vedere, sub siglă; după coborâre trec în butonul „Meniu”. */
+@media (max-width: 1040px) {
+  .header-inner { flex-wrap: wrap; row-gap: 0; }
+  .nav { order: 5; flex: 0 0 100%; margin: 0; justify-items: start; padding-bottom: .7rem; }
+  .nav ul { flex-wrap: wrap; justify-content: flex-start; }
+  .nav a { padding: 3px 0; }
+  .nav-people { gap: 0 1rem; }
+  .nav-people a { font-size: .72rem; }
+  .nav-chapters { gap: 0 1.15rem; }
+  .nav-chapters a { font-size: 1.05rem; }
+  .nav { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .header-inner { min-height: 72px; }
+  .header-cta, .is-scrolled .header-cta { margin-left: auto; padding: .4rem 1rem; font-size: .875rem; }
+  .brand img { height: 46px; }
+}
+@media (max-width: 420px) {
+  .nav-people { gap: 0 .7rem; }
+  .nav-people a { font-size: .66rem; letter-spacing: 0; }
+  .nav-chapters { gap: 0 .9rem; }
+  .nav-chapters a { font-size: .98rem; }
+  .header-inner { gap: .6rem; }
+  .header-cta, .is-scrolled .header-cta { padding-inline: .7rem; }
+}
+
+/* ---------- Imaginea de început ---------- */
+.hero { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: max(11rem, calc(var(--antet, 0px) + 2.6rem)) 11.5rem; }
+/* Ilustrația este întoarsă în oglindă, ca pasărea albă să stea în dreapta, în afara textului și a umbrei de sub el. */
+.hero-art { position: absolute; inset: 0; background: var(--img-ilustratie) 22% 46% / cover no-repeat; transform: scaleX(-1); }
+.hero-art::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--indigo) 92%, transparent) 0, color-mix(in srgb, var(--indigo) 0%, transparent) 15rem),
+    linear-gradient(270deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 94%, transparent) 34%, color-mix(in srgb, var(--indigo) 30%, transparent) 54%, color-mix(in srgb, var(--indigo) 0%, transparent) 64%);
+}
+.hero-inner { position: relative; display: grid; gap: 1.25rem; justify-items: start; }
+.hero h1 { font-size: clamp(2.7rem, 7.4vw, 5.4rem); line-height: 1; color: var(--orange); max-width: 12ch; }
+.h1-for { display: block; text-transform: lowercase; font-style: italic; color: var(--yellow); font-size: .62em; line-height: 1.25; }
+.hero .eyebrow { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.hero-lead { font-size: clamp(1.05rem, 1.7vw, 1.25rem); line-height: 1.55; max-width: 46ch; }
+.hero-tag { font: 600 .95rem/1.3 var(--font-display); letter-spacing: .12em; text-transform: uppercase; color: var(--yellow); }
+/* Siglele celor două organizații din România, imediat sub titlu, ca să se vadă fără derulare. */
+.hero-partners { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.5rem; }
+.hero-partners-label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.hero-partners a { display: block; border-radius: var(--radius-sm); transition: opacity .2s; }
+.hero-partners a:hover { opacity: .85; }
+.hero-partners img { display: block; width: auto; }
+.hero-partners .logo-pachamama { height: 72px; }
+@media (max-width: 600px) {
+  .hero-partners-label { flex: 0 0 100%; }
+  .hero-partners .logo-pachamama { height: 60px; }
+}
+@media (max-width: 760px) {
+  .hero { padding-block: max(8.5rem, calc(var(--antet, 0px) + 2.2rem)) 19rem; }
+  .hero-art { background-position: 30% 100%; background-size: auto 48%; background-color: var(--indigo); }
+  .hero-art::after { background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo) 68%, color-mix(in srgb, var(--indigo) 0%, transparent) 79%); }
+}
+
+/* ---------- Ținta și contorul ---------- */
+.goal-wrap { position: relative; z-index: 2; margin-top: -7rem; }
+.goal-card { background: var(--yellow); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(1.5rem, 4vw, 3rem); display: grid; gap: 1.5rem; }
+.goal-head { display: grid; gap: .75rem; justify-items: center; text-align: center; }
+.goal-head h2 { color: var(--ink); font-size: clamp(1.5rem, 3.2vw, 2.2rem); }
+.goal-head p { max-width: 64ch; }
+.meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1.25rem 2rem; }
+.meter { display: grid; gap: .45rem; min-width: 0; }
+.meter-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .1rem 1rem; }
+.meter-name { font: 600 1rem/1.2 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--indigo); }
+.meter-num { font-variant-numeric: tabular-nums; }
+.meter-num b { font-size: 1.35rem; color: var(--indigo); }
+.meter-track { height: 14px; border-radius: 7px; background: color-mix(in srgb, var(--indigo) 16%, transparent); overflow: hidden; }
+.meter-fill { display: block; height: 100%; width: var(--p); min-width: 4px; background: var(--indigo); border-radius: 7px; }
+.meter-note { font-size: .85rem; color: color-mix(in srgb, var(--ink) 78%, transparent); }
+.goal-foot { display: grid; gap: 1rem; justify-items: center; text-align: center; }
+.goal-foot .source { color: color-mix(in srgb, var(--ink) 74%, transparent); }
+
+/* ---------- Capitole ---------- */
+.section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.section-mist { background: var(--mist); }
+.section-dark { background: var(--indigo); color: var(--paper); }
+.section-dark h2, .section-dark h3 { color: var(--paper); }
+.section-head { display: grid; gap: .6rem; margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+.section-head .lead { margin-top: .4rem; }
+.section-head > p { max-width: 78ch; }
+.stack { display: grid; gap: clamp(2rem, 4vw, 3rem); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+.cols > * { min-width: 0; }
+.chapter-cta { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; padding-top: .5rem; }
+.chapter-cta p { font-weight: 700; color: var(--indigo); }
+.section-dark .chapter-cta p { color: var(--yellow); }
+
+/* cifre mari */
+.stats { display: grid; gap: var(--gap); }
+.stat { background: var(--indigo); color: var(--paper); border-radius: var(--radius-md); padding: 1.5rem; display: grid; gap: .5rem; }
+.stat-num { font: 600 clamp(3rem, 7vw, 4.4rem)/1 var(--font-display); color: var(--yellow); font-variant-numeric: tabular-nums; }
+.stat p { max-width: 38ch; }
+.stat-pre { font-size: .3em; letter-spacing: .08em; color: color-mix(in srgb, var(--paper) 84%, transparent); vertical-align: .9em; }
+
+/* detalii care se deschid la clic */
+.toggles { border-bottom: 1px solid var(--line); }
+.toggle { border-top: 1px solid var(--line); }
+.toggle > summary { cursor: pointer; list-style: none; display: flex; gap: .8rem; align-items: baseline; padding: .95rem 0; font-weight: 700; color: var(--indigo); }
+.toggle > summary::-webkit-details-marker { display: none; }
+.toggle > summary::before { content: "+"; flex: none; width: 1ch; color: var(--link); }
+.toggle[open] > summary::before { content: "\2013"; }
+.toggle > summary:hover { color: var(--link); }
+.toggle-body { padding: 0 0 1.25rem 1.8ch; display: grid; gap: .8rem; }
+.toggle-body > p { max-width: 66ch; }
+.section-dark .toggles, .section-dark .toggle { border-color: var(--line-on-dark); }
+.section-dark .toggle > summary { color: var(--paper); }
+.section-dark .toggle > summary::before { color: var(--yellow); }
+
+/* bandă cu imagine și casetă de text */
+.band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); }
+.band-art { position: absolute; inset: 0; background: var(--img-ilustratie) 22% 58% / 135% auto no-repeat; }
+.band-panel { position: relative; background: var(--indigo); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3.5vw, 2.75rem); max-width: 40rem; display: grid; gap: 1rem; box-shadow: 0 10px 40px color-mix(in srgb, var(--ink) 35%, transparent); }
+.band-panel h2 { color: var(--yellow); }
+.band-panel-right { margin-left: auto; }
+@media (max-width: 760px) { .band-art { background-size: 260% auto; background-position: 18% 50%; } }
+
+/* lecții */
+.lessons-wrap { display: grid; gap: var(--gap); }
+.lessons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); gap: var(--gap); }
+.lesson { background: var(--paper); border-radius: var(--radius-md); padding: 1.1rem 1.15rem; display: grid; gap: .45rem; align-content: start; }
+.lesson .place { display: flex; gap: .55rem; align-items: baseline; font: 600 .74rem/1.35 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--link); }
+.lesson-num { flex: none; min-width: 1.5em; color: var(--indigo); font-variant-numeric: tabular-nums; }
+.lesson-where { min-width: 0; }
+.lesson-rule { font-weight: 700; font-size: .95rem; line-height: 1.4; color: var(--indigo); }
+.lesson-answer { font-size: .82rem; line-height: 1.45; color: color-mix(in srgb, var(--ink) 78%, transparent); }
+.lesson-answer b { font-weight: 700; color: var(--ink); }
+.lessons-more > summary { cursor: pointer; list-style: none; display: flex; gap: .8rem; align-items: baseline; padding: .95rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 700; color: var(--indigo); }
+.lessons-more > summary::-webkit-details-marker { display: none; }
+.lessons-more > summary::before { content: "+"; flex: none; width: 1ch; color: var(--link); }
+.lessons-more[open] > summary::before { content: "\2013"; }
+.lessons-more[open] > summary { margin-bottom: var(--gap); }
+.note-card { background: var(--yellow); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(1.25rem, 3vw, 2rem); display: grid; gap: .75rem; }
+.note-card h3 { color: var(--ink); }
+.figure-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
+.figure-line .stat-num { color: var(--indigo); font-size: clamp(2.6rem, 6vw, 3.6rem); }
+.figure-line p { max-width: 44ch; }
+
+/* cele trei drepturi */
+.rights { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: clamp(1.5rem, 3vw, 2.5rem); }
+.right { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .35rem 1rem; align-items: start; align-content: start; }
+.right-num { grid-row: 1 / span 2; font: 600 2.6rem/1 var(--font-display); color: var(--yellow); padding-right: 1rem; border-right: 2px solid var(--orange); font-variant-numeric: tabular-nums; }
+.right h3 { color: var(--paper); padding-top: .3rem; }
+.right p { color: color-mix(in srgb, var(--paper) 88%, transparent); }
+.model-note { border: 1px solid var(--line-on-dark); border-radius: var(--radius-md); padding: 1rem 1.25rem; max-width: 78ch; font-size: .92rem; color: color-mix(in srgb, var(--paper) 90%, transparent); }
+
+/* pașii directivei */
+.steps { border-bottom: 1px solid var(--line); }
+.step { display: grid; grid-template-columns: 3.2rem minmax(0, 17rem) minmax(0, 1fr); gap: .4rem 1.5rem; padding: 1.2rem 0; border-top: 1px solid var(--line); align-items: start; }
+.step-num { font: 600 2rem/1 var(--font-display); color: var(--indigo); font-variant-numeric: tabular-nums; }
+.step-title { display: grid; gap: .15rem; }
+.step-title .kicker { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--link); }
+.step-title h3 { text-transform: none; font-family: var(--font-body); font-weight: 700; font-size: 1.05rem; line-height: 1.35; letter-spacing: 0; }
+.step-text { max-width: 62ch; }
+@media (max-width: 860px) {
+  .step { grid-template-columns: 2.6rem minmax(0, 1fr); }
+  .step-text { grid-column: 2; }
+}
+
+.keeps { display: grid; gap: .7rem; }
+.keeps li { position: relative; padding-left: 1.6rem; max-width: 66ch; }
+.keeps li::before { content: ""; position: absolute; left: 0; top: .58em; width: .6rem; height: .6rem; border-radius: 50%; background: var(--orange); }
+
+.docs { border-bottom: 1px solid var(--line); }
+.docs-group { margin-top: .75rem; font: 600 .72rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--link); }
+.docs-lead { max-width: 66ch; }
+.doc { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .2rem 1.5rem; padding: .85rem 0; border-top: 1px solid var(--line); }
+.doc-title { font-weight: 700; color: var(--indigo); }
+.doc-meta { font-size: .82rem; color: var(--muted); }
+a.doc-title { text-decoration: underline; }
+
+/* drumul până la lege */
+.timeline { display: grid; gap: 0; counter-reset: pas; }
+.tl-item { position: relative; display: grid; gap: .45rem; padding: 0 0 2rem 3.6rem; }
+.tl-item::before { content: counter(pas); counter-increment: pas; position: absolute; left: 0; top: -.15rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--indigo); color: var(--yellow); display: grid; place-items: center; font: 600 1.1rem/1 var(--font-display); }
+.tl-item::after { content: ""; position: absolute; left: calc(1.2rem - 1px); top: 2.5rem; bottom: .25rem; width: 2px; background: var(--line); }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item:last-child::after { display: none; }
+.tl-item h3 { padding-top: .2rem; }
+.tl-item p { max-width: 62ch; }
+.chip { justify-self: start; font-size: .82rem; line-height: 1.4; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: .3rem .6rem; max-width: 100%; }
+.chip b { color: var(--indigo); }
+.aside-card { background: var(--paper); border-radius: var(--radius-lg); padding: clamp(1.25rem, 3vw, 2rem); display: grid; gap: .9rem; align-content: start; }
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 30rem; font-size: .92rem; }
+th, td { text-align: left; vertical-align: top; padding: .6rem .9rem .6rem 0; border-top: 1px solid var(--line); }
+th { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--link); border-top: 0; }
+td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-variant-numeric: tabular-nums; }
+
+/* citate peste imagine */
+.quote-band { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: clamp(4rem, 10vw, 7.5rem); }
+.quote-art { position: absolute; inset: 0; background: var(--img-ilustratie) 85% 12% / 150% auto no-repeat; }
+.quote-art::after { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, var(--indigo) 84%, transparent); }
+/* Citatele din benzi stau pe mijloc, ca și citatele oamenilor. */
+.quote-band blockquote { position: relative; display: grid; gap: 1.25rem; max-width: 56rem; margin-inline: auto; justify-items: center; text-align: center; }
+.quote-text { font: 600 clamp(1.5rem, 3.6vw, 2.5rem)/1.2 var(--font-display); color: var(--yellow); text-wrap: balance; }
+.quote-band cite { font-style: normal; font-size: .9rem; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 84%, transparent); }
+/* Citatele oamenilor: benzi deschise, ca să despartă capitolele închise la culoare, nu să se lipească de ele. */
+.quote-person { background: var(--mist); color: var(--ink); padding-block: clamp(3rem, 7vw, 5rem); }
+/* Banda lui Alex vine după o fâșie gri, deci este albă; a Alexandrei vine după o secțiune albă, deci este gri. */
+.quote-person:not(.quote-alexandra) { background: var(--paper); }
+.quote-row { display: flex; align-items: center; justify-content: center; gap: clamp(1.25rem, 3.5vw, 2.5rem); }
+.quote-photo { flex: none; width: clamp(120px, 15vw, 190px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 4px solid var(--orange); }
+.quote-person blockquote { display: grid; gap: 1.1rem; margin: 0; max-width: 38rem; }
+@media (max-width: 640px) { .quote-row { flex-direction: column; align-items: flex-start; } .quote-photo { width: 120px; } }
+/* Fără echilibrarea rândurilor: rândurile umplu lățimea, ca grupul fotografie + citat să stea drept pe mijloc. */
+.quote-person .quote-text { font: 600 clamp(1.4rem, 3.1vw, 2.2rem)/1.22 var(--font-display); color: var(--indigo); text-wrap: wrap; }
+.quote-author cite { display: grid; gap: .15rem; font-style: normal; font-size: .95rem; line-height: 1.45; color: var(--muted); }
+.quote-author cite strong { font: 600 1rem/1.3 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+/* Susținătorii: plăcuțe albe, egale, cu sigla. Dacă sigla nu se încarcă, apare numele.
+   În machetă, sub siglă stă starea organizației: „de invitat”, „invitat” sau „a acceptat”. */
+.supporters { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: .75rem; }
+.supporters li { display: contents; }
+.supporters a, .sup-card { display: grid; grid-template-rows: minmax(0, 1fr) auto; place-items: center; gap: .35rem; height: 6.75rem; padding: .7rem .7rem .5rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.supporters a:hover { border-color: var(--indigo); box-shadow: 0 2px 10px color-mix(in srgb, var(--indigo) 16%, transparent); }
+.supporters img { max-width: 100%; max-height: 3.9rem; width: auto; height: auto; object-fit: contain; }
+.sup-name { font-size: .78rem; line-height: 1.3; color: var(--indigo); text-align: center; overflow-wrap: anywhere; max-height: 100%; overflow: hidden; }
+.sup-state { font: 600 .6rem/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: var(--link); background: color-mix(in srgb, var(--orange) 14%, var(--paper)); padding: .25rem .5rem; border-radius: 999px; }
+@media (max-width: 480px) {
+  .supporters { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+  .supporters a, .sup-card { height: 5.75rem; padding: .45rem .4rem .4rem; gap: .25rem; }
+  .supporters img { max-height: 3.3rem; }
+  .sup-state { font-size: .54rem; letter-spacing: .04em; padding: .2rem .35rem; }
+}
+.quote-duty .quote-art { background-position: 18% 78%; background-size: 140% auto; }
+.closing .quote-art { background-position: 40% 96%; background-size: 130% auto; }
+.closing .quote-art::after { background: linear-gradient(180deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 78%, transparent) 55%, color-mix(in srgb, var(--indigo) 30%, transparent) 100%); }
+.closing { padding-block: clamp(4rem, 9vw, 6.5rem) clamp(9rem, 22vw, 15rem); }
+
+/* oamenii */
+.people-band { padding-block: clamp(2.75rem, 6vw, 4.5rem); }
+.people-band:first-child { padding-top: clamp(3.5rem, 8vw, 6.5rem); }
+.people { display: grid; gap: clamp(3rem, 7vw, 5rem); }
+.people-block { display: grid; gap: 1.5rem; scroll-margin-top: 1.5rem; }
+.people-block > header { display: grid; gap: .5rem; }
+.orgs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--gap); }
+.org { background: var(--indigo); color: var(--paper); border-radius: var(--radius-md); padding: 1.5rem; display: grid; gap: .6rem; align-content: start; }
+.org-logo { height: 72px; width: auto; justify-self: start; margin-bottom: .4rem; }
+.org .role { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); }
+.org h3 { color: var(--paper); text-transform: none; font-size: 1.3rem; }
+.org p { color: color-mix(in srgb, var(--paper) 88%, transparent); }
+.org a { color: var(--yellow); }
+.partners { columns: 3 17rem; column-gap: 2.5rem; }
+.partners li { break-inside: avoid; display: grid; gap: .1rem; padding: .7rem 0; border-top: 1px solid var(--line); }
+.partners .country { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--link); }
+.partner-orgs { display: grid; gap: .15rem; }
+.partners a { color: var(--ink); text-decoration-color: color-mix(in srgb, var(--indigo) 45%, transparent); }
+.partners a:hover { color: var(--indigo); }
+.partners .is-ro { background: var(--yellow); padding-inline: .6rem; border-radius: var(--radius-sm); border-top-color: transparent; }
+.partners .is-ro .country { color: var(--indigo); }
+.slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--gap); }
+.slot { border: 2px dashed var(--line); border-radius: var(--radius-md); padding: 1.25rem; display: grid; gap: .8rem; }
+.slot-photo { width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--mist); }
+.slot-line { height: .7rem; border-radius: .35rem; background: var(--mist); }
+.slot-line.short { width: 55%; }
+.slot-label { font-size: .82rem; color: var(--muted); }
+.ambassadors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+@media (max-width: 1100px) { .ambassadors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ambassador { display: flex; align-items: center; gap: .85rem; min-height: 6.75rem; padding: .85rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.ambassador-photo { flex: none; width: 4.4rem; height: 4.4rem; border-radius: 50%; border: 3px solid var(--orange); object-fit: cover; background: var(--mist); }
+.ambassador h4 { margin: 0; font-size: 1rem; line-height: 1.2; color: var(--indigo); }
+.ambassador p { margin: .2rem 0 0; font-size: .78rem; line-height: 1.35; color: var(--muted); }
+.ambassador-initials { display: grid; place-items: center; font: 700 1.15rem/1 var(--font-display); letter-spacing: .02em; color: var(--indigo); background: color-mix(in srgb, var(--orange) 14%, var(--paper)); }
+.ambassador .sup-state { display: inline-block; margin-top: .4rem; }
+@media (max-width: 480px) { .ambassadors { grid-template-columns: 1fr; gap: .5rem; } .ambassador { min-height: 5.25rem; padding: .5rem .75rem; } .ambassador-photo { width: 3.9rem; height: 3.9rem; } }
+
+/* semnarea */
+.sign { background: var(--yellow); color: var(--ink); }
+.sign h2 { color: var(--ink); }
+.sign .eyebrow { color: var(--indigo); }
+.sign-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: clamp(1.25rem, 3vw, 2.5rem); }
+.sign-fact { display: grid; gap: .5rem; align-content: start; border-top: 2px solid var(--indigo); padding-top: 1rem; }
+.sign-fact h3 { color: var(--indigo); }
+.sign .source { color: color-mix(in srgb, var(--ink) 76%, transparent); }
+.sign a:not(.btn) { color: var(--indigo); }
+.sign-cta { display: grid; gap: .9rem; justify-items: start; }
+
+/* subsol */
+/* Subsolul este un indigo mai închis decât banda cu citatul de final, ca să nu aibă aceeași culoare cu ea. */
+.site-footer { background: color-mix(in srgb, var(--indigo) 60%, var(--ink)); color: var(--paper); padding-block: clamp(2.5rem, 6vw, 4rem) 2rem; font-size: .9rem; }
+.footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: 2rem 2.5rem; align-items: start; }
+.footer-top > * { min-width: 0; }
+.footer-brand { display: grid; gap: 1rem; justify-items: start; }
+.footer-logos { display: flex; align-items: center; gap: 1.1rem; }
+.footer-logos { flex-wrap: wrap; }
+.footer-logos img { height: 76px; width: auto; }
+.footer-break { flex: 0 0 100%; height: 0; }
+.footer-divider { width: 1px; height: 60px; background: var(--line-on-dark); }
+@media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .footer-top { grid-template-columns: 1fr; } }
+.site-footer h2 { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; color: var(--yellow); margin-bottom: .6rem; }
+.site-footer a { color: var(--paper); }
+.site-footer li { padding: .18rem 0; }
+/* Al doilea rând al subsolului: contact, rețele, „Află și despre”, „Semnează”. */
+.footer-info { margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--line-on-dark); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 2.5rem; align-items: start; }
+.footer-info a { overflow-wrap: anywhere; }
+.footer-org { display: grid; gap: .55rem; align-content: start; justify-items: start; }
+.footer-org img { height: 68px; width: auto; margin-bottom: .5rem; }
+.footer-title { font: 600 1.25rem/1.2 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: var(--orange); }
+.footer-org h2 { margin-bottom: 0; }
+.footer-org p { color: color-mix(in srgb, var(--paper) 82%, transparent); font-size: .82rem; line-height: 1.5; }
+.footer-social { display: flex; flex-wrap: wrap; gap: 0 1rem; }
+.footer-sign { grid-column: 1 / -1; justify-self: start; }
+.site-footer .footer-sign .btn-cta { color: var(--ink); padding: .9rem 2rem; font-size: 1rem; }
+@media (max-width: 900px) { .footer-info { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .footer-info { grid-template-columns: 1fr; } }
+.footer-bottom { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid var(--line-on-dark); display: grid; gap: .5rem; color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.footer-bottom p { max-width: 90ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* v36: susținătorii pe grupe; mențiunea din subsol */
+.sup-group { font: 600 .8rem/1.2 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin: .75rem 0 -.5rem; }
+.footer-credit { margin-top: 2rem; font-size: .85rem; line-height: 1.5; opacity: .85; }
+
+/* v38: „Ce câștigăm” și întrebările frecvente, cu vizualurile campaniei */
+.band-art-castig { background: url("../img/vizual-vecinii-si-copacii.webp") 30% 50% / cover no-repeat; }
+.gains { margin: 0; padding-left: 1.1rem; display: grid; gap: .6rem; }
+.gains b { color: var(--yellow); }
+.faq { display: grid; gap: 1rem; max-width: 72rem; }
+.faq-art { margin: .25rem 0 0; max-width: 46rem; }
+.faq-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
+@media (max-width: 760px) {
+  .band-castig { padding-top: 0; }
+  .band-art-castig { position: relative; inset: auto; aspect-ratio: 16 / 9; background-size: cover; background-position: 60% 50%; margin-bottom: 1.5rem; }
+}
+
+/* v40: pauze vizuale cu ilustrațiile campaniei; caseta „Ce câștigăm”, transparentă */
+.visual-break { margin: 0; background: var(--indigo); }
+.visual-break img { display: block; width: 100%; height: clamp(180px, 34vw, 440px); object-fit: cover; }
+/* Bucureștiul și centura: ilustrația aproape întreagă (orașul sus, lacul și tăierile jos); se taie doar puțin de jos */
+.vb-centura img { height: auto; aspect-ratio: 1400 / 700; object-position: 50% 0; }
+.vb-regenerare img { object-position: 50% 40%; }
+.vb-pajiste img { object-position: 50% 60%; }
+.vb-creste img { object-position: 50% 70%; }
+.band-castig .band-panel { background: color-mix(in srgb, var(--indigo) 62%, transparent); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+@media (max-width: 760px) { .band-castig .band-panel { background: var(--indigo); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* v41: ușurința în folosire */
+.btn-small { font-size: .8rem; padding: .45rem 1rem; }
+.doc-desc { display: block; font-size: .88rem; line-height: 1.45; color: var(--ink); margin: .15rem 0 .1rem; }
+.faq-tools { margin: 0; }
+.sign-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: none; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .6rem var(--gutter) calc(.6rem + env(safe-area-inset-bottom, 0px)); background: var(--indigo); color: var(--paper);
+  box-shadow: 0 -2px 12px color-mix(in srgb, var(--ink) 30%, transparent); transform: translateY(110%); transition: transform .25s; }
+.sign-bar.is-visible { transform: none; }
+.sign-bar-count { margin: 0; font-size: .85rem; line-height: 1.3; }
+.sign-bar-count strong { color: var(--yellow); font-variant-numeric: tabular-nums; }
+.sign-bar .btn { flex: none; padding: .55rem 1.2rem; font-size: .9rem; }
+@media (max-width: 760px) { .sign-bar { display: flex; } body.has-sign-bar .site-footer { padding-bottom: 4.5rem; } }
+.to-top { position: fixed; right: max(var(--gutter), env(safe-area-inset-right, 0px)); bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); z-index: 44;
+  width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; background: var(--paper); color: var(--indigo);
+  border: 1px solid var(--line); box-shadow: 0 2px 10px color-mix(in srgb, var(--ink) 20%, transparent); text-decoration: none; font-size: 1.3rem; font-weight: 700; }
+.to-top[hidden] { display: none; }
+@media (max-width: 760px) { body.has-sign-bar .to-top { bottom: calc(4.6rem + env(safe-area-inset-bottom, 0px)); } }
+@media (prefers-reduced-motion: reduce) { .sign-bar, .site-header { transition: none; } }
+@media (max-width: 760px) { .band-art-castig { background-image: url("../img/vizual-vecinii-si-copacii-700.webp"); } }
+
+/* v42: cele trei tipare din inventar; „Ce câștigăm”: caseta mai îngustă, ca scena din ilustrație (femeia din fața drujbelor) să rămână la vedere */
+.patterns-wrap { display: grid; gap: .9rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+.patterns-title { font: 600 .9rem/1.3 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--indigo); }
+.patterns { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: var(--gap); }
+.pattern { background: var(--paper); border-radius: var(--radius-md); border-top: 3px solid var(--orange); padding: 1.1rem 1.15rem; display: grid; gap: .45rem; align-content: start; }
+.band-castig .band-panel { max-width: 31rem; padding: clamp(1.25rem, 2.6vw, 2.25rem); gap: .8rem; }
+.band-castig .gains { gap: .45rem; font-size: .95rem; }
+
+/* v43: din fiecare listă pe rânduri se vede primul rând; ilustrațiile, întregi, încadrate în pagină */
+.row-more { display: none !important; }
+.row-toggle { margin: .25rem 0 0; }
+.row-toggle[hidden] { display: none; }
+.visual-break { background: transparent; padding-block: clamp(1.5rem, 4vw, 3rem); }
+.visual-break .vb-frame { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
+.visual-break img, .vb-centura img, .vb-regenerare img, .vb-pajiste img, .vb-creste img {
+  display: block; width: auto; max-width: 100%; height: auto; max-height: min(78vh, 680px); aspect-ratio: auto; object-fit: contain;
+  margin: 0 auto; border-radius: var(--radius-lg); box-shadow: 0 10px 30px color-mix(in srgb, var(--indigo) 18%, transparent); }
+
+/* v44: ilustrațiile, în interiorul capitolelor (nu benzi separate) */
+.section-art { margin: 0; }
+.section-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
+.section-art-wide img.art-centura { aspect-ratio: 2 / 1; object-fit: cover; object-position: 50% 0; }
+.head-row { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+@media (min-width: 900px) {
+  .head-row { grid-template-columns: minmax(0, 1fr) minmax(0, 40%); }
+  .head-art-square { max-width: 420px; justify-self: end; }
+  .faq-layout { display: grid; grid-template-columns: minmax(0, 36%) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .faq-side { position: sticky; top: 6rem; }
+}
+.faq-layout { display: grid; gap: 1.5rem; }
+
+/* v45: exemplul din România (Vâlsan), în pagină */
+.example { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+.example-text { display: grid; gap: .9rem; }
+@media (min-width: 900px) { .example { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+
+/* v50: finalul, cu chemare la semnare */
+.closing-inner { position: relative; display: grid; justify-items: center; gap: 1.25rem; text-align: center; }
+.closing .quote-text { font-size: clamp(2rem, 5vw, 3.4rem); }
+.closing-count { margin: 0; font-size: .95rem; }
+.closing-count strong { color: var(--yellow); font-variant-numeric: tabular-nums; }
+
+/* v56: la precedente, întâi inventarul (268), apoi lecțiile; Delta Dunării la final */
+.figure-lead .stat-num { font-size: clamp(3.2rem, 8vw, 4.8rem); }
+.figure-lead p { font-size: 1.05rem; max-width: 48ch; }
+.note-wrap { max-width: 44rem; }

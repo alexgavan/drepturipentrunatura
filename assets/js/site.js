@@ -200,3 +200,30 @@
   dinAdresa();
   window.addEventListener('hashchange', dinAdresa);
 })();
+
+// v59: „+” deschide textul suplimentar (pașii, drepturile, problema); fără JavaScript se vede tot
+(function () {
+  var n = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-plus]'), function (bloc) {
+    var corpuri = Array.prototype.filter.call(bloc.querySelectorAll('.plus-body'), function (el) { return el.closest('[data-plus]') === bloc; });
+    if (!corpuri.length) return;
+    var titlu = bloc.querySelector('.step-title, h3') || bloc.querySelector('.lead');
+    var nume = (bloc.querySelector('h3') || {}).textContent || 'acest text';
+    var ids = corpuri.map(function (el) { if (!el.id) el.id = 'plus-' + (++n); el.hidden = true; return el.id; });
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'plus-btn';
+    b.setAttribute('aria-expanded', 'false');
+    b.setAttribute('aria-controls', ids.join(' '));
+    b.setAttribute('aria-label', 'Mai mult: ' + nume.trim());
+    b.textContent = '+';
+    if (titlu.classList && titlu.classList.contains('step-title')) titlu.appendChild(b);
+    else titlu.insertAdjacentElement('afterend', b);
+    b.addEventListener('click', function () {
+      var deschis = b.getAttribute('aria-expanded') === 'true';
+      corpuri.forEach(function (el) { el.hidden = deschis; });
+      b.setAttribute('aria-expanded', deschis ? 'false' : 'true');
+      b.textContent = deschis ? '+' : '−';
+    });
+  });
+})();

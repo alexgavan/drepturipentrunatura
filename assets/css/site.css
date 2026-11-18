@@ -960,3 +960,9 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v77: Pachamama România scoasă în evidență între parteneri: prima, cu chenar portocaliu */
 .partners-logos .is-ro a, .partners-logos .is-ro .sup-card { outline: 3px solid var(--orange); outline-offset: 3px; }
 .partners-logos .is-ro .sup-country { font-weight: 700; }
+
+/* v79: tot cartonașul documentului deschide PDF-ul; „+” rămâne deasupra */
+.docs-strip .doc { position: relative; cursor: pointer; }
+.docs-strip a.doc-title::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.docs-strip .doc .plus-btn { position: relative; z-index: 1; }
+.docs-strip .doc:hover a.doc-title { color: var(--yellow); }

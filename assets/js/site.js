@@ -469,7 +469,8 @@
         }).catch(function () {});
       });
     }
-    if (nat && navigator.share) {
+    // numai pe telefoane și tablete: pe calculator, meniul sistemului e neclar (Alex, 18.11.2026)
+    if (nat && navigator.share && window.matchMedia('(pointer: coarse)').matches) {
       nat.hidden = false;
       nat.addEventListener('click', function () { navigator.share({ title: 'Drepturi pentru Natură', text: text, url: url }).catch(function () {}); });
     }

@@ -741,3 +741,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 #rosia .example-text, #valsan .example-text { gap: 1.1rem; }
 .facts-3 .stat-num { font-size: clamp(1.6rem, 2.6vw, 2.2rem); white-space: nowrap; }
 @media (max-width: 899px) { .example-rev .example-art { order: -1; } }
+
+/* v68: pe telefon, la „Ce propunem”, fără imaginea mare (ar sta lipită de imaginea primului drept) */
+@media (max-width: 760px) { #propunerea .head-art-square { display: none; } }

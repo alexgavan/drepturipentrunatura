@@ -207,8 +207,8 @@
   Array.prototype.forEach.call(document.querySelectorAll('[data-plus]'), function (bloc) {
     var corpuri = Array.prototype.filter.call(bloc.querySelectorAll('.plus-body'), function (el) { return el.closest('[data-plus]') === bloc; });
     if (!corpuri.length) return;
-    var titlu = bloc.querySelector('.step-title, h3') || bloc.querySelector('.lead');
-    var nume = (bloc.querySelector('h3') || {}).textContent || 'acest text';
+    var titlu = bloc.querySelector('.step-title, h3, .lesson-rule') || bloc.querySelector('.lead');
+    var nume = (bloc.querySelector('h3, .lesson-rule') || {}).textContent || 'acest text';
     var ids = corpuri.map(function (el) { if (!el.id) el.id = 'plus-' + (++n); el.hidden = true; return el.id; });
     var b = document.createElement('button');
     b.type = 'button';

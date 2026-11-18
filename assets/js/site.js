@@ -321,7 +321,7 @@
       var pas = function (t) {
         if (!t0) t0 = t;
         var k = Math.min(1, (t - t0) / dur), v = tinta * (1 - Math.pow(1 - k, 3));
-        el.textContent = k < 1 ? final.replace(m[0], format(v, m[0])) : final;
+        el.textContent = k < 1 ? final.replace(m[0], format(v, m[0])) : (el.getAttribute('data-final') || final);
         if (k < 1) requestAnimationFrame(pas);
       };
       requestAnimationFrame(pas);
@@ -542,4 +542,30 @@
   var t;
   window.addEventListener('scroll', function () { if (t) return; t = requestAnimationFrame(function () { t = null; marcheaza(); }); }, { passive: true });
   marcheaza();
+})();
+
+
+// v78: contorul se actualizează singur. O acțiune GitHub citește registrul Comisiei la fiecare 3 ore și scrie
+// data/contor.json în depozit; pagina îl citește de acolo (cifrele din pagină rămân dacă fișierul nu se poate citi).
+(function () {
+  var URL = 'https://raw.githubusercontent.com/alexgavan/drepturipentrunatura/main/data/contor.json';
+  if (!window.fetch) return;
+  var nr = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
+  var pct = function (a, b) { return (a / b * 100).toFixed(1).replace('.', ',') + '\u00a0%'; };
+  var num = function (t) { return parseInt(String(t).replace(/\D/g, ''), 10); };
+  fetch(URL, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+    if (!d || typeof d.total !== 'number') return;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-contor]'), function (m) {
+      var v = d[m.getAttribute('data-contor')], din = num(m.getAttribute('data-din'));
+      if (typeof v !== 'number' || !din) return;
+      var b = m.querySelector('.meter-num b'), fill = m.querySelector('.meter-fill'), nota = m.querySelector('.meter-note'), tr = m.querySelector('.meter-track');
+      if (b) { b.setAttribute('data-final', nr(v)); b.textContent = nr(v); }
+      if (fill) fill.style.setProperty('--p', Math.min(100, v / din * 100).toFixed(2) + '%');
+      if (nota) nota.textContent = pct(v, din) + ' ' + m.getAttribute('data-nota');
+      if (tr) tr.setAttribute('aria-label', m.getAttribute('data-nume') + ': ' + nr(v) + ' de semnături din ' + m.getAttribute('data-aria') + nr(din) + ', adică ' + pct(v, din));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-contor-nr]'), function (el) {
+      var v = d[el.getAttribute('data-contor-nr')]; if (typeof v === 'number') el.textContent = nr(v);
+    });
+  }).catch(function () {});
 })();

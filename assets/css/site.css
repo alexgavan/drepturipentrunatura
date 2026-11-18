@@ -1041,3 +1041,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { body.has-sign-bar .back-strip { bottom: calc(4.8rem + env(safe-area-inset-bottom, 0px)); } }
 .back-strip .share-btn { border-color: color-mix(in srgb, var(--paper) 70%, transparent); background: color-mix(in srgb, var(--indigo) 55%, transparent); color: var(--paper); }
 .back-strip .share-btn:hover { background: var(--paper); color: var(--indigo); }
+
+/* v88: adresa de contact afișată ca text, fără link */
+.join-mail { font-weight: 700; color: var(--ink); user-select: all; overflow-wrap: anywhere; }

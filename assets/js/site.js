@@ -418,6 +418,17 @@
       return b;
     });
     box.insertBefore(lista, box.firstChild);
+    var hint = box.getAttribute('data-tabs-hint');
+    if (hint) { var h = document.createElement('p'); h.className = 'tab-hint'; h.textContent = hint; box.insertBefore(h, lista); }
+    var urm = box.getAttribute('data-tabs-next');
+    if (urm) panouri.forEach(function (p, i) {
+      var j = (i + 1) % panouri.length;
+      var nb = document.createElement('button');
+      nb.type = 'button'; nb.className = 'tab-next';
+      nb.textContent = urm + ': ' + panouri[j].getAttribute('data-tab') + ' →';
+      nb.addEventListener('click', function () { arata(j, true); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      p.appendChild(nb);
+    });
     box.classList.add('tabs-on');
     function arata(i, dinClic) {
       panouri.forEach(function (p, j) { p.hidden = j !== i; });

@@ -510,6 +510,13 @@
   var copie = share.cloneNode(true), et = copie.querySelector('.share-label');
   if (et) et.remove();
   fasie.insertBefore(copie, fasie.querySelector('.back-close'));
+  var voce = document.querySelector('#semneaza .voice-btn');
+  if (voce) {
+    var lv = document.createElement('a');
+    lv.className = 'back-voice'; lv.href = voce.href; lv.target = '_blank'; lv.rel = 'noopener';
+    lv.textContent = 'sau fă-ți poza de profil „Sunt vocea naturii” →';
+    fasie.insertBefore(lv, fasie.querySelector('.back-close'));
+  }
   document.body.appendChild(fasie);
   fasie.querySelector('.back-close').addEventListener('click', function () { fasie.hidden = true; });
   function verifica() {

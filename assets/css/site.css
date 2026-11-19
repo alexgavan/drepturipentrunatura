@@ -187,9 +187,11 @@ strong, b { font-weight: 700; }
 .hero-partners a:hover { opacity: .85; }
 .hero-partners img { display: block; width: auto; }
 .hero-partners .logo-pachamama { height: 72px; }
+.hero-partners .logo-centura { height: 60px; }
 @media (max-width: 600px) {
   .hero-partners-label { flex: 0 0 100%; }
   .hero-partners .logo-pachamama { height: 60px; }
+  .hero-partners .logo-centura { height: 50px; }
 }
 @media (max-width: 760px) {
   .hero { padding-block: max(8.5rem, calc(var(--antet, 0px) + 2.2rem)) 19rem; }

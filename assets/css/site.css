@@ -167,12 +167,12 @@ strong, b { font-weight: 700; }
 /* ---------- Imaginea de început ---------- */
 .hero { position: relative; background: var(--indigo); color: var(--paper); overflow: hidden; padding-block: max(11rem, calc(var(--antet, 0px) + 2.6rem)) 11.5rem; }
 /* Ilustrația este întoarsă în oglindă, ca pasărea albă să stea în dreapta, în afara textului și a umbrei de sub el. */
-.hero-art { position: absolute; inset: 0; background: url("../img/hero-foto.webp") 50% 50% / cover no-repeat; }
+.hero-art { position: absolute; inset: 0; background: var(--img-ilustratie) 22% 46% / cover no-repeat; transform: scaleX(-1); }
 .hero-art::after {
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--indigo) 92%, transparent) 0, color-mix(in srgb, var(--indigo) 0%, transparent) 15rem),
-    linear-gradient(90deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 94%, transparent) 34%, color-mix(in srgb, var(--indigo) 30%, transparent) 54%, color-mix(in srgb, var(--indigo) 0%, transparent) 64%);
+    linear-gradient(270deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 94%, transparent) 34%, color-mix(in srgb, var(--indigo) 30%, transparent) 54%, color-mix(in srgb, var(--indigo) 0%, transparent) 64%);
 }
 .hero-inner { position: relative; display: grid; gap: 1.25rem; justify-items: start; }
 .hero h1 { font-size: clamp(2.7rem, 7.4vw, 5.4rem); line-height: 1; color: var(--orange); max-width: 12ch; }
@@ -195,7 +195,7 @@ strong, b { font-weight: 700; }
 }
 @media (max-width: 760px) {
   .hero { padding-block: max(8.5rem, calc(var(--antet, 0px) + 2.2rem)) 19rem; }
-  .hero-art { background-image: url("../img/hero-foto-mobil.webp"); background-position: 50% 100%; background-size: auto 48%; background-color: var(--indigo); }
+  .hero-art { background-position: 30% 100%; background-size: auto 48%; background-color: var(--indigo); }
   .hero-art::after { background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo) 68%, color-mix(in srgb, var(--indigo) 0%, transparent) 79%); }
 }
 
@@ -701,7 +701,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .hero-art::after {
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--indigo) 85%, transparent) 0, color-mix(in srgb, var(--indigo) 0%, transparent) 12rem),
-      linear-gradient(90deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 92%, transparent) 24%, color-mix(in srgb, var(--indigo) 35%, transparent) 42%, color-mix(in srgb, var(--indigo) 0%, transparent) 54%);
+      linear-gradient(270deg, var(--indigo) 0%, color-mix(in srgb, var(--indigo) 92%, transparent) 24%, color-mix(in srgb, var(--indigo) 35%, transparent) 42%, color-mix(in srgb, var(--indigo) 0%, transparent) 54%);
   }
 }
 
@@ -1075,4 +1075,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .orgs-row .org { height: 100%; }
 @media (max-width: 760px) { .orgs-row { grid-template-columns: 1fr; } .orgs-row .orgs-2 { grid-template-columns: 1fr; } }
 
-/* v98: pe primul ecran, fotografia 20260429_082714 din „Foto site” (râu văzut de sus), în locul ilustrației (Alex, 20.11.2026) */
+/* v100: fotografia lui Alex, mai mare și cu colțuri rotunjite, nu rotundă, ca să se vadă aspretele din mâna lui (Alex, 20.11.2026) */
+.quote-photo-alex { width: clamp(170px, 20vw, 250px); border-radius: var(--radius-md); }
+@media (max-width: 640px) { .quote-photo-alex { width: 200px; } }

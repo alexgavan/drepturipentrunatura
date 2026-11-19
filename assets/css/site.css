@@ -1058,3 +1058,10 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .voice-btn { display: inline-block; font: 700 .8rem/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; padding: .75rem 1.1rem; border-radius: 999px; background: var(--yellow); color: var(--indigo); text-decoration: none; }
 .voice-btn:hover { background: var(--paper); }
 .back-strip .back-voice { display: inline-block; margin-top: .6rem; color: var(--yellow); font-weight: 600; }
+
+/* v96: inițiatorul și partenerii din România, ca legături spre site-uri (Alex, 20.11.2026) */
+.org-link { text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.org-link:hover { transform: translateY(-2px); box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 25%, transparent); }
+.org-link .org-site { color: var(--yellow); text-decoration: underline; font-size: .9rem; overflow-wrap: anywhere; }
+.orgs-sub { margin-top: 1.5rem; }
+.orgs { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }

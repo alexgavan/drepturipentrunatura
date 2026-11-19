@@ -1065,3 +1065,12 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .org-link .org-site { color: var(--yellow); text-decoration: underline; font-size: .9rem; overflow-wrap: anywhere; }
 .orgs-sub { margin-top: 1.5rem; }
 .orgs { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+
+/* v97: inițiatorul și partenerii din România pe același rând; casetele sunt legături, fără adresa scrisă (Alex, 20.11.2026) */
+.orgs-row { display: grid; grid-template-columns: 1fr 2fr; gap: var(--gap); align-items: stretch; }
+.org-group { display: grid; grid-template-rows: auto 1fr; gap: .9rem; }
+.org-group > header h3 { margin: 0; }
+.orgs-row .orgs { grid-template-columns: 1fr; height: 100%; }
+.orgs-row .orgs-2 { grid-template-columns: 1fr 1fr; }
+.orgs-row .org { height: 100%; }
+@media (max-width: 760px) { .orgs-row { grid-template-columns: 1fr; } .orgs-row .orgs-2 { grid-template-columns: 1fr; } }

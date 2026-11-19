@@ -1049,3 +1049,10 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) {
   body.has-sign-bar .menu-toggle { margin-left: auto; }
 }
+
+/* v94: „Fii vocea naturii”, unealta Pachamama România pentru poza de profil și postări (Alex, 19.11.2026) */
+.voice-cta { display: grid; gap: .5rem; justify-items: start; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); }
+.voice-cta p { margin: 0; }
+.voice-btn { display: inline-block; font: 700 .8rem/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; padding: .75rem 1.1rem; border-radius: 999px; background: var(--yellow); color: var(--indigo); text-decoration: none; }
+.voice-btn:hover { background: var(--paper); }
+.back-strip .back-voice { display: inline-block; margin-top: .6rem; color: var(--yellow); font-weight: 600; }

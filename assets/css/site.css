@@ -1075,6 +1075,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .orgs-row .org { height: 100%; }
 @media (max-width: 760px) { .orgs-row { grid-template-columns: 1fr; } .orgs-row .orgs-2 { grid-template-columns: 1fr; } }
 
-/* v100: fotografia lui Alex, mai mare și cu colțuri rotunjite, nu rotundă, ca să se vadă aspretele din mâna lui (Alex, 20.11.2026) */
-.quote-photo-alex { width: clamp(170px, 20vw, 250px); border-radius: var(--radius-md); }
+/* v101: fotografia lui Alex rămâne rotundă (cerut de Alex), dar mai mare și decupată spre dreapta, ca să se vadă aspretele din mâna lui */
+.quote-photo-alex { width: clamp(170px, 20vw, 250px); }
 @media (max-width: 640px) { .quote-photo-alex { width: 200px; } }

@@ -638,6 +638,7 @@
   fetch(URL, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
     if (!d || typeof d.total !== 'number') return gata();
     actualizat(d.citit_la);
+    try { document.dispatchEvent(new CustomEvent('contor-date', { detail: d })); } catch (e) {}
     Array.prototype.forEach.call(document.querySelectorAll('[data-contor]'), function (m) {
       var v = d[m.getAttribute('data-contor')], din = num(m.getAttribute('data-din'));
       if (typeof v !== 'number' || !din) return;
@@ -1034,4 +1035,147 @@
   };
   setTimeout(reia, 0);
   window.addEventListener('load', function () { reia(); setTimeout(reia, 700); });
+})();
+
+// v129: creditul fotografiilor (aparatul foto și numele) apare treptat la derulare, ca pe centuraverde.ro
+(function () {
+  var cr = Array.prototype.slice.call(document.querySelectorAll('.foto-credit-banda'));
+  if (!cr.length || !document.documentElement.classList.contains('anim')) return;
+  var t = null;
+  var f = function () {
+    t = null;
+    var vh = window.innerHeight;
+    cr.forEach(function (c) {
+      var top = c.getBoundingClientRect().top;
+      var o = Math.max(0, Math.min(1, (vh * 0.95 - top) / (vh * 0.45)));
+      c.style.setProperty('--credit-o', o.toFixed(3));
+    });
+  };
+  window.addEventListener('scroll', function () { if (!t) t = requestAnimationFrame(f); }, { passive: true });
+  window.addEventListener('resize', f);
+  f();
+})();
+
+// v129 (M1): rândurile glisante de pe telefon au puncte (sau o bară) și „1 / 5”; prima dată se mișcă puțin
+(function () {
+  var mq = window.matchMedia('(max-width: 760px)');
+  var redus = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  Array.prototype.forEach.call(document.querySelectorAll('.rights, .keeps-cards, .steps.steps-4, .lessons'), function (r) {
+    var items = Array.prototype.slice.call(r.children);
+    if (items.length < 2) return;
+    var nav = document.createElement('div'); nav.className = 'swipe-nav'; nav.setAttribute('aria-hidden', 'true');
+    var dots = [], bar = null;
+    if (items.length <= 8) items.forEach(function () { var d = document.createElement('span'); d.className = 'swipe-dot'; nav.appendChild(d); dots.push(d); });
+    else { bar = document.createElement('span'); bar.className = 'swipe-bar'; bar.appendChild(document.createElement('span')); nav.appendChild(bar); }
+    var cnt = document.createElement('span'); cnt.className = 'swipe-count'; nav.appendChild(cnt);
+    r.parentNode.insertBefore(nav, r.nextSibling);
+    var curent = -1;
+    function update() {
+      if (!mq.matches) return;
+      var pas = items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left;
+      var i = pas > 0 ? Math.round(r.scrollLeft / pas) : 0;
+      if (r.scrollLeft + r.clientWidth >= r.scrollWidth - 2) i = items.length - 1;
+      i = Math.max(0, Math.min(items.length - 1, i));
+      if (i === curent) return;
+      curent = i;
+      dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+      if (bar) bar.firstChild.style.width = ((i + 1) / items.length * 100) + '%';
+      cnt.textContent = (i + 1) + ' / ' + items.length;
+    }
+    var raf = null;
+    r.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(function () { raf = null; update(); }); }, { passive: true });
+    window.addEventListener('resize', function () { curent = -1; update(); });
+    update();
+    if (!redus && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (e) {
+        if (!e[0].isIntersecting || !mq.matches) return;
+        io.disconnect();
+        if (r.scrollLeft > 4) return;
+        r.classList.add('swipe-hint');
+        setTimeout(function () { r.classList.remove('swipe-hint'); }, 1700);
+      }, { threshold: 0.7 });
+      io.observe(r);
+    }
+  });
+})();
+
+// v129 (M3): pe telefon, primele trei documente la vedere, restul la „Vezi toate cele 8 documente”
+(function () {
+  var docs = document.querySelector('.docs-strip .docs');
+  if (!docs) return;
+  var n = docs.querySelectorAll(':scope > .doc').length;
+  if (n <= 3) return;
+  docs.classList.add('docs-scurt');
+  var p = document.createElement('p'); p.className = 'docs-more';
+  var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-outline btn-small'; b.setAttribute('aria-expanded', 'false');
+  var text = 'Vezi toate cele ' + n + ' documente';
+  b.textContent = text;
+  p.appendChild(b); docs.parentNode.insertBefore(p, docs.nextSibling);
+  b.addEventListener('click', function () {
+    var d = !docs.classList.contains('docs-toate');
+    docs.classList.toggle('docs-toate', d);
+    b.setAttribute('aria-expanded', d ? 'true' : 'false');
+    b.textContent = d ? 'Arată mai puține' : text;
+    if (!d) docs.scrollIntoView({ block: 'nearest' });
+  });
+})();
+
+// v129 (M9): pe telefon, paragraful despre proiectul rezoluției se deschide cu „+”
+(function () {
+  var card = document.querySelector('#drumul .aside-card'), b = card && card.querySelector('.comisia-plus-rand .plus-btn');
+  if (!b) return;
+  b.addEventListener('click', function () {
+    var d = !card.classList.contains('comisia-deschis');
+    card.classList.toggle('comisia-deschis', d);
+    b.setAttribute('aria-expanded', d ? 'true' : 'false');
+    b.textContent = d ? '−' : '+';
+    b.setAttribute('aria-label', (d ? 'Mai puțin' : 'Mai mult') + ': proiectul rezoluției');
+  });
+})();
+
+// v129 (D2): progresul pe țări. Ordinea, după cât din prag a atins fiecare țară; România rămâne mereu la vedere.
+// Cifrele noi vin din data/contor.json (evenimentul „contor-date”); pragurile, din registrul Comisiei.
+(function () {
+  var box = document.querySelector('.tari');
+  if (!box) return;
+  var lista = box.querySelector('.tari-lista'), sumEl = box.querySelector('[data-tari-atinse]');
+  var VIZIBILE = 6;
+  var nr = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); };
+  var de = function (n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : ''; };
+  var pScurt = function (p) { return (p >= 10 ? String(Math.round(p)) : p.toFixed(1).replace('.', ',')) + ' %'; };
+  function aseaza() {
+    var li = Array.prototype.slice.call(lista.children);
+    li.sort(function (a, b) { return (b.dataset.semn / b.dataset.prag) - (a.dataset.semn / a.dataset.prag); });
+    var atinse = 0;
+    li.forEach(function (x, i) {
+      lista.appendChild(x);
+      var s = +x.dataset.semn, pr = +x.dataset.prag, p = s / pr * 100;
+      if (s >= pr) atinse++;
+      x.querySelector('.tara-fill').style.setProperty('--p', Math.min(100, p).toFixed(2) + '%');
+      x.querySelector('.tara-pct').textContent = pScurt(p);
+      x.querySelector('.sr-only').textContent = ', ' + nr(s) + ' ' + de(s) + 'semnături din pragul de ' + nr(pr);
+      x.classList.toggle('tara-ascunsa', i >= VIZIBILE && !x.classList.contains('tara-ro'));
+    });
+    if (sumEl) sumEl.textContent = atinse;
+  }
+  var n = lista.children.length;
+  box.classList.add('tari-scurt');
+  var p = document.createElement('p'); p.className = 'tari-more';
+  var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-outline btn-small'; b.setAttribute('aria-expanded', 'false');
+  var text = 'Vezi toate cele ' + n + ' de țări';
+  b.textContent = text;
+  p.appendChild(b); box.appendChild(p);
+  b.addEventListener('click', function () {
+    var d = !box.classList.contains('tari-toate');
+    box.classList.toggle('tari-toate', d);
+    b.setAttribute('aria-expanded', d ? 'true' : 'false');
+    b.textContent = d ? 'Arată mai puține' : text;
+  });
+  aseaza();
+  document.addEventListener('contor-date', function (e) {
+    var t = e.detail && e.detail.tari;
+    if (!t) return;
+    Array.prototype.forEach.call(lista.children, function (x) { var v = t[x.dataset.cod]; if (typeof v === 'number') x.dataset.semn = v; });
+    aseaza();
+  });
 })();

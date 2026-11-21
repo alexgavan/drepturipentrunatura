@@ -910,3 +910,23 @@
   if (document.readyState === 'complete') setTimeout(porneste, 300);
   else addEventListener('load', function () { setTimeout(porneste, 300); });
 })();
+
+// v124: fotografiile din benzi se încarcă doar când banda se apropie de ecran
+(function () {
+  var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band-foto'));
+  if (!benzi.length) return;
+  if (!('IntersectionObserver' in window)) { benzi.forEach(function (b) { b.classList.add('vede'); }); return; }
+  var io5 = new IntersectionObserver(function (intrari) {
+    intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vede'); io5.unobserve(e.target); } });
+  }, { rootMargin: '900px 0px' });
+  benzi.forEach(function (b) { io5.observe(b); });
+})();
+// v124: în machetă, formularul de abonare nu trimite nimic până există contul de newsletter
+(function () {
+  var f = document.querySelector('.newsletter-form[data-ciorna]');
+  if (!f) return;
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = f.querySelector('.nl-ciorna'); if (n) { n.textContent = 'În machetă: abonarea nu este încă activă. Formularul se activează după ce Fundația Centura Verde creează contul de newsletter.'; }
+  });
+})();

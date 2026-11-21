@@ -1156,19 +1156,19 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v116–v119: fotografii reale (Alex Găvan) ca fundal în cele două benzi cu citat din Constituție: alin. (1) (valea)
    și alin. (3) (apa poluată, din v119; până atunci, munții de sus). Finalul rămâne cu animația libelulei. Același voal indigo peste ambele (v117). */
 .quote-band .quote-art-foto { background-repeat: no-repeat; background-size: cover; }
-.quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 70%; }
-.quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 70%; }
+.quote-band.vede .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 70%; }
+.quote-band.vede .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 70%; }
 @media (max-width: 760px) {
-  .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mobil.webp"); background-position: 50% 50%; }
-  .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mobil.webp"); background-position: 50% 0%; }
+  .quote-band.vede .quote-art-vale { background-image: url("../img/fundal-foto-vale-mobil.webp"); background-position: 50% 50%; }
+  .quote-band.vede .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mobil.webp"); background-position: 50% 0%; }
 }
 .quote-band .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 84%, transparent) 0%, color-mix(in srgb, var(--indigo) 64%, transparent) 50%, color-mix(in srgb, var(--indigo) 30%, transparent) 100%); }
 .quote-band blockquote { text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
 .foto-credit-banda { position: absolute; left: clamp(.8rem, 2vw, 1.4rem); bottom: .55rem; margin: 0; font-size: .7rem; color: color-mix(in srgb, var(--paper) 78%, transparent); }
 
 /* v118: banda cu buștenii tăiați, după „Problema”: aceeași rețetă de voal ca celelalte fotografii; o singură frază peste ea */
-.quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni.webp"); background-position: 50% 0%; }
-@media (max-width: 760px) { .quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni-mobil.webp"); background-position: 50% 4%; } }
+.quote-band.vede .quote-art-busteni { background-image: url("../img/fundal-foto-busteni.webp"); background-position: 50% 0%; }
+@media (max-width: 760px) { .quote-band.vede .quote-art-busteni { background-image: url("../img/fundal-foto-busteni-mobil.webp"); background-position: 50% 4%; } }
 .quote-band .band-line { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
 /* v120: la „Parteneri în România”, sub numele organizației, fondatorii (fără fotografii; portretele lor sunt la citate) */
 .org .org-persoana { margin: -.25rem 0 0; font-size: .95rem; line-height: 1.4; }
@@ -1181,8 +1181,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .foto-credit-banda { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
 /* v121: pe ecranele late, benzile cu citat cresc odată cu lățimea și folosesc fotografii mai mari, ca să se vadă cât mai mult din ele, clar */
 @media (min-width: 1600px) {
-  .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mare.webp"); }
-  .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mare.webp"); }
+  .quote-band.vede .quote-art-vale { background-image: url("../img/fundal-foto-vale-mare.webp"); }
+  .quote-band.vede .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mare.webp"); }
 }
 /* v121: la alin. (3), citatul stă jos, ca să se vadă sus locul de unde pleacă dâra de poluare (lângă mal) și apa
    limpede de alături; voalul e dens doar sub citat. Banda are aceeași mărime ca la alin. (1). */
@@ -1212,3 +1212,36 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 }
 .quote-band.quote-band-foto blockquote, .quote-band.quote-band-foto .band-line { text-shadow: 0 2px 14px rgba(0, 0, 0, .6), 0 0 3px rgba(0, 0, 0, .45); }
 .quote-band.quote-band-foto cite { text-shadow: 0 1px 6px rgba(0, 0, 0, .7); }
+/* v124: vizualul nou de la „Ce câștigăm” (fond albastru propriu, (38, 35, 123)): banda preia aceeași nuanță, ca să nu
+   apară o margine între imagine și restul benzii; scena (familia, copacul, pasărea) stă în dreapta, lângă panou. */
+.band-art-castig { background-image: url("../img/vizual-generatii-padure.webp"); }
+.band-castig { background-color: rgb(38, 35, 123); }
+@media (min-width: 761px) {
+  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { background-position: 100% 60%; }
+}
+@media (max-width: 760px) { .band-art-castig { background-image: url("../img/vizual-generatii-padure-mobil.webp"); background-position: 50% 50%; } }
+/* v124: valea, la rezoluția întreagă a originalului, pe ecranele late cu densitate mare */
+@media (min-width: 1600px) and (min-resolution: 1.5dppx) { .quote-band.vede .quote-art-vale { background-image: url("../img/fundal-foto-vale-4k.webp"); } }
+/* v124: fotografiile din benzi se încarcă doar când banda se apropie de ecran (clasa .vede, pusă din site.js) */
+/* v124: „Organizațiile și oamenii inițiativei”, subsecțiunile pe fonduri alternate */
+.people-section > .oameni-banda + .oameni-banda { padding-block: clamp(2.4rem, 5vw, 3.8rem); }
+.people-section > .oameni-banda:not(.section-mist) { background: var(--paper); }
+/* v124: „Noutăți”: trei știri scurte, cu dată, titlu și o frază; sub ele, abonarea pe e-mail */
+.noutati { background: var(--paper); }
+.news { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .9rem; }
+.news-item { display: grid; gap: .35rem; align-content: start; padding: 1.05rem 1.1rem 1.15rem; border: 1px solid var(--line); border-top: 3px solid var(--orange); border-radius: var(--radius-md); background: var(--paper); }
+.news-item time { font: 600 .74rem/1.3 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--link); }
+.news-item h3 { margin: 0; text-transform: none; letter-spacing: 0; font: 600 1.05rem/1.3 var(--font-display); }
+.news-item h3 a { color: var(--indigo); text-decoration: none; }
+.news-item h3 a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.news-item p { margin: 0; font-size: .92rem; }
+.newsletter { display: grid; gap: .7rem; padding: clamp(1.1rem, 2.6vw, 1.6rem); border-radius: var(--radius-md); background: var(--mist); max-width: 46rem; }
+.newsletter h3 { margin: 0; color: var(--indigo); }
+.newsletter-form { display: grid; gap: .6rem; }
+.nl-et { font: 600 .8rem/1.3 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--indigo); }
+.nl-rand { display: flex; flex-wrap: wrap; gap: .6rem; }
+.nl-rand input { flex: 1 1 16rem; min-width: 0; font: inherit; padding: .75rem .9rem; border: 2px solid var(--indigo); border-radius: var(--radius-md); background: var(--paper); color: var(--ink); }
+.nl-rand input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.nl-acord { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .6rem; align-items: start; font-size: .88rem; }
+.nl-acord input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; accent-color: var(--indigo); }
+.nl-ciorna { margin: 0; font-size: .8rem; color: var(--link); }

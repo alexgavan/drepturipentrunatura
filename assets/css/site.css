@@ -1165,3 +1165,9 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .quote-band .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 84%, transparent) 0%, color-mix(in srgb, var(--indigo) 64%, transparent) 50%, color-mix(in srgb, var(--indigo) 30%, transparent) 100%); }
 .quote-band blockquote { text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
 .foto-credit-banda { position: absolute; left: clamp(.8rem, 2vw, 1.4rem); bottom: .55rem; margin: 0; font-size: .7rem; color: color-mix(in srgb, var(--paper) 78%, transparent); }
+
+/* v118: banda cu buștenii tăiați, după „Problema”: aceeași rețetă de voal ca celelalte fotografii; o singură frază peste ea */
+.quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni.webp"); background-position: 50% 0%; }
+@media (max-width: 760px) { .quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni-mobil.webp"); background-position: 50% 4%; } }
+.quote-problema { padding-block: clamp(7rem, 13vw, 11rem); }
+.quote-band .band-line { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }

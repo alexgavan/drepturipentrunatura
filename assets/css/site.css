@@ -1153,3 +1153,19 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { .hero-video { inset: auto; bottom: 0; left: 30%; width: auto; max-width: none; height: 48%; transform: translateX(-30%); object-fit: fill; } }
 @media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
 
+/* v116: fotografii reale (Alex Găvan) ca fundal, alternând cu ilustrațiile: citatul din Constituție (valea),
+   citatul de dinainte de „Semnează” (munții de sus) și finalul (pajiștea în ceață). Voalul indigo ține textul lizibil. */
+.quote-band .quote-art-foto { background-repeat: no-repeat; background-size: cover; }
+.quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 45%; }
+.quote-band .quote-art-munti { background-image: url("../img/fundal-foto-munti.webp"); background-position: 45% 60%; }
+.quote-band .quote-art-pajiste { background-image: url("../img/fundal-foto-pajiste.webp"); background-position: 60% 55%; }
+@media (max-width: 760px) {
+  .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mobil.webp"); background-position: 50% 50%; }
+  .quote-band .quote-art-munti { background-image: url("../img/fundal-foto-munti-mobil.webp"); background-position: 50% 50%; }
+  .quote-band .quote-art-pajiste { background-image: url("../img/fundal-foto-pajiste-mobil.webp"); background-position: 50% 50%; }
+}
+.quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 82%, transparent) 0%, color-mix(in srgb, var(--indigo) 64%, transparent) 55%, color-mix(in srgb, var(--indigo) 40%, transparent) 100%); }
+.quote-band-mare .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 84%, transparent) 0%, color-mix(in srgb, var(--indigo) 60%, transparent) 45%, color-mix(in srgb, var(--indigo) 18%, transparent) 100%); }
+.closing .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0%, color-mix(in srgb, var(--indigo) 50%, transparent) 55%, color-mix(in srgb, var(--indigo) 0%, transparent) 100%); }
+.quote-band blockquote, .closing-inner { text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
+.foto-credit-banda { position: absolute; left: clamp(.8rem, 2vw, 1.4rem); bottom: .55rem; margin: 0; font-size: .7rem; color: color-mix(in srgb, var(--paper) 78%, transparent); }

@@ -1429,3 +1429,107 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
     -webkit-mask-image: none; mask-image: none;
   }
 }
+
+/* ---------- v129 ---------- */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Creditul fotografiilor: aparatul foto și numele, ca pe centuraverde.ro; numele apare treptat la derulare (Alex, 22.11.2026). */
+.foto-credit-banda { display: flex; align-items: center; gap: .45rem; font-size: .78rem; line-height: 1.2; }
+.foto-credit-banda .foto-cam { width: 1.45em; height: 1.45em; flex: none; fill: currentColor; }
+.foto-credit-banda em { font-style: italic; }
+.anim .foto-credit-banda { opacity: var(--credit-o, 0); transform: translateX(calc((1 - var(--credit-o, 0)) * -12px)); }
+
+/* La „Problema”: colajul cu Alex și copacul tăiat, în locul fotografiei cu bușteni; pe telefon, fotografia din mijloc. */
+.quote-band.vede .quote-art-colaj { background-image: url("../img/fundal-foto-colaj.webp"); background-size: cover; background-position: 50% 25%; }
+@media (max-width: 760px) { .quote-band.vede .quote-art-colaj { background-image: url("../img/fundal-foto-colaj-mobil.webp"); background-position: 50% 20%; } }
+
+/* „O voce pentru natură”: fotografia mai depărtată pe ecranele late (banda mai înaltă, aceeași încadrare la orice lățime). */
+.propunerea > .prop-banda.banda-foto { min-height: min(30vw, 800px); display: grid; align-content: center; background-position: 50% 30%; }
+
+/* M1: rândurile glisante au puncte (sau o bară, la multe cartonașe) și „1 / 5”; prima dată se mișcă puțin, ca să arate gestul. */
+.swipe-nav { display: none; }
+@media (max-width: 760px) {
+  .swipe-nav { display: flex; justify-content: center; align-items: center; gap: .42rem; margin-top: .7rem; color: var(--indigo); font: 600 .74rem/1 var(--font-display); letter-spacing: .05em; }
+  .on-dark .swipe-nav, .banda-foto .swipe-nav { color: var(--paper); }
+  .swipe-dot { width: .45rem; height: .45rem; border-radius: 50%; background: currentColor; opacity: .32; transition: opacity .2s, transform .2s; }
+  .swipe-dot.is-on { opacity: 1; transform: scale(1.3); }
+  .swipe-bar { width: 7rem; height: 4px; border-radius: 2px; background: color-mix(in srgb, currentColor 25%, transparent); overflow: hidden; }
+  .swipe-bar > span { display: block; height: 100%; width: 0; background: currentColor; border-radius: 2px; transition: width .2s; }
+  .swipe-count { margin-left: .45rem; font-variant-numeric: tabular-nums; }
+  .swipe-hint > * { animation: rfn-impinge 1.1s ease-in-out .25s 1; }
+}
+@keyframes rfn-impinge { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(-46px); } }
+@media (prefers-reduced-motion: reduce) { .swipe-hint > * { animation: none !important; } }
+
+/* M2 și M5: pe telefon, pașii de la „Cum funcționează” și cele 25 de lecții stau pe câte un rând glisant. */
+@media (max-width: 760px) {
+  .steps.steps-4, .lessons {
+    display: grid; grid-auto-flow: column; grid-template-columns: none; gap: .9rem; align-items: start; border-bottom: 0;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    margin-left: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gutter), env(safe-area-inset-right, 0px)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-bottom: .4rem; scrollbar-width: none;
+  }
+  .steps.steps-4 { grid-auto-columns: min(62vw, 17rem); }
+  .lessons { grid-auto-columns: min(72vw, 19rem); }
+  .steps.steps-4::-webkit-scrollbar, .lessons::-webkit-scrollbar { display: none; }
+  .steps.steps-4 > .step { grid-template-columns: minmax(0, 1fr); gap: .45rem; padding: 1rem 1rem 1.1rem; border: 1px solid var(--line); border-top: 3px solid var(--orange); border-radius: var(--radius-md); background: var(--paper); scroll-snap-align: start; }
+  .lessons > .lesson { scroll-snap-align: start; }
+  .lessons > .row-more { display: grid !important; }
+  .anim .steps-4 .reveal, .anim .lessons .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* M3: pe telefon, primele trei documente la vedere, restul la „Vezi toate cele 8 documente”. */
+.docs-more { display: none; }
+@media (max-width: 760px) {
+  .docs.docs-scurt:not(.docs-toate) > .doc:nth-child(n+4) { display: none; }
+  .docs-more { display: block; margin: .2rem 0 0; }
+}
+
+/* M6: la „Ce arată inventarul”, „+” stă lângă titlu. */
+@media (max-width: 760px) {
+  .pattern { grid-template-columns: minmax(0, 1fr) auto; column-gap: .75rem; }
+  .pattern > .lesson-rule { grid-column: 1; }
+  .pattern > .plus-btn { grid-column: 2; grid-row: 1; margin: 0; align-self: start; }
+  .pattern > .plus-body { grid-column: 1 / -1; }
+}
+
+/* M9: caseta „Comisia nu este obligată…”, mai scurtă pe telefon. */
+.comisia-plus-rand { display: none; margin: 0; }
+@media (max-width: 760px) {
+  #drumul .aside-key { font-size: 1.02rem; }
+  .comisia-plus-rand { display: block; }
+  #drumul .aside-card:not(.comisia-deschis) .comisia-mai-mult { display: none; }
+}
+
+/* D2: progresul pe țări, sub contor. */
+.tari { display: grid; gap: .75rem; padding-top: 1.1rem; border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
+.tari-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .2rem 1rem; }
+.tari-titlu { margin: 0; font: 600 1rem/1.2 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--indigo); }
+.tari-sum { margin: 0; font-size: .9rem; color: color-mix(in srgb, var(--ink) 80%, transparent); }
+.tari-sum b { color: var(--indigo); }
+.tari-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); gap: .5rem 1.75rem; }
+.tara { display: grid; grid-template-columns: 7.4rem minmax(0, 1fr) 3.3rem; align-items: center; gap: .6rem; font-size: .86rem; }
+.tara-nume { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tara-bara { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--indigo) 16%, transparent); overflow: hidden; }
+.tara-fill { display: block; height: 100%; width: var(--p); min-width: 3px; background: var(--indigo); border-radius: 4px; }
+.tara-pct { text-align: right; font-variant-numeric: tabular-nums; }
+.tara-ro { font-weight: 700; color: var(--indigo); }
+.tara-ro .tara-fill { background: var(--orange); }
+.anim .tari .tara-fill { width: 0; transition: width 1.4s cubic-bezier(.2, .7, .2, 1); }
+.anim .meters.is-in ~ .tari .tara-fill { width: var(--p); }
+.tari.tari-scurt:not(.tari-toate) .tara-ascunsa { display: none; }
+.tari-more { margin: 0; }
+/* Banda „O voce pentru natură” e acum grilă: conținutul păstrează lățimea normală a paginii. */
+.propunerea > .prop-banda.banda-foto > .wrap { width: 100%; }
+@media (max-width: 760px) { .meter-update { justify-content: flex-start; text-align: left; } }
+/* Colajul se vede întreg, fără text peste el: fraza stă dedesubt, pe albastru; numele autorului, în colțul fotografiei. */
+.quote-band.quote-problema { display: block; min-height: 0; padding: 0 0 clamp(2.25rem, 5vw, 3.75rem); }
+.quote-band.quote-problema .quote-art-colaj { position: relative; inset: auto; width: 100%; height: min(calc(100vw * 900 / 2077), 80vh); transform: none; margin-bottom: clamp(1.75rem, 4vw, 3rem); }
+.quote-band.quote-problema .quote-art-colaj::after { display: none; }
+.quote-band.quote-problema .wrap { text-align: center; }
+.quote-band.quote-problema .foto-credit-banda { bottom: auto; top: calc(min(100vw * 900 / 2077, 80vh) - 2rem); }
+@media (max-width: 760px) {
+  .quote-band.quote-problema .quote-art-colaj { height: min(calc(100vw * 900 / 700), 80vh); }
+  .quote-band.quote-problema .foto-credit-banda { top: calc(min(100vw * 900 / 700, 80vh) - 2rem); }
+}

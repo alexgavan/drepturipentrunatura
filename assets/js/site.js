@@ -513,7 +513,8 @@
   var voce = document.querySelector('#semneaza .voice-btn');
   if (voce) {
     var lv = document.createElement('a');
-    lv.className = 'back-voice'; lv.href = voce.href; lv.target = '_blank'; lv.rel = 'noopener';
+    lv.className = 'back-voice'; lv.href = '#voce';
+    lv.addEventListener('click', function () { fasie.hidden = true; });
     lv.textContent = 'sau fă-ți poza de profil „Sunt vocea naturii” →';
     fasie.insertBefore(lv, fasie.querySelector('.back-close'));
   }
@@ -637,4 +638,234 @@
     var r = function (s) { return s.split('').reverse().join(''); };
     el.textContent = r(el.getAttribute('data-u')) + String.fromCharCode(64) + r(el.getAttribute('data-d'));
   });
+})();
+
+// v104: „Fii vocea naturii”, pe site-ul nostru. Imaginea se desenează în browser, pe canvas;
+// poza aleasă nu pleacă de pe dispozitiv. Ideea uneltei vine de la Pachamama România (voce.pachamamaromania.ro).
+(function () {
+  var sec = document.getElementById('voce'), cv = document.getElementById('voce-canvas');
+  if (!sec || !cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+  var C = { indigo: '#2C367E', yellow: '#FFF278', orange: '#FF774A', paper: '#ffffff' };
+  var FD = '"RFN Display", "Archivo", "Helvetica Neue", Arial, sans-serif';
+  var FM = '"RFN Mono", "Space Mono", ui-monospace, Menlo, monospace';
+  var SITE = 'drepturipentrunatura.ro';
+  var st = { mod: 'profil', format: 'postare',
+             poza: { profil: null, postare: null },
+             poz: { profil: { z: 1, x: 0, y: 0 }, postare: { z: 1, x: 0, y: 0 } } };
+  var inLoc = document.getElementById('voce-loc'), inPoza = document.getElementById('voce-poza');
+  var zoom = document.getElementById('voce-zoom'), zoomEt = document.getElementById('voce-zoom-et');
+  var muta = document.getElementById('voce-muta'), fara = document.getElementById('voce-fara');
+  var etPoza = document.getElementById('voce-et-poza'), pasFormat = document.getElementById('voce-pas-format');
+  var txt = document.getElementById('voce-text');
+  function img(src) { var i = new Image(); i.onload = desen; i.src = src; return i; }
+  var sigla = img(sec.getAttribute('data-sigla')), libelula = img(sec.getAttribute('data-libelula'));
+  function gata(i) { return i && i.complete && i.naturalWidth > 0; }
+
+  function locul() {
+    var v = (inLoc.value || '').replace(/\s+/g, ' ').trim();
+    return v || 'naturii';
+  }
+  function mari(s) { try { return s.toLocaleUpperCase('ro-RO'); } catch (e) { return s.toUpperCase(); } }
+  function dim() {
+    if (st.mod === 'profil') return [1080, 1080];
+    return st.format === 'story' ? [1080, 1920] : [1080, 1350];
+  }
+
+  // Poza, acoperind dreptunghiul dat, cu mărirea și mutarea alese (mutarea nu lasă margini goale).
+  function poza(x, y, w, h) {
+    var p = st.poza[st.mod], o = st.poz[st.mod];
+    if (!gata(p)) return false;
+    var s = Math.max(w / p.naturalWidth, h / p.naturalHeight) * o.z;
+    var dw = p.naturalWidth * s, dh = p.naturalHeight * s;
+    var mx = (dw - w) / 2, my = (dh - h) / 2;
+    o.x = Math.max(-mx, Math.min(mx, o.x)); o.y = Math.max(-my, Math.min(my, o.y));
+    ctx.drawImage(p, x + (w - dw) / 2 + o.x, y + (h - dh) / 2 + o.y, dw, dh);
+    return true;
+  }
+  function libelulaFundal(cx, cy, w, alfa) {
+    if (!gata(libelula)) return;
+    var h = w * libelula.naturalHeight / libelula.naturalWidth;
+    ctx.save(); ctx.globalAlpha = alfa; ctx.drawImage(libelula, cx - w / 2, cy - h / 2, w, h); ctx.restore();
+  }
+
+  // Text pe arc: sus se citește în sensul acelor de ceas, jos invers, ca literele să stea drepte.
+  function arc(text, cx, cy, r, centru, font, culoare, jos, spatiere) {
+    ctx.save(); ctx.font = font; ctx.fillStyle = culoare; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    var ch = Array.from(text), lat = ch.map(function (c) { return ctx.measureText(c).width + spatiere; });
+    var total = lat.reduce(function (a, b) { return a + b; }, 0) - spatiere, a = centru + (jos ? 1 : -1) * total / r / 2;
+    ch.forEach(function (c, i) {
+      var m = a + (jos ? -1 : 1) * (lat[i] - spatiere) / r / 2;
+      ctx.save(); ctx.translate(cx + r * Math.cos(m), cy + r * Math.sin(m));
+      ctx.rotate(m + (jos ? -1 : 1) * Math.PI / 2); ctx.fillText(c, 0, 0); ctx.restore();
+      a += (jos ? -1 : 1) * lat[i] / r;
+    });
+    ctx.restore();
+    return total;
+  }
+  function marimeArc(text, font, maxLat, start, min, spatiere) {
+    var m = start;
+    for (; m > min; m -= 2) {
+      ctx.font = font.replace('{m}', m);
+      var w = Array.from(text).reduce(function (a, c) { return a + ctx.measureText(c).width + spatiere; }, 0);
+      if (w <= maxLat) break;
+    }
+    return m;
+  }
+
+  function profil() {
+    var W = 1080, c = W / 2, inel = 132, rPoza = c - inel;
+    ctx.fillStyle = C.indigo; ctx.fillRect(0, 0, W, W);
+    ctx.save(); ctx.beginPath(); ctx.arc(c, c, rPoza + 2, 0, Math.PI * 2); ctx.clip();
+    if (!poza(c - rPoza, c - rPoza, rPoza * 2, rPoza * 2)) libelulaFundal(c, c, 640, .16);
+    ctx.restore();
+    var rText = c - inel / 2;
+    ctx.save(); ctx.lineWidth = inel; ctx.strokeStyle = C.yellow; ctx.beginPath(); ctx.arc(c, c, rText, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    var sus = mari('Sunt vocea ' + locul()), spSus = 3;
+    var mSus = marimeArc(sus, '700 {m}px ' + FD, rText * 4.1, 76, 34, spSus);
+    var latSus = arc(sus, c, c, rText, -Math.PI / 2, '700 ' + mSus + 'px ' + FD, C.indigo, false, spSus);
+    var jos = mari('Drepturi pentru natură'), spJos = 4;
+    var latJos = arc(jos, c, c, rText, Math.PI / 2, '700 40px ' + FM, C.indigo, true, spJos);
+    // două puncte portocalii, la jumătatea distanței dintre cele două texte
+    var capSus = latSus / rText / 2, capJos = latJos / rText / 2;
+    var golDr = (Math.PI / 2 - capJos) - (-Math.PI / 2 + capSus);
+    [(-Math.PI / 2 + capSus) + golDr / 2, (Math.PI * 1.5 - capSus) - golDr / 2].forEach(function (u) {
+      if (golDr < 0.12) return;
+      ctx.fillStyle = C.orange; ctx.beginPath(); ctx.arc(c + rText * Math.cos(u), c + rText * Math.sin(u), 12, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  function randuri(text, maxLat, marime) {
+    ctx.font = '700 ' + marime + 'px ' + FD;
+    var cuv = text.split(' '), r = [], cur = '';
+    for (var i = 0; i < cuv.length; i++) {
+      var t = cur ? cur + ' ' + cuv[i] : cuv[i];
+      if (ctx.measureText(t).width <= maxLat || !cur) cur = t; else { r.push(cur); cur = cuv[i]; }
+    }
+    if (cur) r.push(cur);
+    var lat = Math.max.apply(null, r.map(function (x) { return ctx.measureText(x).width; }));
+    return { r: r, ok: lat <= maxLat };
+  }
+
+  function postare() {
+    var d = dim(), W = d[0], H = d[1], m = 72, maxLat = W - 2 * m;
+    // la story, aplicațiile acoperă susul și josul imaginii: textul și sigla stau mai înăuntru
+    var sus = st.format === 'story' ? 190 : m, jos = st.format === 'story' ? 280 : m;
+    ctx.fillStyle = C.indigo; ctx.fillRect(0, 0, W, H);
+    var arePoza = poza(0, 0, W, H);
+    if (!arePoza) libelulaFundal(W / 2, H * .38, 820, .14);
+    else {
+      var g = ctx.createLinearGradient(0, H * .4, 0, H);
+      g.addColorStop(0, 'rgba(44,54,126,0)'); g.addColorStop(.55, 'rgba(44,54,126,.78)'); g.addColorStop(1, 'rgba(44,54,126,.95)');
+      ctx.fillStyle = g; ctx.fillRect(0, H * .4, W, H * .6);
+      var gs = ctx.createLinearGradient(0, 0, 0, 300);
+      gs.addColorStop(0, 'rgba(17,21,24,.45)'); gs.addColorStop(1, 'rgba(17,21,24,0)');
+      ctx.fillStyle = gs; ctx.fillRect(0, 0, W, 300);
+    }
+    if (gata(sigla)) { var sw = 230, sh = sw * sigla.naturalHeight / sigla.naturalWidth; ctx.drawImage(sigla, m, sus - 10, sw, sh); }
+    // de jos în sus: adresa, linia, locul, „Sunt vocea”
+    var y = H - jos;
+    ctx.fillStyle = C.paper; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.font = '700 30px ' + FM; ctx.fillText('Semnează pe ' + SITE, m, y);
+    y -= 52; ctx.fillStyle = C.yellow; ctx.fillRect(m, y, maxLat, 4);
+    var loc = mari(locul()), mar = 190, rez;
+    for (; mar >= 56; mar -= 4) { rez = randuri(loc, maxLat, mar); if (rez.ok && rez.r.length <= 3) break; }
+    ctx.font = '700 ' + mar + 'px ' + FD; ctx.fillStyle = C.yellow;
+    var lh = mar * .98; y -= 44;
+    for (var i = rez.r.length - 1; i >= 0; i--) { ctx.fillText(rez.r[i], m - mar * .04, y); y -= lh; }
+    y += lh - mar * .82 - 30;
+    ctx.fillStyle = C.paper; ctx.font = '700 54px ' + FM;
+    ctx.fillText(mari('Sunt vocea'), m, y);
+  }
+
+  function desen() {
+    var d = dim();
+    if (cv.width !== d[0]) cv.width = d[0];
+    if (cv.height !== d[1]) cv.height = d[1];
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (st.mod === 'profil') profil(); else postare();
+  }
+
+  function textPostare() {
+    return 'Sunt vocea ' + locul() + '.\n\n' +
+      'Un râu nu poate spune ce i se întâmplă. Nici o pădure.\n\n' +
+      'Am semnat inițiativa cetățenească europeană „Drepturi pentru Natură”, care cere o lege a Uniunii prin care natura să aibă drepturi și oameni care s-o apere.\n\n' +
+      'Semnează și tu, durează cam un minut: ' + SITE + '\n\n' +
+      'Tu pentru ce loc ai vorbi?';
+  }
+
+  function stare() {
+    var arePoza = !!st.poza[st.mod];
+    sec.querySelectorAll('[data-mod]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-mod') === st.mod)); });
+    sec.querySelectorAll('[data-format]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-format') === st.format)); });
+    etPoza.textContent = st.mod === 'profil' ? '1. Alege o poză cu tine' : '1. Alege o poză cu locul tău';
+    pasFormat.hidden = st.mod === 'profil';
+    fara.hidden = !(st.mod === 'postare' && arePoza);
+    muta.hidden = zoomEt.hidden = !arePoza;
+    zoom.value = st.poz[st.mod].z;
+    cv.classList.toggle('is-profil', st.mod === 'profil');
+    txt.value = textPostare();
+    desen();
+  }
+
+  sec.querySelectorAll('[data-mod]').forEach(function (b) {
+    b.addEventListener('click', function () { st.mod = b.getAttribute('data-mod'); stare(); });
+  });
+  sec.querySelectorAll('[data-format]').forEach(function (b) {
+    b.addEventListener('click', function () { st.format = b.getAttribute('data-format'); stare(); });
+  });
+  inLoc.addEventListener('input', stare);
+  inPoza.addEventListener('change', function () {
+    var f = inPoza.files && inPoza.files[0]; if (!f) return;
+    var mod = st.mod, i = new Image(), url = URL.createObjectURL(f);
+    i.onload = function () { st.poza[mod] = i; st.poz[mod] = { z: 1, x: 0, y: 0 }; stare(); };
+    i.onerror = function () { URL.revokeObjectURL(url); };
+    i.src = url; inPoza.value = '';
+  });
+  fara.addEventListener('click', function () { st.poza[st.mod] = null; stare(); });
+  zoom.addEventListener('input', function () { st.poz[st.mod].z = +zoom.value; desen(); });
+
+  // mutarea pozei: cu degetul sau mouse-ul, și cu săgețile
+  var trag = null;
+  cv.addEventListener('pointerdown', function (e) {
+    if (!st.poza[st.mod]) return;
+    trag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!trag) return;
+    var k = cv.width / cv.getBoundingClientRect().width, o = st.poz[st.mod];
+    o.x += (e.clientX - trag.x) * k; o.y += (e.clientY - trag.y) * k; trag = { x: e.clientX, y: e.clientY }; desen();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (t) { cv.addEventListener(t, function () { trag = null; }); });
+  cv.addEventListener('keydown', function (e) {
+    var p = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+    if (!p || !st.poza[st.mod]) return;
+    var pas = e.shiftKey ? 80 : 20, o = st.poz[st.mod];
+    o.x += p[0] * pas; o.y += p[1] * pas; desen(); e.preventDefault();
+  });
+
+  function numeFisier() {
+    var s = locul().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return 'sunt-vocea-' + (s || 'naturii') + (st.mod === 'profil' ? '-profil' : '-' + st.format) + '.png';
+  }
+  document.getElementById('voce-descarca').addEventListener('click', function () {
+    desen();
+    cv.toBlob(function (b) {
+      if (!b) return;
+      var a = document.createElement('a'), u = URL.createObjectURL(b);
+      a.href = u; a.download = numeFisier(); document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
+    }, 'image/png');
+  });
+  var cop = document.getElementById('voce-copiaza');
+  cop.addEventListener('click', function () {
+    function ok() { var t = cop.textContent; cop.textContent = 'Text copiat'; setTimeout(function () { cop.textContent = t; }, 2000); }
+    if (navigator.clipboard) navigator.clipboard.writeText(txt.value).then(ok, function () { txt.select(); });
+    else { txt.select(); try { document.execCommand('copy'); ok(); } catch (e) {} }
+  });
+
+  stare();
+  if (document.fonts && document.fonts.load) {
+    Promise.all([document.fonts.load('700 80px ' + FD), document.fonts.load('700 40px ' + FM)]).then(desen, desen);
+  }
 })();

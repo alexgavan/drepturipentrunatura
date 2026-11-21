@@ -931,7 +931,7 @@
 
 // v124: fotografiile din benzi se încarcă doar când banda se apropie de ecran
 (function () {
-  var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band-foto'));
+  var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band-foto, .banda-foto'));
   if (!benzi.length) return;
   if (!('IntersectionObserver' in window)) { benzi.forEach(function (b) { b.classList.add('vede'); }); return; }
   var io5 = new IntersectionObserver(function (intrari) {

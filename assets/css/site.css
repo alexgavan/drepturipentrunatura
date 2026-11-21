@@ -1109,9 +1109,25 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .voce-text { display: grid; gap: .6rem; justify-items: start; max-width: 62ch; }
 .voce-text textarea { width: 100%; padding: .9rem 1rem; border: 2px solid var(--line); border-radius: var(--radius-md); background: var(--paper); color: var(--ink); font: 400 .9rem/1.55 var(--font-body); resize: vertical; }
 
-/* v106: pașii semnării */
-.sign-steps { margin: .3rem 0 .2rem; padding: 0; list-style: none; counter-reset: pas; display: grid; gap: .75rem; }
-.sign-steps li { counter-increment: pas; position: relative; padding-left: 2.6rem; line-height: 1.5; }
-.sign-steps li::before { content: counter(pas); position: absolute; left: 0; top: -.05rem; width: 1.8rem; height: 1.8rem; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--indigo); font: 700 .95rem/1 var(--font-display); }
-.sign-steps strong { color: var(--paper); }
-.sign .sign-steps a { color: var(--yellow); }
+/* v106–v107: pașii semnării, pe un rând de carduri sub titlu (v107: mai puțin gol galben) */
+.sign-steps { margin: 0; padding: 0; list-style: none; counter-reset: pas; display: grid; gap: clamp(.75rem, 1.6vw, 1rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr)); }
+.sign-steps li { counter-increment: pas; display: block; padding: 1rem 1.1rem 1.1rem; border-radius: var(--radius-md); background: var(--paper); line-height: 1.5; font-size: .92rem; }
+.sign-steps li::before { content: counter(pas); width: 2rem; height: 2rem; margin-bottom: .6rem; display: grid; place-items: center; border-radius: 50%; background: var(--indigo); color: var(--yellow); font: 700 1rem/1 var(--font-display); }
+.sign-steps strong { color: var(--indigo); }
+.sign .sign-steps a { color: var(--link); }
+.sign .stack { gap: clamp(1.5rem, 3vw, 2.25rem); }
+.sign .section-head { margin-bottom: 0; }
+@media (max-width: 599px) {
+  .sign-steps { gap: .5rem; }
+  .sign-steps li { position: relative; padding: .85rem 1rem .85rem 3.4rem; }
+  .sign-steps li::before { position: absolute; left: .9rem; top: .8rem; margin: 0; }
+}
+/* v107: textul pentru postare intră în coloana din stânga, sub pași (mai puțin spațiu gol) */
+.voce .stack { gap: clamp(1.5rem, 3vw, 2.25rem); }
+.voce .section-head { margin-bottom: 0; }
+.voce-grid .voce-text { max-width: none; }
+@media (min-width: 900px) {
+  .voce-grid .voce-form { grid-column: 1; grid-row: 1; }
+  .voce-grid .voce-vedere { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 7rem; }
+  .voce-grid .voce-text { grid-column: 1; grid-row: 2; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+}

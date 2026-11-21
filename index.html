@@ -25,13 +25,13 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preload" href="assets/fonts/RFNDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/RFNMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v103">
+<link rel="stylesheet" href="assets/css/site.css?v104">
 </head>
 <body>
 <a class="skip" href="#continut">Sari la conținut</a>
 
 <header class="site-header" id="antet">
-  <div class="draft-strip"><div class="wrap">Machetă de lucru · v103 · 20 noiembrie 2026 · textele pachetului v85 · nepublicată</div></div>
+  <div class="draft-strip"><div class="wrap">Machetă de lucru · v104 · 21 noiembrie 2026 · textele pachetului v85 · nepublicată</div></div>
   <div class="wrap header-inner">
     <a class="brand" href="#sus" aria-label="Rights for Nature, începutul paginii">
       <img src="assets/img/sigla-rfn.png" alt="Rights for Nature" width="438" height="300">
@@ -974,7 +974,7 @@
           <div class="voice-cta">
             <p class="share-label">Fii vocea naturii</p>
             <p><span class="nb">Fă-ți</span> poza de profil sau o postare „Sunt vocea…” pentru râul, pădurea sau muntele tău și arată că ai semnat.</p>
-            <a class="voice-btn" href="https://voce.pachamamaromania.ro/?lang=ro&amp;mod=profil" target="_blank" rel="noopener">Creează imaginea</a>
+            <a class="voice-btn" href="#voce">Creează imaginea</a>
           </div>
         </div>
         <div class="sign-facts">
@@ -995,6 +995,57 @@
             <p>Formularul oficial este administrat de Comisia Europeană, care este și operatorul datelor din sistemul central. Declarațiile se distrug cel târziu la 13 iulie 2028.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- v104: „Fii vocea naturii”, unealta de pe site-ul nostru (înainte, legătură spre voce.pachamamaromania.ro).
+       Imaginea se face în browser, cu canvas; poza nu este trimisă nicăieri. -->
+  <section class="section section-mist voce" id="voce" aria-labelledby="t-voce" data-sigla="assets/img/sigla-rfn.png" data-libelula="assets/img/libelula.png">
+    <div class="wrap stack">
+      <header class="section-head">
+        <p class="eyebrow">După ce ai semnat</p>
+        <h2 id="t-voce">Fii vocea naturii</h2>
+        <p class="lead"><span class="nb">Fă-ți</span> poza de profil sau o postare „Sunt vocea…” pentru râul, pădurea sau muntele tău și arată că ai semnat.</p>
+      </header>
+      <div class="voce-grid">
+        <div class="voce-form">
+          <div class="voce-alege" role="group" aria-label="Ce imagine faci">
+            <button type="button" data-mod="profil" aria-pressed="true"><strong>Poză de profil</strong><span>cu poza ta</span></button>
+            <button type="button" data-mod="postare" aria-pressed="false"><strong>Postare sau story</strong><span>cu poza locului</span></button>
+          </div>
+          <div class="voce-pas">
+            <p class="voce-et" id="voce-et-poza">1. Alege o poză cu tine</p>
+            <div class="voce-rand">
+              <label class="btn btn-outline voce-fisier">Alege o poză<input type="file" accept="image/*" id="voce-poza" aria-labelledby="voce-et-poza"></label>
+              <button type="button" class="voce-fara" id="voce-fara" hidden>Fără poză: fundalul albastru</button>
+            </div>
+            <p class="voce-nota">Poza rămâne la tine: imaginea se face aici, în browser, și nu se încarcă nicăieri.</p>
+          </div>
+          <div class="voce-pas">
+            <label class="voce-et" for="voce-loc">2. Sunt vocea…</label>
+            <input id="voce-loc" type="text" maxlength="60" placeholder="Râului Vâlsan" autocomplete="off" spellcheck="true">
+            <p class="voce-nota">Scrie locul cum ar continua fraza: Deltei Dunării, Pădurii Băneasa, Munților Făgăraș. Dacă lași gol, scrie „naturii”.</p>
+          </div>
+          <div class="voce-pas" id="voce-pas-format" hidden>
+            <p class="voce-et" id="voce-et-format">3. Formatul</p>
+            <div class="voce-alege voce-alege-mic" role="group" aria-labelledby="voce-et-format">
+              <button type="button" data-format="postare" aria-pressed="true"><strong>Postare</strong><span>4:5</span></button>
+              <button type="button" data-format="story" aria-pressed="false"><strong>Story</strong><span>9:16</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="voce-vedere">
+          <canvas id="voce-canvas" class="is-profil" width="1080" height="1080" tabindex="0" role="img" aria-label="Previzualizarea imaginii. Trage poza ca s-o muți; cu tastatura, folosește săgețile."></canvas>
+          <p class="voce-nota voce-muta" id="voce-muta" hidden>Trage poza ca <span class="nb">s-o</span> muți. Cu tastatura: săgețile, pe previzualizare.</p>
+          <label class="voce-zoom" id="voce-zoom-et" hidden><span>Mărire</span><input type="range" min="1" max="3" step="0.01" value="1" id="voce-zoom"></label>
+          <button type="button" class="btn btn-cta" id="voce-descarca">Descarcă imaginea</button>
+        </div>
+      </div>
+      <div class="voce-text">
+        <label class="voce-et" for="voce-text">Textul pentru postare</label>
+        <textarea id="voce-text" rows="12" readonly></textarea>
+        <button type="button" class="btn btn-outline" id="voce-copiaza">Copiază textul</button>
       </div>
     </div>
   </section>
@@ -1074,6 +1125,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v103"></script>
+<script src="assets/js/site.js?v104"></script>
 </body>
 </html>

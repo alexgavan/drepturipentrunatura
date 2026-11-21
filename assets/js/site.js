@@ -870,3 +870,27 @@
     Promise.all([document.fonts.load('700 80px ' + FD), document.fonts.load('700 40px ' + FM)]).then(desen, desen);
   }
 })();
+
+// v112: animația de pe primul ecran. Se încarcă după pagină, în mărimea potrivită ecranului; se oprește când primul
+// ecran nu se vede; nu pornește deloc pentru cine a cerut mai puțină mișcare în sistem.
+(function () {
+  var v = document.querySelector('.hero-video');
+  if (!v || !v.play) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function porneste() {
+    var art = v.parentElement, r = art.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    var lat = innerWidth <= 760 ? r.height * 0.48 * 1.5 : Math.max(r.width, r.height * 1.5);
+    var px = lat * dpr;
+    var mobil = innerWidth <= 760; // pe telefon, cel mult 1920 px (date mobile)
+    v.src = px > 2000 && !mobil ? v.getAttribute('data-src-hd') : px > 1300 ? v.getAttribute('data-src-md') : v.getAttribute('data-src');
+    v.addEventListener('playing', function () { v.classList.add('is-playing'); }, { once: true });
+    var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        if (e[0].isIntersecting) { var q = v.play(); if (q && q.catch) q.catch(function () {}); } else v.pause();
+      }, { threshold: 0.05 }).observe(art);
+    }
+  }
+  if (document.readyState === 'complete') setTimeout(porneste, 300);
+  else addEventListener('load', function () { setTimeout(porneste, 300); });
+})();

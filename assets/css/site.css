@@ -1169,13 +1169,13 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v118: banda cu buștenii tăiați, după „Problema”: aceeași rețetă de voal ca celelalte fotografii; o singură frază peste ea */
 .quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni.webp"); background-position: 50% 0%; }
 @media (max-width: 760px) { .quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni-mobil.webp"); background-position: 50% 4%; } }
-.quote-problema { padding-block: clamp(7rem, 13vw, 11rem); }
 .quote-band .band-line { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
 /* v120: la „Parteneri în România”, sub numele organizației, fondatorii (fără fotografii; portretele lor sunt la citate) */
 .org .org-persoana { margin: -.25rem 0 0; font-size: .95rem; line-height: 1.4; }
 /* v120: cele două benzi cu citat din Constituție au aceeași mărime: citatul sus, fotografia se vede mult mai mult
    dedesubt, cu voalul tot mai subțire spre jos; fără paralaxă pe fotografii (paralaxa le mărea, adică tăia din ele). */
-.quote-band.quote-band-foto { padding-block: clamp(4rem, 8vw, 6rem) clamp(14rem, 30vw, 44rem); }
+.quote-band.quote-band-foto { padding-block: clamp(4rem, 8vw, 6rem); min-height: clamp(32rem, 50vw, 62rem); display: flex; flex-direction: column; justify-content: flex-start; }
+.quote-band.quote-band-foto.foto-text-jos { justify-content: flex-end; }
 .quote-band.quote-band-foto .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 86%, transparent) 0%, color-mix(in srgb, var(--indigo) 55%, transparent) 38%, color-mix(in srgb, var(--indigo) 12%, transparent) 72%, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
 .anim .quote-art-foto { inset: 0; transform: none; will-change: auto; }
 .foto-credit-banda { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
@@ -1186,10 +1186,29 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 }
 /* v121: la alin. (3), citatul stă jos, ca să se vadă sus locul de unde pleacă dâra de poluare (lângă mal) și apa
    limpede de alături; voalul e dens doar sub citat. Banda are aceeași mărime ca la alin. (1). */
-.quote-band.quote-band-foto.quote-duty { padding-block: clamp(14rem, 30vw, 44rem) clamp(4rem, 8vw, 6rem); }
-.quote-band.quote-band-foto.quote-duty .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 300px, color-mix(in srgb, var(--indigo) 12%, transparent) 380px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
+.quote-band.quote-band-foto.foto-text-jos .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 300px, color-mix(in srgb, var(--indigo) 12%, transparent) 380px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
 @media (max-width: 760px) {
-  .quote-band.quote-band-foto.quote-duty { padding-top: 16rem; }
-  .quote-band.quote-band-foto:not(.quote-duty) { padding-bottom: 16rem; }
-  .quote-band.quote-band-foto.quote-duty .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 250px, color-mix(in srgb, var(--indigo) 12%, transparent) 300px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
+  .quote-band.quote-band-foto.foto-text-jos .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 250px, color-mix(in srgb, var(--indigo) 12%, transparent) 300px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
 }
+
+/* v122: „Propunerea” în patru benzi cu fonduri diferite, ca secțiunea să nu fie un singur bloc albastru lung:
+   propunerea și drepturile pe albastru, pașii pe gri deschis, „O voce pentru natură” pe alb, documentele pe gri deschis.
+   Pe fondurile deschise, cartonașele de la „O voce…” și de la documente devin albastre, cu același text deschis. */
+.propunerea > .prop-banda + .prop-banda { padding-block: clamp(2.4rem, 5vw, 4rem); }
+.prop-light .sub-head, .prop-light .keeps-wrap > h3:first-child, .prop-light .docs-strip > h3:first-child { margin-top: 0; }
+.prop-voce { background: var(--paper); }
+.prop-light .keeps-wrap h3.sub-head, .prop-light .docs-strip h3.sub-head { color: var(--indigo); }
+.prop-light .keep, .prop-light .docs-strip .doc { background: var(--indigo); border-color: var(--indigo); }
+.prop-light .docs-strip .doc:hover { background: color-mix(in srgb, var(--indigo) 86%, var(--paper)); }
+.prop-light .docs-strip .docs-group { color: var(--link); }
+.prop-light .docs-strip .docs-lead, .prop-light .docs-strip .docs-note { color: var(--ink); }
+/* v122: toate cele trei benzi cu fotografie au aceeași mărime (înălțime minimă comună, după lățimea ecranului); la bușteni și la apa poluată fraza stă jos, la vale sus */
+/* v122: în locul voalului albastru dens (o „bandă” albastră peste fotografie), o umbră închisă, discretă, doar în
+   dreptul textului; fotografiile își păstrează culorile, iar textul rămâne lizibil prin umbra lui. */
+.quote-band.quote-band-foto .quote-art-foto::after { background: linear-gradient(180deg, rgba(18, 22, 48, .78) 0%, rgba(18, 22, 48, .5) 28%, rgba(18, 22, 48, 0) 58%); }
+.quote-band.quote-band-foto.foto-text-jos .quote-art-foto::after { background: linear-gradient(0deg, rgba(18, 22, 48, .8) 0, rgba(18, 22, 48, .52) 240px, rgba(18, 22, 48, 0) 440px); }
+@media (max-width: 760px) {
+  .quote-band.quote-band-foto.foto-text-jos .quote-art-foto::after { background: linear-gradient(0deg, rgba(18, 22, 48, .84) 0, rgba(18, 22, 48, .58) 220px, rgba(18, 22, 48, 0) 380px); }
+}
+.quote-band.quote-band-foto blockquote, .quote-band.quote-band-foto .band-line { text-shadow: 0 2px 14px rgba(0, 0, 0, .6), 0 0 3px rgba(0, 0, 0, .45); }
+.quote-band.quote-band-foto cite { text-shadow: 0 1px 6px rgba(0, 0, 0, .7); }

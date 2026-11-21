@@ -656,6 +656,7 @@
   var SITE = 'drepturipentrunatura.ro';
   var st = { mod: 'profil', format: 'postare',
              poza: { profil: null, postare: null },
+             ultima: { profil: null, postare: null },   // v115: poza scoasă cu „Fără poză”, ca să poată fi pusă la loc
              poz: { profil: { z: 1, x: 0, y: 0 }, postare: { z: 1, x: 0, y: 0 } } };
   var inLoc = document.getElementById('voce-loc'), inPoza = document.getElementById('voce-poza');
   var zoom = document.getElementById('voce-zoom'), zoomEt = document.getElementById('voce-zoom-et');
@@ -808,7 +809,11 @@
     sec.querySelectorAll('[data-format]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-format') === st.format)); });
     etPoza.textContent = st.mod === 'profil' ? '1. Alege o poză cu tine' : '1. Alege o poză cu locul tău';
     pasFormat.hidden = st.mod === 'profil';
-    fara.hidden = !(st.mod === 'postare' && arePoza);
+    // v115: butonul nu mai dispare după „Fără poză”: devine „Pune la loc…”
+    var ultima = st.ultima[st.mod];
+    fara.hidden = !(st.mod === 'postare' && (arePoza || ultima));
+    fara.textContent = arePoza ? 'Fără poză: fundalul albastru'
+      : (ultima === exemplu ? 'Pune la loc fotografia de exemplu' : 'Pune la loc poza ta');
     muta.hidden = zoomEt.hidden = !arePoza;
     zoom.value = st.poz[st.mod].z;
     cv.classList.toggle('is-profil', st.mod === 'profil');
@@ -826,11 +831,15 @@
   inPoza.addEventListener('change', function () {
     var f = inPoza.files && inPoza.files[0]; if (!f) return;
     var mod = st.mod, i = new Image(), url = URL.createObjectURL(f);
-    i.onload = function () { st.poza[mod] = i; st.poz[mod] = { z: 1, x: 0, y: 0 }; stare(); };
+    i.onload = function () { st.poza[mod] = i; st.ultima[mod] = null; st.poz[mod] = { z: 1, x: 0, y: 0 }; stare(); };
     i.onerror = function () { URL.revokeObjectURL(url); };
     i.src = url; inPoza.value = '';
   });
-  fara.addEventListener('click', function () { st.poza[st.mod] = null; stare(); });
+  fara.addEventListener('click', function () {
+    if (st.poza[st.mod]) { st.ultima[st.mod] = st.poza[st.mod]; st.poza[st.mod] = null; }
+    else if (st.ultima[st.mod]) { st.poza[st.mod] = st.ultima[st.mod]; st.ultima[st.mod] = null; }
+    stare();
+  });
   zoom.addEventListener('input', function () { st.poz[st.mod].z = +zoom.value; desen(); });
 
   // mutarea pozei: cu degetul sau mouse-ul, și cu săgețile

@@ -664,6 +664,9 @@
   var txt = document.getElementById('voce-text');
   function img(src) { var i = new Image(); i.onload = desen; i.src = src; return i; }
   var sigla = img(sec.getAttribute('data-sigla')), libelula = img(sec.getAttribute('data-libelula'));
+  // v114: la postare, până își alege omul poza, apare o fotografie de exemplu (Alex Găvan)
+  var exemplu = sec.getAttribute('data-exemplu') ? img(sec.getAttribute('data-exemplu')) : null;
+  if (exemplu) st.poza.postare = exemplu;
   function gata(i) { return i && i.complete && i.naturalWidth > 0; }
 
   function locul() {

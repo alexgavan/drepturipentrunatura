@@ -1172,3 +1172,5 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .quote-problema { padding-block: clamp(7rem, 13vw, 11rem); }
 .quote-band .band-line { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
 .quote-duty:has(.quote-art-poluare) { padding-block: clamp(5.5rem, 10vw, 8.5rem); }
+/* v120: la „Parteneri în România”, sub numele organizației, fondatorii (fără fotografii; portretele lor sunt la citate) */
+.org .org-persoana { margin: -.25rem 0 0; font-size: .95rem; line-height: 1.4; }

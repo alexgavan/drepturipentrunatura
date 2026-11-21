@@ -1156,8 +1156,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v116–v119: fotografii reale (Alex Găvan) ca fundal în cele două benzi cu citat din Constituție: alin. (1) (valea)
    și alin. (3) (apa poluată, din v119; până atunci, munții de sus). Finalul rămâne cu animația libelulei. Același voal indigo peste ambele (v117). */
 .quote-band .quote-art-foto { background-repeat: no-repeat; background-size: cover; }
-.quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 45%; }
-.quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 78%; }
+.quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 70%; }
+.quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 88%; }
 @media (max-width: 760px) {
   .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mobil.webp"); background-position: 50% 50%; }
   .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mobil.webp"); background-position: 50% 70%; }
@@ -1171,6 +1171,11 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { .quote-band .quote-art-busteni { background-image: url("../img/fundal-foto-busteni-mobil.webp"); background-position: 50% 4%; } }
 .quote-problema { padding-block: clamp(7rem, 13vw, 11rem); }
 .quote-band .band-line { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
-.quote-duty:has(.quote-art-poluare) { padding-block: clamp(5.5rem, 10vw, 8.5rem); }
 /* v120: la „Parteneri în România”, sub numele organizației, fondatorii (fără fotografii; portretele lor sunt la citate) */
 .org .org-persoana { margin: -.25rem 0 0; font-size: .95rem; line-height: 1.4; }
+/* v120: cele două benzi cu citat din Constituție au aceeași mărime: citatul sus, fotografia se vede mult mai mult
+   dedesubt, cu voalul tot mai subțire spre jos; fără paralaxă pe fotografii (paralaxa le mărea, adică tăia din ele). */
+.quote-band.quote-band-foto { padding-block: clamp(4rem, 8vw, 6rem) clamp(14rem, 30vw, 28rem); }
+.quote-band.quote-band-foto .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 86%, transparent) 0%, color-mix(in srgb, var(--indigo) 55%, transparent) 38%, color-mix(in srgb, var(--indigo) 12%, transparent) 72%, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
+.anim .quote-art-foto { inset: 0; transform: none; will-change: auto; }
+.foto-credit-banda { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }

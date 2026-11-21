@@ -1132,12 +1132,18 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .voce-grid .voce-text { grid-column: 1; grid-row: 2; padding-top: 1.4rem; border-top: 1px solid var(--line); }
 }
 
-/* v108: întrebările, grupate pe teme */
-.faq { gap: clamp(1.6rem, 3vw, 2.2rem); }
-.faq-group { display: grid; gap: .7rem; }
-.faq-group-title { margin: 0; font: 600 clamp(1.05rem, 1.6vw, 1.25rem)/1.25 var(--font-display); color: var(--indigo); padding-bottom: .4rem; border-bottom: 2px solid var(--indigo); }
+/* v108–v113: întrebările, grupate pe teme; v113: temele sunt închise, „+” arată întrebările */
+.faq { gap: .9rem; }
+.faq-group { border: 2px solid var(--indigo); border-radius: var(--radius-md); background: var(--paper); }
+.faq-group-sum { cursor: pointer; list-style: none; display: flex; align-items: center; gap: .9rem; padding: 1rem 1.2rem; }
+.faq-group-sum::-webkit-details-marker { display: none; }
+.faq-group-sum::before { content: "+"; flex: none; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--indigo); color: var(--yellow); font: 700 1.25rem/1 var(--font-display); }
+.faq-group[open] > .faq-group-sum::before { content: "\2013"; }
+.faq-group-title { margin: 0; flex: 1 1 auto; font: 600 clamp(1.05rem, 1.6vw, 1.25rem)/1.25 var(--font-display); color: var(--indigo); }
+.faq-count { flex: none; font-size: .8rem; color: var(--muted); }
+.faq-group-sum:hover .faq-group-title { color: var(--link); }
+.faq-group > .toggles { margin: 0 1.2rem 1rem; border-bottom: 0; }
 .faq .toggle-body strong { color: var(--indigo); }
-.faq-group .toggles > .toggle:first-child { border-top: 0; }
 
 /* v112: animația ilustrației de pe primul ecran („Animatii RfN”, varianta mărită la 3240 × 2160, codată H.264 la 1280, 1920 și 2560 px).
    Stă în .hero-art, deci e întoarsă în oglindă și acoperită de umbre ca ilustrația; apare peste ilustrație după ce pornește. */

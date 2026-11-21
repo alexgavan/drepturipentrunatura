@@ -1245,3 +1245,14 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .nl-acord { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .6rem; align-items: start; font-size: .88rem; }
 .nl-acord input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; accent-color: var(--indigo); }
 .nl-ciorna { margin: 0; font-size: .8rem; color: var(--link); }
+
+/* v125: la 320 px, „Întrebări” lățea pagina cu 28 px (rândurile lipite cu spații nedespărțite); coloana nu mai crește
+   după conținut, iar pe ecranele foarte înguste numărul de întrebări trece sub titlu */
+.faq { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 899px) { .faq-layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 380px) {
+  .faq-group-sum { flex-wrap: wrap; gap: .3rem .7rem; padding-inline: .9rem; }
+  .faq-group-title { flex: 1 1 0; min-width: 0; }
+  .faq-count { flex: 1 0 100%; padding-left: 2.7rem; }
+  .faq-group > .toggles { margin-inline: .9rem; }
+}

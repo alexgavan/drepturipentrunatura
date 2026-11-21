@@ -1060,7 +1060,7 @@
 (function () {
   var mq = window.matchMedia('(max-width: 760px)');
   var redus = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  Array.prototype.forEach.call(document.querySelectorAll('.rights, .keeps-cards, .steps.steps-4, .lessons'), function (r) {
+  Array.prototype.forEach.call(document.querySelectorAll('.rights, .keeps-cards, .steps.steps-4, .lessons, .docs-strip .docs'), function (r) {
     var items = Array.prototype.slice.call(r.children);
     if (items.length < 2) return;
     var nav = document.createElement('div'); nav.className = 'swipe-nav'; nav.setAttribute('aria-hidden', 'true');
@@ -1096,27 +1096,6 @@
       }, { threshold: 0.7 });
       io.observe(r);
     }
-  });
-})();
-
-// v129 (M3): pe telefon, primele trei documente la vedere, restul la „Vezi toate cele 8 documente”
-(function () {
-  var docs = document.querySelector('.docs-strip .docs');
-  if (!docs) return;
-  var n = docs.querySelectorAll(':scope > .doc').length;
-  if (n <= 3) return;
-  docs.classList.add('docs-scurt');
-  var p = document.createElement('p'); p.className = 'docs-more';
-  var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-outline btn-small'; b.setAttribute('aria-expanded', 'false');
-  var text = 'Vezi toate cele ' + n + ' documente';
-  b.textContent = text;
-  p.appendChild(b); docs.parentNode.insertBefore(p, docs.nextSibling);
-  b.addEventListener('click', function () {
-    var d = !docs.classList.contains('docs-toate');
-    docs.classList.toggle('docs-toate', d);
-    b.setAttribute('aria-expanded', d ? 'true' : 'false');
-    b.textContent = d ? 'Arată mai puține' : text;
-    if (!d) docs.scrollIntoView({ block: 'nearest' });
   });
 })();
 

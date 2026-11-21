@@ -1108,3 +1108,10 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .voce-zoom input { width: 100%; accent-color: var(--indigo); }
 .voce-text { display: grid; gap: .6rem; justify-items: start; max-width: 62ch; }
 .voce-text textarea { width: 100%; padding: .9rem 1rem; border: 2px solid var(--line); border-radius: var(--radius-md); background: var(--paper); color: var(--ink); font: 400 .9rem/1.55 var(--font-body); resize: vertical; }
+
+/* v106: pașii semnării */
+.sign-steps { margin: .3rem 0 .2rem; padding: 0; list-style: none; counter-reset: pas; display: grid; gap: .75rem; }
+.sign-steps li { counter-increment: pas; position: relative; padding-left: 2.6rem; line-height: 1.5; }
+.sign-steps li::before { content: counter(pas); position: absolute; left: 0; top: -.05rem; width: 1.8rem; height: 1.8rem; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--indigo); font: 700 .95rem/1 var(--font-display); }
+.sign-steps strong { color: var(--paper); }
+.sign .sign-steps a { color: var(--yellow); }

@@ -1393,3 +1393,39 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .faq-copy { font: 600 .78rem/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: var(--link); background: none; border: 1.5px solid currentColor; border-radius: 999px; padding: .45rem .8rem; cursor: pointer; }
 .faq-copy:hover { color: var(--indigo); }
 .faq-copy:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- v128: „O voce pentru natură, nu un drept de veto”, pe fotografia cu ceață (20250628_212936, Alex Găvan) ---------- */
+.propunerea > .prop-banda.banda-foto { position: relative; padding-block: clamp(4rem, 9vw, 8.5rem); background-color: rgb(62, 52, 44); background-repeat: no-repeat; background-size: cover; background-position: 50% 40%; }
+.propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .58) 0, rgba(18, 22, 48, .22) 48%, rgba(18, 22, 48, .5) 100%), url("../img/fundal-foto-ceata.webp"); }
+@media (min-width: 1600px) and (min-resolution: 1.5dppx) { .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .58) 0, rgba(18, 22, 48, .22) 48%, rgba(18, 22, 48, .5) 100%), url("../img/fundal-foto-ceata-mare.webp"); } }
+@media (max-width: 760px) { .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .6) 0, rgba(18, 22, 48, .3) 50%, rgba(18, 22, 48, .55) 100%), url("../img/fundal-foto-ceata-mobil.webp"); background-position: 70% 50%; } }
+.prop-light.banda-foto .keeps-wrap h3.sub-head { color: var(--paper); text-shadow: 0 2px 14px rgba(0, 0, 0, .6), 0 0 3px rgba(0, 0, 0, .4); }
+.prop-light.banda-foto .keep { box-shadow: 0 10px 28px rgba(0, 0, 0, .28); }
+
+/* ---------- v128: „Ce câștigăm”, panorama nouă (2048 × 768, cu loc gol în stânga, pentru text) ---------- */
+.band-art-castig { background-image: url("../img/vizual-cale-padure.webp"); }
+.band-castig { background-color: rgb(38, 36, 124); }
+/* Pe calculator: desenul are înălțimea benzii (vârful coroanei e tăiat drept în imagine, deci trebuie să atingă marginea
+   de sus) și începe lângă panou: pe ecranele late, de la ramura cu pasărea (24,5 % din lățimea imaginii), ca să încapă
+   toată scena; pe cele mai înguste, de la copil (38 %), iar coroana iese din ecran în dreapta. */
+@media (min-width: 1101px) {
+  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig {
+    --panou: calc(max(var(--gutter), (100% - var(--max)) / 2 + var(--gutter)) + 31rem + 1.5rem);
+    left: var(--panou); right: auto; top: 0; bottom: 0; width: auto; height: auto;
+    aspect-ratio: 2048 / 768; transform: translateX(-38%);
+    background-size: 100% 100%; background-position: 0 0;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 94%, transparent 100%);
+  }
+}
+@media (min-width: 1800px) { .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { transform: translateX(-31%); } }
+@media (min-width: 2386px) { .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { transform: translateX(-24.5%); } }
+/* Pe ecranele medii și pe telefon: desenul, deasupra panoului, pe toată lățimea (decuparea pe scenă) */
+@media (max-width: 1100px) {
+  .band-castig { padding-top: 0; }
+  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig {
+    position: relative; inset: auto; width: auto; transform: none; aspect-ratio: 1100 / 573; margin-bottom: 1.5rem;
+    background-image: url("../img/vizual-cale-padure-mobil.webp"); background-size: cover; background-position: 50% 50%;
+    -webkit-mask-image: none; mask-image: none;
+  }
+}

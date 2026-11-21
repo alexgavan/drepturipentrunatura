@@ -1299,3 +1299,97 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v126: în containerele .stack, distanța de sub titlu o dă doar spațiul dintre rânduri; marginea titlului se adăuga peste
    ea și lăsa prea mult alb sub „Legi bune, fără cine să le apere” (Alex, 22.11.2026). */
 .stack > .section-head { margin-bottom: 0; }
+
+/* ---------- v127 (N1): un singur meniu, cu aceleași nume peste tot ---------- */
+.nav-list { list-style: none; margin: 0; padding: 0; }
+/* Antetul, pe calculator: lista pe două rânduri de câte patru, în ordinea paginii; „Început” e sigla, „Semnează” e butonul. */
+.nav > .nav-list { display: grid; grid-template-columns: repeat(4, auto); justify-content: end; column-gap: clamp(1rem, 1.5vw, 1.6rem); row-gap: 0; }
+.nav > .nav-list > li { position: relative; }
+.nav > .nav-list a { font: 600 clamp(.95rem, 1.2vw, 1.05rem)/1.35 var(--font-display); letter-spacing: 0; }
+.is-scrolled .nav > .nav-list a { font-size: .9rem; line-height: 1.25; padding-block: 3px; }
+.nav .has-sub > a::after { content: ''; display: inline-block; width: .38em; height: .38em; margin-left: .45em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-.22em) rotate(45deg); }
+.nav .nav-sub { display: none; position: absolute; top: 100%; left: -.9rem; z-index: 5; min-width: 12rem; padding: .45rem 0; background: var(--indigo); border-radius: var(--radius-md); box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 35%, transparent); }
+.nav .has-sub:hover > .nav-sub, .nav .has-sub:focus-within > .nav-sub { display: block; }
+.nav .nav-sub a { padding: .45rem .9rem; font: 600 .95rem/1.3 var(--font-display); }
+.nav .nav-sub a:hover { background: color-mix(in srgb, var(--paper) 10%, transparent); }
+/* Lista de sub butonul ☰ din antet (telefon) */
+.mobile-menu .menu-title { font: 600 .75rem/1.4 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 72%, transparent); margin-bottom: .35rem; }
+.mobile-menu .nav-sub { padding-left: 1.1rem; }
+.mobile-menu .nav-sub a { font-size: .85rem; padding: .45rem 0; }
+.mobile-menu a[aria-current="true"] { color: var(--paper); }
+.mobile-menu a[aria-current="true"]::before { content: ''; display: inline-block; width: .5rem; height: .5rem; margin-right: .5rem; border-radius: 50%; background: var(--orange); vertical-align: .08em; }
+/* Foaia de la butonul ☰ din bara de jos: aceeași listă */
+.section-sheet .nav-list > li > a { display: flex; align-items: center; gap: .55rem; padding: .6rem .7rem; border-radius: var(--radius-md); color: var(--indigo); text-decoration: none; font: 600 .9rem/1.2 var(--font-display); }
+.section-sheet .nav-list > li > a::before { content: ''; flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: color-mix(in srgb, var(--indigo) 30%, var(--paper)); }
+.section-sheet .nav-list > li > a[aria-current="true"] { background: var(--indigo); color: var(--yellow); }
+.section-sheet .nav-list > li > a[aria-current="true"]::before { background: var(--orange); }
+.section-sheet .nav-sub { display: flex; flex-wrap: wrap; gap: .1rem 1rem; padding: 0 .7rem .25rem 1.8rem; }
+.section-sheet .nav-sub a { display: inline-block; padding: .3rem 0; color: var(--link); font: 600 .82rem/1.2 var(--font-display); text-decoration: none; }
+/* Subsolul: aceeași listă, pe două coloane */
+@media (min-width: 901px) { .footer-top { grid-template-columns: 1.6fr 2fr 1.3fr; } }
+@media (max-width: 900px) { .footer-pagina { grid-column: 1 / -1; } }
+.footer-pagina .nav-list { columns: 2; column-gap: 2rem; }
+.footer-pagina .nav-list > li { break-inside: avoid; }
+.footer-pagina .nav-sub { padding: .1rem 0 0 .9rem; }
+.footer-pagina .nav-sub li { padding: .1rem 0; font-size: .85rem; }
+@media (max-width: 480px) { .footer-pagina .nav-list { column-gap: 1rem; font-size: .85rem; } }
+
+/* ---------- v127 (N2): pe telefon, drepturile și „O voce pentru natură” stau pe câte un rând care se trage cu degetul ---------- */
+@media (max-width: 760px) {
+  .rights, .keeps-cards {
+    display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: min(62vw, 17rem); gap: .9rem; align-items: start;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    margin-left: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gutter), env(safe-area-inset-right, 0px)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-bottom: .4rem; scrollbar-width: none;
+  }
+  .rights::-webkit-scrollbar, .keeps-cards::-webkit-scrollbar { display: none; }
+  .rights > .right, .keeps-cards > .keep { scroll-snap-align: start; }
+  .rights .right-art { max-width: none; }
+  /* în rândul care se trage, cartonașele nu mai apar de jos în sus */
+  .anim .rights .reveal, .anim .keeps-cards .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- v127 (D1): contorul arată că e viu ---------- */
+.meter-update { display: flex; justify-content: center; align-items: center; gap: .55rem; margin-top: -.6rem; font-size: .85rem; text-align: center; color: color-mix(in srgb, var(--ink) 74%, transparent); }
+.meter-update[hidden] { display: none; }
+.live-dot { flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: var(--indigo); }
+@media (prefers-reduced-motion: no-preference) { .live-dot { animation: puls-viu 2.2s ease-out infinite; } }
+@keyframes puls-viu { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--indigo) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 .5rem color-mix(in srgb, var(--indigo) 0%, transparent); } }
+
+/* ---------- v127 (D3): animații la derulare, acolo unde explică ---------- */
+/* Pașii 1–4 se aprind pe rând. */
+.anim .steps .step-num { color: color-mix(in srgb, var(--indigo) 22%, transparent); transform: scale(.86); transform-origin: 0 50%; transition: color .5s ease, transform .5s ease; }
+.anim .steps.is-in .step-num { color: var(--indigo); transform: none; }
+.anim .steps.is-in .step:nth-child(2) .step-num { transition-delay: .45s; }
+.anim .steps.is-in .step:nth-child(3) .step-num { transition-delay: .9s; }
+.anim .steps.is-in .step:nth-child(4) .step-num { transition-delay: 1.35s; }
+@media (min-width: 1100px) {
+  .anim .steps .step { position: relative; border-top-color: var(--line); }
+  .anim .steps .step::before { content: ""; position: absolute; left: -1px; right: -1px; top: -3px; height: 3px; border-radius: var(--radius-md) var(--radius-md) 0 0; background: var(--orange); transform: scaleX(0); transform-origin: 0 50%; transition: transform .6s ease; }
+  .anim .steps.is-in .step::before { transform: none; }
+  .anim .steps.is-in .step:nth-child(2)::before { transition-delay: .45s; }
+  .anim .steps.is-in .step:nth-child(3)::before { transition-delay: .9s; }
+  .anim .steps.is-in .step:nth-child(4)::before { transition-delay: 1.35s; }
+}
+/* Drumul până la lege: linia e plină până la pasul de acum („Semnăturile”), care pulsează ușor. */
+.tl-item.is-done::after { background: var(--orange); }
+.tl-item.is-current::before { background: var(--orange); color: var(--ink); }
+.anim .timeline .tl-item::after { transform: none; transition: none; }
+.anim .timeline .tl-item.is-done::after { background: var(--line) linear-gradient(var(--orange), var(--orange)) no-repeat 0 0 / 100% 0; transition: background-size 1.1s ease .2s; }
+@media (min-width: 1100px) { .anim .timeline .tl-item.is-done::after { background-size: 0 100%; } }
+.anim .timeline.is-in .tl-item.is-done::after { background-size: 100% 100%; }
+@media (prefers-reduced-motion: no-preference) { .anim .timeline.is-in .tl-item.is-current::before { animation: puls-pas 2.4s ease-out 1.3s infinite; } }
+@keyframes puls-pas { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--orange) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 .7rem color-mix(in srgb, var(--orange) 0%, transparent); } }
+
+/* ---------- v127 (N3, N4): căutarea și linkurile de la „Întrebări” ---------- */
+.faq-search { display: grid; gap: .45rem; margin-bottom: 1rem; }
+.faq-search-label { font: 600 .8rem/1.2 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--indigo); }
+.faq-search input { width: 100%; min-width: 0; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 2px solid var(--indigo); border-radius: var(--radius-md); padding: .75rem 1rem; }
+.faq-search input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.faq-search-status { min-height: 1.2em; font-size: .85rem; color: var(--muted); }
+.faq-search-status:empty { display: none; }
+.faq-link { margin: 0; }
+.faq-copy { font: 600 .78rem/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: var(--link); background: none; border: 1.5px solid currentColor; border-radius: 999px; padding: .45rem .8rem; cursor: pointer; }
+.faq-copy:hover { color: var(--indigo); }
+.faq-copy:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }

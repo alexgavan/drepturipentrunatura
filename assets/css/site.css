@@ -1476,12 +1476,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .anim .steps-4 .reveal, .anim .lessons .reveal { opacity: 1; transform: none; transition: none; }
 }
 
-/* M3: pe telefon, primele trei documente la vedere, restul la „Vezi toate cele 8 documente”. */
-.docs-more { display: none; }
-@media (max-width: 760px) {
-  .docs.docs-scurt:not(.docs-toate) > .doc:nth-child(n+4) { display: none; }
-  .docs-more { display: block; margin: .2rem 0 0; }
-}
 
 /* M6: la „Ce arată inventarul”, „+” stă lângă titlu. */
 @media (max-width: 760px) {
@@ -1534,3 +1528,20 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .propunerea > .prop-banda.banda-foto .keeps-wrap { max-width: min(46rem, 55%); }
   .propunerea > .prop-banda.banda-foto .keeps-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* ---------- v131 ---------- */
+/* Documentele, pe telefon, pe un rând glisant (Alex, 22.11.2026: „documentele tot cu glisare”), cu puncte și „1 / 8”. */
+@media (max-width: 760px) {
+  .docs-strip .docs {
+    display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: min(72vw, 18rem); gap: .75rem; align-items: start;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    margin-left: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gutter), env(safe-area-inset-right, 0px)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-bottom: .4rem; scrollbar-width: none;
+  }
+  .docs-strip .docs::-webkit-scrollbar { display: none; }
+  .docs-strip .docs > .doc { scroll-snap-align: start; }
+  .anim .docs-strip .reveal { opacity: 1; transform: none; transition: none; }
+}
+/* „O voce pentru natură”: casetele albastre, puțin transparente, ca să se vadă fotografia din spate. */
+.prop-light.banda-foto .keep { background: color-mix(in srgb, var(--indigo) 74%, transparent); border-color: color-mix(in srgb, var(--paper) 22%, transparent); }

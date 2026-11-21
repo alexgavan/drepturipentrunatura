@@ -1157,10 +1157,10 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
    și alin. (3) (apa poluată, din v119; până atunci, munții de sus). Finalul rămâne cu animația libelulei. Același voal indigo peste ambele (v117). */
 .quote-band .quote-art-foto { background-repeat: no-repeat; background-size: cover; }
 .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale.webp"); background-position: 50% 70%; }
-.quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 88%; }
+.quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare.webp"); background-position: 50% 70%; }
 @media (max-width: 760px) {
   .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mobil.webp"); background-position: 50% 50%; }
-  .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mobil.webp"); background-position: 50% 70%; }
+  .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mobil.webp"); background-position: 50% 0%; }
 }
 .quote-band .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 84%, transparent) 0%, color-mix(in srgb, var(--indigo) 64%, transparent) 50%, color-mix(in srgb, var(--indigo) 30%, transparent) 100%); }
 .quote-band blockquote { text-shadow: 0 1px 14px color-mix(in srgb, var(--indigo) 70%, transparent); }
@@ -1175,7 +1175,21 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .org .org-persoana { margin: -.25rem 0 0; font-size: .95rem; line-height: 1.4; }
 /* v120: cele două benzi cu citat din Constituție au aceeași mărime: citatul sus, fotografia se vede mult mai mult
    dedesubt, cu voalul tot mai subțire spre jos; fără paralaxă pe fotografii (paralaxa le mărea, adică tăia din ele). */
-.quote-band.quote-band-foto { padding-block: clamp(4rem, 8vw, 6rem) clamp(14rem, 30vw, 28rem); }
+.quote-band.quote-band-foto { padding-block: clamp(4rem, 8vw, 6rem) clamp(14rem, 30vw, 44rem); }
 .quote-band.quote-band-foto .quote-art-foto::after { background: linear-gradient(180deg, color-mix(in srgb, var(--indigo) 86%, transparent) 0%, color-mix(in srgb, var(--indigo) 55%, transparent) 38%, color-mix(in srgb, var(--indigo) 12%, transparent) 72%, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
 .anim .quote-art-foto { inset: 0; transform: none; will-change: auto; }
 .foto-credit-banda { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
+/* v121: pe ecranele late, benzile cu citat cresc odată cu lățimea și folosesc fotografii mai mari, ca să se vadă cât mai mult din ele, clar */
+@media (min-width: 1600px) {
+  .quote-band .quote-art-vale { background-image: url("../img/fundal-foto-vale-mare.webp"); }
+  .quote-band .quote-art-poluare { background-image: url("../img/fundal-foto-poluare-mare.webp"); }
+}
+/* v121: la alin. (3), citatul stă jos, ca să se vadă sus locul de unde pleacă dâra de poluare (lângă mal) și apa
+   limpede de alături; voalul e dens doar sub citat. Banda are aceeași mărime ca la alin. (1). */
+.quote-band.quote-band-foto.quote-duty { padding-block: clamp(14rem, 30vw, 44rem) clamp(4rem, 8vw, 6rem); }
+.quote-band.quote-band-foto.quote-duty .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 300px, color-mix(in srgb, var(--indigo) 12%, transparent) 380px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
+@media (max-width: 760px) {
+  .quote-band.quote-band-foto.quote-duty { padding-top: 16rem; }
+  .quote-band.quote-band-foto:not(.quote-duty) { padding-bottom: 16rem; }
+  .quote-band.quote-band-foto.quote-duty .quote-art-foto::after { background: linear-gradient(0deg, color-mix(in srgb, var(--indigo) 88%, transparent) 0, color-mix(in srgb, var(--indigo) 75%, transparent) 250px, color-mix(in srgb, var(--indigo) 12%, transparent) 300px, color-mix(in srgb, var(--indigo) 4%, transparent) 100%); }
+}

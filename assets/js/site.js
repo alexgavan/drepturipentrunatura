@@ -930,3 +930,19 @@
     var n = f.querySelector('.nl-ciorna'); if (n) { n.textContent = 'În machetă: abonarea nu este încă activă. Formularul se activează după ce Fundația Centura Verde creează contul de newsletter.'; }
   });
 })();
+
+// v126: pe telefon, exemplele (Vâlsan, Roșia Montană) arată primul paragraf, iar restul se deschide cu „+”
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('#valsan .example, #rosia .example'), function (ex) {
+    var b = ex.querySelector('.ex-plus-rand .plus-btn');
+    if (!b) return;
+    var nume = (b.getAttribute('aria-label') || '').replace(/^Mai mult: /, '');
+    ex.classList.add('ex-plus-activ');
+    b.addEventListener('click', function () {
+      var d = ex.classList.toggle('ex-deschis');
+      b.setAttribute('aria-expanded', d ? 'true' : 'false');
+      b.textContent = d ? '\u2212' : '+';
+      b.setAttribute('aria-label', (d ? 'Mai puțin: ' : 'Mai mult: ') + nume);
+    });
+  });
+})();

@@ -510,12 +510,12 @@
   var copie = share.cloneNode(true), et = copie.querySelector('.share-label');
   if (et) et.remove();
   fasie.insertBefore(copie, fasie.querySelector('.back-close'));
-  var voce = document.querySelector('#semneaza .voice-btn');
+  var voce = document.getElementById('voce');
   if (voce) {
     var lv = document.createElement('a');
     lv.className = 'back-voice'; lv.href = '#voce';
     lv.addEventListener('click', function () { fasie.hidden = true; });
-    lv.textContent = 'sau fă-ți poza de profil „Sunt vocea naturii” →';
+    lv.textContent = 'Tu a cui voce ești? Fă-ți imaginea „Sunt vocea…” →';
     fasie.insertBefore(lv, fasie.querySelector('.back-close'));
   }
   document.body.appendChild(fasie);
@@ -724,7 +724,7 @@
     var sus = mari('Sunt vocea ' + locul()), spSus = 3;
     var mSus = marimeArc(sus, '700 {m}px ' + FD, rText * 4.1, 76, 34, spSus);
     var latSus = arc(sus, c, c, rText, -Math.PI / 2, '700 ' + mSus + 'px ' + FD, C.indigo, false, spSus);
-    var jos = mari('Drepturi pentru natură'), spJos = 4;
+    var jos = mari('Tu a cui voce ești?'), spJos = 4;
     var latJos = arc(jos, c, c, rText, Math.PI / 2, '700 40px ' + FM, C.indigo, true, spJos);
     // două puncte portocalii, la jumătatea distanței dintre cele două texte
     var capSus = latSus / rText / 2, capJos = latJos / rText / 2;
@@ -767,7 +767,8 @@
     var y = H - jos;
     ctx.fillStyle = C.paper; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.font = '700 30px ' + FM; ctx.fillText('Semnează pe ' + SITE, m, y);
-    y -= 52; ctx.fillStyle = C.yellow; ctx.fillRect(m, y, maxLat, 4);
+    y -= 50; ctx.font = '600 46px ' + FD; ctx.fillText('Tu a cui voce ești?', m, y);
+    y -= 50; ctx.fillStyle = C.yellow; ctx.fillRect(m, y, maxLat, 4);
     var loc = mari(locul()), mar = 190, rez;
     for (; mar >= 56; mar -= 4) { rez = randuri(loc, maxLat, mar); if (rez.ok && rez.r.length <= 3) break; }
     ctx.font = '700 ' + mar + 'px ' + FD; ctx.fillStyle = C.yellow;
@@ -791,7 +792,7 @@
       'Un râu nu poate spune ce i se întâmplă. Nici o pădure.\n\n' +
       'Am semnat inițiativa cetățenească europeană „Drepturi pentru Natură”, care cere o lege a Uniunii prin care natura să aibă drepturi și oameni care s-o apere.\n\n' +
       'Semnează și tu, durează cam un minut: ' + SITE + '\n\n' +
-      'Tu pentru ce loc ai vorbi?';
+      'Tu a cui voce ești?';
   }
 
   function stare() {

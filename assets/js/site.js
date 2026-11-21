@@ -200,7 +200,11 @@
     var id = decodeURIComponent((location.hash || '').slice(1));
     if (!id) return;
     var d = document.getElementById(id);
-    if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); }
+    if (d && d.tagName === 'DETAILS') {
+      d.open = true;
+      for (var g = d.parentElement && d.parentElement.closest('details'); g; g = g.parentElement && g.parentElement.closest('details')) g.open = true; // v113: deschide și tema
+      d.scrollIntoView();
+    }
   }
   dinAdresa();
   window.addEventListener('hashchange', dinAdresa);

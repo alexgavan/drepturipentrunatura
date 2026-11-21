@@ -69,34 +69,6 @@
     });
   }
 
-  // Capitolul curent, subliniat în meniu.
-  var links = Array.prototype.slice.call(document.querySelectorAll('[data-spy]'));
-  var sections = links
-    .map(function (a) { return document.getElementById(a.getAttribute('data-spy')); })
-    .filter(Boolean);
-  function spy() {
-    var line = window.scrollY + window.innerHeight * 0.35;
-    var current = null;
-    sections.forEach(function (s) {
-      var top = s.getBoundingClientRect().top + window.scrollY;
-      if (top <= line) current = s.id;
-    });
-    var last = sections[sections.length - 1];
-    if (last) {
-      var end = document.getElementById('initiatori');
-      if (end && end.getBoundingClientRect().top + window.scrollY <= line) current = null;
-    }
-    links.forEach(function (a) {
-      if (a.getAttribute('data-spy') === current) a.setAttribute('aria-current', 'true');
-      else a.removeAttribute('aria-current');
-    });
-  }
-  if (sections.length) {
-    spy();
-    window.addEventListener('scroll', spy, { passive: true });
-    window.addEventListener('resize', spy);
-  }
-
   // „Adu-ți organizația alături” (butonul a ieșit în v36; codul rămâne pentru o adresă nouă): deschide programul de e-mail fără să părăsească pagina;
   // dacă nu există unul, adresa rămâne scrisă pe buton și copiată.
   var org = document.getElementById('buton-organizatie');
@@ -309,7 +281,7 @@
   var io2 = new IntersectionObserver(function (intrari) {
     intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io2.unobserve(e.target); } });
   }, { threshold: 0.3 });
-  Array.prototype.forEach.call(document.querySelectorAll('.timeline, .meters'), function (el) { io2.observe(el); });
+  Array.prototype.forEach.call(document.querySelectorAll('.timeline, .steps'), function (el) { io2.observe(el); });
 
   // cifrele numără în sus
   function format(n, model) {
@@ -317,23 +289,43 @@
     if (/\d[   ]\d{3}/.test(model)) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     return s;
   }
+  function numara(el) {
+    var final = el.textContent, m = final.match(/\d[\d   ]*\d|\d/);
+    if (!m) return;
+    var tinta = parseInt(m[0].replace(/\D/g, ''), 10), t0 = null, dur = 1400;
+    var pas = function (t) {
+      if (!t0) t0 = t;
+      var k = Math.min(1, (t - t0) / dur), v = tinta * (1 - Math.pow(1 - k, 3));
+      el.textContent = k < 1 ? final.replace(m[0], format(v, m[0])) : (el.getAttribute('data-final') || final);
+      if (k < 1) requestAnimationFrame(pas);
+    };
+    requestAnimationFrame(pas);
+  }
   var io3 = new IntersectionObserver(function (intrari) {
-    intrari.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      io3.unobserve(e.target);
-      var el = e.target, final = el.textContent, m = final.match(/\d[\d   ]*\d|\d/);
-      if (!m) return;
-      var tinta = parseInt(m[0].replace(/\D/g, ''), 10), t0 = null, dur = 1400;
-      var pas = function (t) {
-        if (!t0) t0 = t;
-        var k = Math.min(1, (t - t0) / dur), v = tinta * (1 - Math.pow(1 - k, 3));
-        el.textContent = k < 1 ? final.replace(m[0], format(v, m[0])) : (el.getAttribute('data-final') || final);
-        if (k < 1) requestAnimationFrame(pas);
-      };
-      requestAnimationFrame(pas);
-    });
+    intrari.forEach(function (e) { if (!e.isIntersecting) return; io3.unobserve(e.target); numara(e.target); });
   }, { threshold: 0.6 });
-  Array.prototype.forEach.call(document.querySelectorAll('.stat-num, .meter-num b'), function (el) { io3.observe(el); });
+  Array.prototype.forEach.call(document.querySelectorAll('.stat-num'), function (el) { io3.observe(el); });
+
+  // v127 (D1): contorul pornește când ajungi la el și după ce s-au citit cifrele noi (data/contor.json):
+  // cifrele cresc de la zero o singură dată, iar barele se umplu în același timp.
+  var meters = document.querySelector('.meters');
+  if (meters) {
+    var pornit = false;
+    var porneste = function () {
+      if (pornit) return; pornit = true;
+      meters.classList.add('is-in');
+      Array.prototype.forEach.call(meters.querySelectorAll('.meter-num b'), numara);
+    };
+    var cand = function () {
+      if (root.getAttribute('data-contor') === 'gata') return porneste();
+      document.addEventListener('contor-gata', porneste);
+      setTimeout(porneste, 2500); // dacă fișierul nu răspunde, pornesc cu cifrele din pagină
+    };
+    var io6 = new IntersectionObserver(function (intrari) {
+      intrari.forEach(function (e) { if (e.isIntersecting) { io6.unobserve(meters); cand(); } });
+    }, { threshold: 0.3 });
+    io6.observe(meters);
+  }
 
   // paralaxă pe fundalurile benzilor (ecrane mari)
   var fundaluri = Array.prototype.slice.call(document.querySelectorAll('.band-art, .quote-art'));
@@ -554,31 +546,32 @@
   });
 })();
 
-// v77: navigare între secțiuni: pe calculator, o coloană de puncte în dreapta; pe telefon, butonul „Secțiuni”
-// din bara de jos deschide lista secțiunilor. Secțiunea curentă e marcată în ambele.
+// v77: navigare între secțiuni: pe calculator, o coloană de puncte în dreapta; pe telefon, butonul ☰ din bara de jos.
+// v127 (N1): un singur meniu. Punctele și foaia de jos se fac din lista meniului de telefon (aceeași ca în antet și în
+// subsol), deci au aceleași secțiuni, în aceeași ordine și cu aceleași nume; secțiunea curentă e marcată peste tot.
 (function () {
-  var SECTIUNI = [['sus', 'Început'], ['problema', 'Problema'], ['exemple', 'Exemple din România'], ['propunerea', 'Ce propunem'],
-    ['castig', 'Ce câștigăm'], ['precedente', 'Precedente'], ['drumul', 'Drumul până la lege'],
-    ['oamenii', 'Oamenii'], ['intrebari', 'Întrebări frecvente'], ['semneaza', 'Semnează']];
-  var lista = SECTIUNI.filter(function (x) { return document.getElementById(x[0]); });
+  var sursa = document.querySelector('#meniu-mobil .nav-list');
+  if (!sursa) return;
+  var lista = Array.prototype.slice.call(sursa.querySelectorAll(':scope > li > a[data-sec]'))
+    .map(function (a) { return [a.getAttribute('data-sec'), a.textContent]; })
+    .filter(function (x) { return document.getElementById(x[0]); });
   if (!lista.length) return;
-  function link(x, cls) {
-    var a = document.createElement('a'); a.href = '#' + x[0]; a.className = cls; a.setAttribute('data-sec', x[0]);
+  // coloana de puncte
+  var rail = document.createElement('nav'); rail.className = 'section-rail'; rail.setAttribute('aria-label', 'Secțiunile paginii, puncte');
+  lista.forEach(function (x) {
+    var a = document.createElement('a'); a.href = '#' + x[0]; a.className = 'rail-link'; a.setAttribute('data-sec', x[0]);
     a.innerHTML = '<span class="nav-dot" aria-hidden="true"></span><span class="nav-label"></span>';
     a.querySelector('.nav-label').textContent = x[1];
-    return a;
-  }
-  // coloana de puncte
-  var rail = document.createElement('nav'); rail.className = 'section-rail'; rail.setAttribute('aria-label', 'Secțiunile paginii');
-  lista.forEach(function (x) { rail.appendChild(link(x, 'rail-link')); });
+    rail.appendChild(a);
+  });
   document.body.appendChild(rail);
-  // foaia de pe telefon
+  // foaia de pe telefon: aceeași listă ca meniul de sus
   var bar = document.getElementById('bara-semneaza');
   var sheet = document.createElement('div'); sheet.className = 'section-sheet'; sheet.id = 'foaie-sectiuni'; sheet.hidden = true;
-  sheet.innerHTML = '<p class="sheet-title">Mergi la</p>';
-  var grid = document.createElement('nav'); grid.className = 'sheet-links'; grid.setAttribute('aria-label', 'Secțiunile paginii');
-  lista.forEach(function (x) { grid.appendChild(link(x, 'sheet-link')); });
-  sheet.appendChild(grid);
+  var nav = document.createElement('nav'); nav.setAttribute('aria-label', 'Secțiunile paginii, de jos');
+  nav.innerHTML = '<p class="sheet-title">Mergi la</p>';
+  nav.appendChild(sursa.cloneNode(true));
+  sheet.appendChild(nav);
   document.body.appendChild(sheet);
   if (bar) {
     var b = document.createElement('button'); b.type = 'button'; b.className = 'sheet-toggle';
@@ -591,11 +584,16 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') inchide(); });
     document.addEventListener('click', function (e) { if (!sheet.hidden && !sheet.contains(e.target) && !b.contains(e.target)) inchide(); });
   }
-  // secțiunea curentă
+  // în antet, după o apăsare, lista de la „Oamenii” se închide (altfel rămâne deschisă cât timp linkul are focusul)
+  Array.prototype.forEach.call(document.querySelectorAll('.nav a'), function (a) {
+    a.addEventListener('click', function () { setTimeout(function () { a.blur(); }, 0); });
+  });
+  // secțiunea curentă, în toate listele
   var curent = null;
   function marcheaza() {
     var y = window.innerHeight * 0.35, gasit = lista[0][0];
     lista.forEach(function (x) { var el = document.getElementById(x[0]); if (el.getBoundingClientRect().top <= y) gasit = x[0]; });
+    rail.classList.toggle('is-shown', window.scrollY > 300);
     if (gasit === curent) return;
     curent = gasit;
     Array.prototype.forEach.call(document.querySelectorAll('[data-sec]'), function (a) {
@@ -603,10 +601,10 @@
       a.classList.toggle('is-current', on);
       if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
     });
-    rail.classList.toggle('is-shown', window.scrollY > 300);
   }
   var t;
   window.addEventListener('scroll', function () { if (t) return; t = requestAnimationFrame(function () { t = null; marcheaza(); }); }, { passive: true });
+  window.addEventListener('resize', marcheaza);
   marcheaza();
 })();
 
@@ -619,8 +617,27 @@
   var nr = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
   var pct = function (a, b) { return (a / b * 100).toFixed(1).replace('.', ',') + '\u00a0%'; };
   var num = function (t) { return parseInt(String(t).replace(/\D/g, ''), 10); };
+  var gata = function () {
+    document.documentElement.setAttribute('data-contor', 'gata');
+    try { document.dispatchEvent(new Event('contor-gata')); } catch (e) {}
+  };
+  // v127 (D1): „Actualizat azi la …”: ora la care cifrele noi au fost citite din registru (citit_la, în UTC),
+  // arătată în ora vizitatorului
+  var actualizat = function (iso) {
+    var el = document.querySelector('.meter-update'), t = el && el.querySelector('.meter-update-text');
+    var d = iso ? new Date(iso) : null;
+    if (!t || !d || isNaN(d)) return;
+    var zi = function (x) { return x.getFullYear() + '-' + x.getMonth() + '-' + x.getDate(); };
+    var azi = new Date(), ieri = new Date(azi.getTime() - 864e5);
+    var ora = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    var luni = ['ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie', 'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie'];
+    var cand = zi(d) === zi(azi) ? 'azi la ' + ora : zi(d) === zi(ieri) ? 'ieri la ' + ora : 'pe ' + d.getDate() + ' ' + luni[d.getMonth()] + ', la ' + ora;
+    t.textContent = 'Actualizat ' + cand + ', din registrul Comisiei Europene.';
+    el.hidden = false;
+  };
   fetch(URL, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
-    if (!d || typeof d.total !== 'number') return;
+    if (!d || typeof d.total !== 'number') return gata();
+    actualizat(d.citit_la);
     Array.prototype.forEach.call(document.querySelectorAll('[data-contor]'), function (m) {
       var v = d[m.getAttribute('data-contor')], din = num(m.getAttribute('data-din'));
       if (typeof v !== 'number' || !din) return;
@@ -633,7 +650,8 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-contor-nr]'), function (el) {
       var v = d[el.getAttribute('data-contor-nr')]; if (typeof v === 'number') el.textContent = nr(v);
     });
-  }).catch(function () {});
+    gata();
+  }).catch(gata);
 })();
 
 // v90: adresa de contact se compune aici, din bucăți inversate, ca să nu apară în HTML (fără link, Alex, 18.11.2026)
@@ -945,4 +963,75 @@
       b.setAttribute('aria-label', (d ? 'Mai puțin: ' : 'Mai mult: ') + nume);
     });
   });
+})();
+
+// v127 (N3, N4, aprobate de Alex): căutare în „Întrebări” și „Copiază linkul” sub fiecare răspuns.
+(function () {
+  var faq = document.querySelector('#intrebari .faq');
+  if (!faq) return;
+  var grupuri = Array.prototype.slice.call(faq.querySelectorAll('details.faq-group'));
+  var intrebari = Array.prototype.slice.call(faq.querySelectorAll('details.toggle[id]'));
+  if (!intrebari.length) return;
+  var simplu = function (s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' '); };
+  intrebari.forEach(function (d) { d._text = simplu(d.textContent); });
+
+  // N4: linkul fiecărei întrebări; cine îl deschide ajunge la ea, deschisă (vezi „deschiderea întrebării din adresă”)
+  intrebari.forEach(function (d) {
+    var corp = d.querySelector('.toggle-body');
+    if (!corp) return;
+    var p = document.createElement('p'); p.className = 'faq-link';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'faq-copy'; b.textContent = 'Copiază linkul';
+    var titlu = (d.querySelector('summary') || {}).textContent || '';
+    b.setAttribute('aria-label', 'Copiază linkul întrebării: ' + titlu.trim());
+    p.appendChild(b); corp.appendChild(p);
+    b.addEventListener('click', function () {
+      var url = location.origin + location.pathname + '#' + d.id;
+      var spune = function (t) { b.textContent = t; clearTimeout(b._t); b._t = setTimeout(function () { b.textContent = 'Copiază linkul'; }, 2500); };
+      var rezerva = function () {
+        try { history.replaceState(null, '', '#' + d.id); } catch (e) {}
+        spune('Linkul e în bara de adrese');
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { spune('Linkul a fost copiat'); }, rezerva);
+      else rezerva();
+    });
+  });
+
+  // N3: câmpul de căutare, deasupra temelor
+  var cutie = document.createElement('div'); cutie.className = 'faq-search';
+  cutie.innerHTML = '<label class="faq-search-label" for="cauta-intrebare">Caută o întrebare</label>' +
+    '<input id="cauta-intrebare" type="search" autocomplete="off" spellcheck="false" placeholder="de exemplu: teren, CNP, eoliene">' +
+    '<p class="faq-search-status" aria-live="polite"></p>';
+  faq.insertBefore(cutie, faq.firstChild);
+  var camp = cutie.querySelector('input'), stare = cutie.querySelector('.faq-search-status');
+  var initial = null;
+  function cauta() {
+    var q = simplu(camp.value).trim();
+    if (q.length < 2) {
+      if (initial) {
+        intrebari.forEach(function (d) { d.hidden = false; d.open = initial.get(d); });
+        grupuri.forEach(function (g) { g.hidden = false; g.open = initial.get(g); });
+        initial = null;
+      }
+      stare.textContent = '';
+      return;
+    }
+    if (!initial) { initial = new Map(); intrebari.concat(grupuri).forEach(function (d) { initial.set(d, d.open); }); }
+    var gasite = 0;
+    intrebari.forEach(function (d) { var da = d._text.indexOf(q) !== -1; d.hidden = !da; d.open = da; if (da) gasite++; });
+    grupuri.forEach(function (g) { var are = !!g.querySelector('details.toggle[id]:not([hidden])'); g.hidden = !are; g.open = are; });
+    stare.textContent = gasite === 0 ? 'Nicio întrebare nu conține „' + camp.value.trim() + '”.' : gasite === 1 ? 'O întrebare găsită.' : gasite + ' întrebări găsite.';
+  }
+  camp.addEventListener('input', cauta);
+  camp.addEventListener('search', cauta);
+  // linkul unei întrebări: după ce scripturile au adăugat câmpul și butoanele, întrebarea se aduce din nou sub antet
+  // (fără animație, ca imaginile încărcate între timp să nu mute ținta; nu se mai corectează după ce omul derulează singur)
+  var miscat = false;
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, function () { miscat = true; }, { passive: true, once: true }); });
+  var reia = function () {
+    if (miscat) return;
+    var id = decodeURIComponent((location.hash || '').slice(1)), el = id && document.getElementById(id);
+    if (el && el.tagName === 'DETAILS' && faq.contains(el)) el.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+  setTimeout(reia, 0);
+  window.addEventListener('load', function () { reia(); setTimeout(reia, 700); });
 })();

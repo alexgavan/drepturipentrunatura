@@ -1439,9 +1439,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .foto-credit-banda em { font-style: italic; }
 .anim .foto-credit-banda { opacity: var(--credit-o, 0); transform: translateX(calc((1 - var(--credit-o, 0)) * -12px)); }
 
-/* La „Problema”: colajul cu Alex și copacul tăiat, în locul fotografiei cu bușteni; pe telefon, fotografia din mijloc. */
-.quote-band.vede .quote-art-colaj { background-image: url("../img/fundal-foto-colaj.webp"); background-size: cover; background-position: 50% 25%; }
-@media (max-width: 760px) { .quote-band.vede .quote-art-colaj { background-image: url("../img/fundal-foto-colaj-mobil.webp"); background-position: 50% 20%; } }
 
 /* „O voce pentru natură”: fotografia mai depărtată pe ecranele late (banda mai înaltă, aceeași încadrare la orice lățime). */
 .propunerea > .prop-banda.banda-foto { min-height: min(30vw, 800px); display: grid; align-content: center; background-position: 50% 30%; }
@@ -1523,13 +1520,17 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* Banda „O voce pentru natură” e acum grilă: conținutul păstrează lățimea normală a paginii. */
 .propunerea > .prop-banda.banda-foto > .wrap { width: 100%; }
 @media (max-width: 760px) { .meter-update { justify-content: flex-start; text-align: left; } }
-/* Colajul se vede întreg, fără text peste el: fraza stă dedesubt, pe albastru; numele autorului, în colțul fotografiei. */
-.quote-band.quote-problema { display: block; min-height: 0; padding: 0 0 clamp(2.25rem, 5vw, 3.75rem); }
-.quote-band.quote-problema .quote-art-colaj { position: relative; inset: auto; width: 100%; height: min(calc(100vw * 900 / 2077), 80vh); transform: none; margin-bottom: clamp(1.75rem, 4vw, 3rem); }
-.quote-band.quote-problema .quote-art-colaj::after { display: none; }
-.quote-band.quote-problema .wrap { text-align: center; }
-.quote-band.quote-problema .foto-credit-banda { bottom: auto; top: calc(min(100vw * 900 / 2077, 80vh) - 2rem); }
+/* v130: „O voce pentru natură”: copacul se vede mai bine (Alex, 22.11.2026). Textul și cartonașele stau jos, voalul e
+   deschis sus și închis doar unde e textul, iar încadrarea cuprinde toată coroana. */
+.propunerea > .prop-banda.banda-foto { align-content: end; background-position: 50% 22%; }
+.propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .08) 40%, rgba(18, 22, 48, .62) 100%), url("../img/fundal-foto-ceata.webp"); }
+@media (min-width: 1600px) and (min-resolution: 1.5dppx) { .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .08) 40%, rgba(18, 22, 48, .62) 100%), url("../img/fundal-foto-ceata-mare.webp"); } }
 @media (max-width: 760px) {
-  .quote-band.quote-problema .quote-art-colaj { height: min(calc(100vw * 900 / 700), 80vh); }
-  .quote-band.quote-problema .foto-credit-banda { top: calc(min(100vw * 900 / 700, 80vh) - 2rem); }
+  .propunerea > .prop-banda.banda-foto { min-height: 120vw; padding-top: 3rem; }
+  .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .1) 0, rgba(18, 22, 48, .1) 30%, rgba(18, 22, 48, .66) 100%), url("../img/fundal-foto-ceata-mobil.webp"); background-position: 70% 20%; }
+}
+/* Pe calculator, titlul și cartonașele stau în stânga, pe trei coloane, iar copacul (în dreapta fotografiei) rămâne liber. */
+@media (min-width: 761px) {
+  .propunerea > .prop-banda.banda-foto .keeps-wrap { max-width: min(46rem, 55%); }
+  .propunerea > .prop-banda.banda-foto .keeps-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

@@ -264,7 +264,7 @@
   root.classList.add('anim');
 
   // apariție la derulare
-  var sel = '.section-head, .step, .right, .lesson, .pattern, .tl-item, .stat, .figure-line, .section-art, .doc, .ambassador, .note-card, .aside-card, .band-panel, .example-text, .toggle, .partner-card, .initiator, .quote-band blockquote, .closing-inner, .keeps li';
+  var sel = '.section-head, .step, .right, .lesson, .pattern, .tl-item, .stat, .figure-line, .section-art, .doc, .ambassador, .note-card, .aside-card, .band-panel, .example-text, .toggle, .partner-card, .initiator, .quote-band blockquote, .quote-band .band-line, .closing-inner, .keeps li';  // v141: și fraza de la „Problema” (Alex: „textele de la fotografii inițial erau animate”)
   var io = new IntersectionObserver(function (intrari) {
     intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });

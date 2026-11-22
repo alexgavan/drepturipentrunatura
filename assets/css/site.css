@@ -1977,3 +1977,15 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
     background-repeat: no-repeat;
   }
 }
+
+/* v173 (Alex, telefon: „nu apare tot textul” la lecții): pe telefon, rândul glisant al lecțiilor e un rând flexibil,
+   nu o grilă: fiecare casetă are înălțimea textului ei, iar rândul, înălțimea celei mai înalte casete, orice mărime
+   de literă ar fi setată în telefon. */
+html { text-size-adjust: 100%; }
+@media (max-width: 760px) {
+  .lectii-banda .lessons { display: flex; align-items: flex-start; height: auto; }
+  .lectii-banda .lessons > * { flex: 0 0 min(72vw, 19rem); height: auto; max-height: none; overflow: visible; }
+}
+/* v173 (Alex: „la Vâlsan apare un buton jos care nu își are rostul”): pe calculator, filele de sus ajung; butonul de
+   trecere la celălalt exemplu rămâne doar pe telefon, unde filele sunt departe, sus. */
+@media (min-width: 761px) { .tabs-exemple .tab-next { display: none; } }

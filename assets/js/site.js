@@ -1228,3 +1228,33 @@
   dinAdresa();
   mod();
 })();
+
+// v140: fotografiile de sub citate: zoom lent când banda intră pe ecran; pe calculator, și paralaxă ușoară
+(function () {
+  if (!document.documentElement.classList.contains('anim')) return;
+  var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band .quote-art-foto')).map(function (f) { return f.parentElement; });
+  if (!benzi.length) return;
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) {
+      e.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('foto-zoom'); io.unobserve(x.target); } });
+    }, { threshold: 0.3 });
+    benzi.forEach(function (b) { io.observe(b); });
+  } else benzi.forEach(function (b) { b.classList.add('foto-zoom'); });
+  var raf = null;
+  function paralaxa() {
+    raf = null;
+    benzi.forEach(function (b) {
+      var f = b.querySelector('.quote-art-foto');
+      if (innerWidth <= 760) { f.style.removeProperty('--pyf'); return; }
+      var r = b.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;   // -0,5 … 0,5 cât timp banda e pe ecran
+      var max = r.height * 0.02;                                           // jumătate din cei 4 % în plus
+      var y = Math.max(-max, Math.min(max, k * -2 * max));
+      f.style.setProperty('--pyf', y.toFixed(1) + 'px');
+    });
+  }
+  addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(paralaxa); }, { passive: true });
+  addEventListener('resize', paralaxa);
+  paralaxa();
+})();

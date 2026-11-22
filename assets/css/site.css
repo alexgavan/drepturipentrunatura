@@ -1749,3 +1749,12 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
     rgb(34, 45, 124) url("../img/vizual-intrebari-munti-700.webp") no-repeat 50% 0 / 100% auto; }
   .faq-fundal .section-head h2, .faq-fundal .section-head .eyebrow { text-shadow: 0 2px 12px rgba(18, 22, 48, .6); }
 }
+
+/* v147: temele de la „Întrebări” arată că se trag cu degetul doar prin mișcare (fără text): rândul alunecă vizibil spre stânga
+   și revine, de două ori, când ajunge pe ecran; mișcarea se repetă o dată după câteva secunde, dacă rândul n-a fost atins */
+@keyframes rfn-teme { 0%, 100% { transform: translateX(0); } 22% { transform: translateX(-90px); } 44% { transform: translateX(0); } 64% { transform: translateX(-45px); } 82% { transform: translateX(0); } }
+@media (max-width: 760px) {
+  .faq-teme.teme-hint > * { animation: rfn-teme 1.8s cubic-bezier(.4, 0, .2, 1) .2s 1; }
+  .faq-teme.swipe-hint > * { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) { .faq-teme.teme-hint > * { animation: none; } }

@@ -973,8 +973,8 @@
   var intrebari = Array.prototype.slice.call(faq.querySelectorAll('details.toggle[id]'));
   if (!intrebari.length) return;
 
-  // N4: linkul fiecărei întrebări; cine îl deschide ajunge la ea, deschisă (vezi „deschiderea întrebării din adresă”)
-  intrebari.forEach(function (d) {
+  // N4: butonul „Copiază linkul” a ieșit în v143 (Alex: „scoate copiază linkul”); linkurile întrebărilor funcționează în continuare
+  if (false) intrebari.forEach(function (d) {
     var corp = d.querySelector('.toggle-body');
     if (!corp) return;
     var p = document.createElement('p'); p.className = 'faq-link';
@@ -1198,6 +1198,22 @@
     bara.appendChild(b); return b;
   });
   faq.parentNode.insertBefore(bara, faq);
+  // v143: semnul că rândul se trage cu degetul
+  var nota = document.createElement('p'); nota.className = 'faq-teme-nota'; nota.setAttribute('aria-hidden', 'true'); nota.textContent = 'Glisează pentru celelalte teme \u2192';
+  faq.parentNode.insertBefore(nota, faq);
+  bara.addEventListener('scroll', function () {
+    var capat = bara.scrollLeft + bara.clientWidth >= bara.scrollWidth - 4;
+    bara.classList.toggle('la-capat', capat);
+    if (bara.scrollLeft > 10) nota.style.visibility = 'hidden';
+  }, { passive: true });
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var ioT = new IntersectionObserver(function (e) {
+      if (!e[0].isIntersecting || !mq.matches) return;
+      ioT.disconnect();
+      bara.classList.add('swipe-hint'); setTimeout(function () { bara.classList.remove('swipe-hint'); }, 1700);
+    }, { threshold: 0.8 });
+    ioT.observe(bara);
+  }
   var activ = grupuri[0];
   function alege(g, deLaOm) {
     activ = g;
@@ -1254,7 +1270,28 @@
       f.style.setProperty('--pyf', y.toFixed(1) + 'px');
     });
   }
-  addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(paralaxa); }, { passive: true });
-  addEventListener('resize', paralaxa);
-  paralaxa();
+  // v143: mișcarea o face acum blocul de mai jos, după derulare (paralaxa de aici nu mai pornește)
+  void paralaxa;
+})();
+
+// v143: fotografiile de sub citate: zoomul (108 % → 118 %) și mișcarea (cel mult 3,5 % din înălțime) urmează derularea, pe toate ecranele
+(function () {
+  if (!document.documentElement.classList.contains('anim')) return;
+  var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band .quote-art-foto')).map(function (f) { return f.parentElement; });
+  if (!benzi.length) return;
+  var raf = null;
+  function misca() {
+    raf = null;
+    benzi.forEach(function (b) {
+      var f = b.querySelector('.quote-art-foto'), r = b.getBoundingClientRect();
+      if (r.bottom < -50 || r.top > innerHeight + 50) return;
+      var p = Math.max(0, Math.min(1, (innerHeight - r.top) / (innerHeight + r.height)));   // 0 când intră jos, 1 când iese sus
+      var s = 1.08 + 0.1 * p, max = r.height * Math.min(0.035, (s - 1) / 2 - 0.005);
+      f.style.setProperty('--zs', s.toFixed(4));
+      f.style.setProperty('--pyf', ((0.5 - p) * 2 * max).toFixed(1) + 'px');
+    });
+  }
+  addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(misca); }, { passive: true });
+  addEventListener('resize', misca);
+  misca();
 })();

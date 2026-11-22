@@ -718,12 +718,12 @@
   var poateTrimite = false, blobGata = null, tBlob = null;
   try {
     poateTrimite = !!(navigator.share && navigator.canShare && window.matchMedia && matchMedia('(pointer: coarse)').matches &&
-      navigator.canShare({ files: [new File([new Blob(['x'], { type: 'image/png' })], 'proba.png', { type: 'image/png' })] }));
+      navigator.canShare({ files: [new File([new Blob(['x'], { type: 'image/jpeg' })], 'proba.jpg', { type: 'image/jpeg' })] }));
   } catch (e) { poateTrimite = false; }
   function pregatesteBlob() {
     if (!poateTrimite) return;
     clearTimeout(tBlob);
-    tBlob = setTimeout(function () { cv.toBlob(function (bl) { if (bl) blobGata = bl; }, 'image/png'); }, 250);
+    tBlob = setTimeout(function () { cv.toBlob(function (bl) { if (bl) blobGata = bl; }, 'image/jpeg', 0.92); }, 250);   // v156: JPG, nu PNG
   }
 
   function locul() {
@@ -924,7 +924,7 @@
 
   function numeFisier() {
     var s = locul().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    return 'sunt-vocea-' + (s || 'naturii') + (st.mod === 'profil' ? '-profil' : '-' + st.format) + '.png';
+    return 'sunt-vocea-' + (s || 'naturii') + (st.mod === 'profil' ? '-profil' : '-' + st.format) + '.jpg';
   }
   function descarca() {
     cv.toBlob(function (b) {
@@ -932,13 +932,13 @@
       var a = document.createElement('a'), u = URL.createObjectURL(b);
       a.href = u; a.download = numeFisier(); document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
-    }, 'image/png');
+    }, 'image/jpeg', 0.92);   // v156: imaginea se descarcă în JPG (Alex: „nu ar trebui să se descarce jpg și nu png?”)
   }
   var btnImg = document.getElementById('voce-descarca');
   btnImg.addEventListener('click', function () {
     desen();
     if (poateTrimite && blobGata) {
-      var f = new File([blobGata], numeFisier(), { type: 'image/png' });
+      var f = new File([blobGata], numeFisier(), { type: 'image/jpeg' });
       navigator.share({ files: [f] }).catch(function (e) { if (!e || e.name !== 'AbortError') descarca(); });
       return;
     }

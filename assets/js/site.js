@@ -101,11 +101,23 @@
     var langaSemnare = false;
     if (semneaza) { var r = semneaza.getBoundingClientRect(); langaSemnare = r.top < h && r.bottom > 0; }
     if (bara) {
-      var vizibila = y > h * 0.9 && !langaSemnare;
+      var vizibila = y > h * 0.9;
       bara.classList.toggle('is-visible', vizibila);
       bara.setAttribute('aria-hidden', vizibila ? 'false' : 'true');
-      var a = bara.querySelector('a'); if (a) a.tabIndex = vizibila ? 0 : -1;
+      Array.prototype.forEach.call(bara.querySelectorAll('a, button'), function (el) { el.tabIndex = vizibila ? 0 : -1; });
       document.body.classList.toggle('has-sign-bar', vizibila);
+      // v151 (S2): în secțiunea „Semnează”, butonul barei duce direct la formularul Comisiei
+      if (bara._direct !== langaSemnare) {
+        bara._direct = langaSemnare;
+        var a = bara.querySelector('a.btn'), mare = semneaza && semneaza.querySelector('.sign-cta a');
+        bara.classList.toggle('is-direct', langaSemnare);
+        if (a && langaSemnare && mare) {
+          a.href = mare.href; a.target = '_blank'; a.rel = 'noopener';
+          a.innerHTML = 'Semnează pe site-ul Comisiei <span aria-hidden="true">↗</span>';
+        } else if (a) {
+          a.href = '#semneaza'; a.removeAttribute('target'); a.removeAttribute('rel'); a.textContent = 'Semnează';
+        }
+      }
     }
     if (sus) sus.hidden = y < h * 2;
   }
@@ -682,12 +694,36 @@
   var muta = document.getElementById('voce-muta'), fara = document.getElementById('voce-fara');
   var etPoza = document.getElementById('voce-et-poza'), pasFormat = document.getElementById('voce-pas-format');
   var txt = document.getElementById('voce-text');
+  var semnat = document.getElementById('voce-semnat');   // v151 (C5)
+  function aSemnat() { return !!(semnat && semnat.checked); }
   function img(src) { var i = new Image(); i.onload = desen; i.src = src; return i; }
   var sigla = img(sec.getAttribute('data-sigla')), libelula = img(sec.getAttribute('data-libelula'));
   // v114: la postare, până își alege omul poza, apare o fotografie de exemplu (Alex Găvan)
-  var exemplu = sec.getAttribute('data-exemplu') ? img(sec.getAttribute('data-exemplu')) : null;
-  if (exemplu) st.poza.postare = exemplu;
+  // v151 (R1): fotografia se încarcă abia când unealta ajunge aproape de ecran sau când omul alege „Postare”
+  var exSrc = sec.getAttribute('data-exemplu'), exemplu = null;
+  if (exSrc) { exemplu = new Image(); exemplu.onload = function () { desen(); }; st.poza.postare = exemplu; }
+  function incarcaExemplu() { if (exemplu && !exemplu.getAttribute('src')) exemplu.src = exSrc; }
+  if (exemplu) {
+    if ('IntersectionObserver' in window) {
+      var ioEx = new IntersectionObserver(function (e) {
+        if (e.some(function (x) { return x.isIntersecting; })) { incarcaExemplu(); ioEx.disconnect(); }
+      }, { rootMargin: '400px 0px' });
+      ioEx.observe(cv);
+    } else incarcaExemplu();
+  }
   function gata(i) { return i && i.complete && i.naturalWidth > 0; }
+  // v151 (C1): pe telefoanele care pot trimite fișiere din pagină, imaginea pleacă direct în aplicații (Web Share API).
+  // Imaginea se pregătește după fiecare schimbare, ca trimiterea să pornească imediat la apăsare.
+  var poateTrimite = false, blobGata = null, tBlob = null;
+  try {
+    poateTrimite = !!(navigator.share && navigator.canShare && window.matchMedia && matchMedia('(pointer: coarse)').matches &&
+      navigator.canShare({ files: [new File([new Blob(['x'], { type: 'image/png' })], 'proba.png', { type: 'image/png' })] }));
+  } catch (e) { poateTrimite = false; }
+  function pregatesteBlob() {
+    if (!poateTrimite) return;
+    clearTimeout(tBlob);
+    tBlob = setTimeout(function () { cv.toBlob(function (bl) { if (bl) blobGata = bl; }, 'image/png'); }, 250);
+  }
 
   function locul() {
     var v = (inLoc.value || '').replace(/\s+/g, ' ').trim();
@@ -748,10 +784,12 @@
     ctx.restore();
     var rText = c - inel / 2;
     ctx.save(); ctx.lineWidth = inel; ctx.strokeStyle = C.yellow; ctx.beginPath(); ctx.arc(c, c, rText, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    var jos = mari(aSemnat() ? 'Am semnat · Tu a cui voce ești?' : 'Tu a cui voce ești?'), spJos = 4;
+    ctx.font = '700 40px ' + FM;
+    var latJosEst = Array.from(jos).reduce(function (a, ch) { return a + ctx.measureText(ch).width + spJos; }, 0);
     var sus = mari('Sunt vocea ' + locul()), spSus = 3;
-    var mSus = marimeArc(sus, '700 {m}px ' + FD, rText * 4.1, 76, 34, spSus);
+    var mSus = marimeArc(sus, '700 {m}px ' + FD, Math.min(rText * 4.1, 2 * Math.PI * rText - latJosEst - 160), 76, 30, spSus);
     var latSus = arc(sus, c, c, rText, -Math.PI / 2, '700 ' + mSus + 'px ' + FD, C.indigo, false, spSus);
-    var jos = mari('Tu a cui voce ești?'), spJos = 4;
     var latJos = arc(jos, c, c, rText, Math.PI / 2, '700 40px ' + FM, C.indigo, true, spJos);
     // două puncte portocalii, la jumătatea distanței dintre cele două texte
     var capSus = latSus / rText / 2, capJos = latJos / rText / 2;
@@ -804,6 +842,7 @@
     y += lh - mar * .82 - 30;
     ctx.fillStyle = C.paper; ctx.font = '700 54px ' + FM;
     ctx.fillText(mari('Sunt vocea'), m, y);
+    if (aSemnat()) { ctx.fillStyle = C.yellow; ctx.font = '700 34px ' + FM; ctx.fillText(mari('Am semnat inițiativa'), m, y - 76); }
   }
 
   function desen() {
@@ -812,6 +851,7 @@
     if (cv.height !== d[1]) cv.height = d[1];
     ctx.clearRect(0, 0, cv.width, cv.height);
     if (st.mod === 'profil') profil(); else postare();
+    pregatesteBlob();
   }
 
   function textPostare() {
@@ -841,12 +881,13 @@
   }
 
   sec.querySelectorAll('[data-mod]').forEach(function (b) {
-    b.addEventListener('click', function () { st.mod = b.getAttribute('data-mod'); stare(); });
+    b.addEventListener('click', function () { st.mod = b.getAttribute('data-mod'); if (st.mod === 'postare') incarcaExemplu(); stare(); });
   });
   sec.querySelectorAll('[data-format]').forEach(function (b) {
     b.addEventListener('click', function () { st.format = b.getAttribute('data-format'); stare(); });
   });
   inLoc.addEventListener('input', stare);
+  if (semnat) semnat.addEventListener('change', stare);
   inPoza.addEventListener('change', function () {
     var f = inPoza.files && inPoza.files[0]; if (!f) return;
     var mod = st.mod, i = new Image(), url = URL.createObjectURL(f);
@@ -884,15 +925,25 @@
     var s = locul().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     return 'sunt-vocea-' + (s || 'naturii') + (st.mod === 'profil' ? '-profil' : '-' + st.format) + '.png';
   }
-  document.getElementById('voce-descarca').addEventListener('click', function () {
-    desen();
+  function descarca() {
     cv.toBlob(function (b) {
       if (!b) return;
       var a = document.createElement('a'), u = URL.createObjectURL(b);
       a.href = u; a.download = numeFisier(); document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
     }, 'image/png');
+  }
+  var btnImg = document.getElementById('voce-descarca');
+  btnImg.addEventListener('click', function () {
+    desen();
+    if (poateTrimite && blobGata) {
+      var f = new File([blobGata], numeFisier(), { type: 'image/png' });
+      navigator.share({ files: [f] }).catch(function (e) { if (!e || e.name !== 'AbortError') descarca(); });
+      return;
+    }
+    descarca();
   });
+  if (poateTrimite) btnImg.textContent = 'Trimite imaginea';
   var cop = document.getElementById('voce-copiaza');
   cop.addEventListener('click', function () {
     function ok() { var t = cop.textContent; cop.textContent = 'Text copiat'; setTimeout(function () { cop.textContent = t; }, 2000); }
@@ -926,8 +977,10 @@
       }, { threshold: 0.05 }).observe(art);
     }
   }
-  if (document.readyState === 'complete') setTimeout(porneste, 300);
-  else addEventListener('load', function () { setTimeout(porneste, 300); });
+  // v151 (R3): după încărcarea paginii (ilustrația e deja afișată) și când browserul e liber; și la economisirea datelor
+  var liber = window.requestIdleCallback ? function (f) { requestIdleCallback(f, { timeout: 2000 }); } : function (f) { setTimeout(f, 300); };
+  if (document.readyState === 'complete') liber(porneste);
+  else addEventListener('load', function () { liber(porneste); });
 })();
 
 // v124: fotografiile din benzi se încarcă doar când banda se apropie de ecran
@@ -1136,6 +1189,7 @@
     var dupa = bl.querySelector('[data-plus-tel-dupa]'), corpuri = bl.querySelectorAll('.plus-tel-body');
     if (!dupa || !corpuri.length) return;
     var nume = bl.getAttribute('data-plus-tel-nume') || dupa.textContent.trim();
+    var et = bl.getAttribute('data-plus-tel-eticheta');   // v151 (C2): „+ Fă-ți imaginea”
     var ids = Array.prototype.map.call(corpuri, function (c) { if (!c.id) c.id = 'plus-tel-' + (++n); return c.id; });
     var p = document.createElement('p'); p.className = 'plus-tel-rand';
     var b = document.createElement('button'); b.type = 'button'; b.className = 'plus-btn';
@@ -1144,7 +1198,8 @@
     function seteaza(d) {
       bl.classList.toggle('plus-tel-deschis', d);
       b.setAttribute('aria-expanded', d ? 'true' : 'false');
-      b.textContent = d ? '\u2212' : '+';
+      b.textContent = d ? '\u2212' : (et ? '+ ' + et : '+');
+      b.classList.toggle('plus-btn-eticheta', !!et && !d);
       b.setAttribute('aria-label', (d ? 'Mai puțin: ' : 'Mai mult: ') + nume);
     }
     bl._plusTel = seteaza;
@@ -1339,4 +1394,28 @@
     r.classList.toggle('la-capat', r.scrollLeft + r.clientWidth >= r.scrollWidth - 4);
     if (r.scrollLeft > 10) nota.style.visibility = 'hidden';
   }, { passive: true });
+})();
+
+
+// v151 (C3): „Trimite mai departe” în banda de final: pe telefon, meniul de distribuire; pe calculator, copiază linkul
+(function () {
+  var b = document.querySelector('.closing-share');
+  if (!b) return;
+  var sh = document.querySelector('#semneaza .share');
+  var url = (sh && sh.getAttribute('data-share-url')) || location.href.split('#')[0];
+  var text = (sh && sh.getAttribute('data-share-text')) || '';
+  var tel = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+  var et = b.textContent;
+  function copiat() { b.textContent = 'Linkul a fost copiat'; setTimeout(function () { b.textContent = et; }, 2500); }
+  function copiazaVechi() {
+    var t = document.createElement('textarea'); t.value = url; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); copiat(); } catch (e) {}
+    t.remove();
+  }
+  b.addEventListener('click', function () {
+    if (tel && navigator.share) { navigator.share({ title: document.title, text: text, url: url }).catch(function () {}); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(copiat, copiazaVechi);
+    else copiazaVechi();
+  });
 })();

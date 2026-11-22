@@ -1278,12 +1278,31 @@
 (function () {
   if (!document.documentElement.classList.contains('anim')) return;
   var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band .quote-art-foto')).map(function (f) { return f.parentElement; });
+  // v145: și benzile cu fotografie pe fundal („O voce pentru natură”, „25 de lecții”): fotografia trece într-un strat care se mișcă
+  var cuStrat = Array.prototype.slice.call(document.querySelectorAll('.prop-banda.banda-foto, .lectii-banda'));
+  function strat(b) {
+    if (!b.classList.contains('vede')) return;
+    var f = b._strat;
+    if (!f) { f = b._strat = document.createElement('div'); f.className = 'foto-strat'; f.setAttribute('aria-hidden', 'true'); b.insertBefore(f, b.firstChild); }
+    b.classList.remove('are-strat');
+    var cs = getComputedStyle(b);
+    f.style.backgroundImage = cs.backgroundImage; f.style.backgroundPosition = cs.backgroundPosition;
+    f.style.backgroundSize = cs.backgroundSize; f.style.backgroundRepeat = cs.backgroundRepeat;
+    if (cs.backgroundImage && cs.backgroundImage !== 'none') b.classList.add('are-strat');
+  }
+  cuStrat.forEach(function (b) {
+    strat(b);
+    if ('MutationObserver' in window) new MutationObserver(function () { if (b.classList.contains('vede') && !b.classList.contains('are-strat')) { strat(b); misca(); } }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  });
+  addEventListener('resize', function () { cuStrat.forEach(strat); });
+  benzi = benzi.concat(cuStrat);
   if (!benzi.length) return;
   var raf = null;
   function misca() {
     raf = null;
     benzi.forEach(function (b) {
-      var f = b.querySelector('.quote-art-foto'), r = b.getBoundingClientRect();
+      var f = b.querySelector('.quote-art-foto') || b._strat, r = b.getBoundingClientRect();
+      if (!f) return;
       if (r.bottom < -50 || r.top > innerHeight + 50) return;
       var p = Math.max(0, Math.min(1, (innerHeight - r.top) / (innerHeight + r.height)));   // 0 când intră jos, 1 când iese sus
       var s = 1.08 + 0.1 * p, max = r.height * Math.min(0.035, (s - 1) / 2 - 0.005);

@@ -730,6 +730,11 @@
     var v = (inLoc.value || '').replace(/\s+/g, ' ').trim();
     return v || 'naturii';
   }
+  // v157 (Alex, 22.11.2026): când locul e „naturii”, întrebarea îl include și pe cel care primește imaginea;
+  // la un loc anume rămâne „Tu a cui voce ești?” (locul e scris liber, poate fi și la plural).
+  function intrebare() {
+    return /^naturii$/i.test(locul()) ? 'Îi dai și tu voce?' : 'Tu a cui voce ești?';
+  }
   function mari(s) { try { return s.toLocaleUpperCase('ro-RO'); } catch (e) { return s.toUpperCase(); } }
   function dim() {
     if (st.mod === 'profil') return [1080, 1080];
@@ -785,7 +790,7 @@
     ctx.restore();
     var rText = c - inel / 2;
     ctx.save(); ctx.lineWidth = inel; ctx.strokeStyle = C.yellow; ctx.beginPath(); ctx.arc(c, c, rText, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
-    var jos = mari(aSemnat() ? 'Am semnat · Tu a cui voce ești?' : 'Tu a cui voce ești?'), spJos = 4;
+    var jos = mari(aSemnat() ? 'Am semnat · ' + intrebare() : intrebare()), spJos = 4;
     ctx.font = '700 40px ' + FM;
     var latJosEst = Array.from(jos).reduce(function (a, ch) { return a + ctx.measureText(ch).width + spJos; }, 0);
     var sus = mari('Sunt vocea ' + locul()), spSus = 3;
@@ -833,7 +838,7 @@
     var y = H - jos;
     ctx.fillStyle = C.paper; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.font = '700 30px ' + FM; ctx.fillText('Semnează pe ' + SITE, m, y);
-    y -= 50; ctx.font = '600 46px ' + FD; ctx.fillText('Tu a cui voce ești?', m, y);
+    y -= 50; ctx.font = '600 46px ' + FD; ctx.fillText(intrebare(), m, y);
     y -= 50; ctx.fillStyle = C.yellow; ctx.fillRect(m, y, maxLat, 4);
     var loc = mari(locul()), mar = 190, rez;
     for (; mar >= 56; mar -= 4) { rez = randuri(loc, maxLat, mar); if (rez.ok && rez.r.length <= 3) break; }
@@ -860,7 +865,7 @@
       'Un râu nu poate spune ce i se întâmplă. Nici o pădure.\n\n' +
       'Am semnat inițiativa cetățenească europeană „Drepturi pentru Natură”, care cere o lege a Uniunii prin care natura să aibă drepturi și oameni care s-o apere.\n\n' +
       'Semnează și tu, durează cam un minut: ' + SITE + '\n\n' +
-      'Tu a cui voce ești?';
+      intrebare();
   }
 
   function stare() {

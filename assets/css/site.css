@@ -1382,13 +1382,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (prefers-reduced-motion: no-preference) { .anim .timeline.is-in .tl-item.is-current::before { animation: puls-pas 2.4s ease-out 1.3s infinite; } }
 @keyframes puls-pas { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--orange) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 .7rem color-mix(in srgb, var(--orange) 0%, transparent); } }
 
-/* ---------- v127 (N3, N4): căutarea și linkurile de la „Întrebări” ---------- */
-.faq-search { display: grid; gap: .45rem; margin-bottom: 1rem; }
-.faq-search-label { font: 600 .8rem/1.2 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--indigo); }
-.faq-search input { width: 100%; min-width: 0; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 2px solid var(--indigo); border-radius: var(--radius-md); padding: .75rem 1rem; }
-.faq-search input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
-.faq-search-status { min-height: 1.2em; font-size: .85rem; color: var(--muted); }
-.faq-search-status:empty { display: none; }
+/* ---------- v127 (N4): linkurile de la „Întrebări” (căutarea, N3, a ieșit în v132) ---------- */
 .faq-link { margin: 0; }
 .faq-copy { font: 600 .78rem/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: var(--link); background: none; border: 1.5px solid currentColor; border-radius: 999px; padding: .45rem .8rem; cursor: pointer; }
 .faq-copy:hover { color: var(--indigo); }

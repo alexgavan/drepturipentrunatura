@@ -1730,3 +1730,22 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v146: lista de jos de pe telefon (din bara cu contorul), cu majuscule, ca lista de sus (Alex, 22.11.2026) */
 .section-sheet .nav-list > li > a { text-transform: uppercase; letter-spacing: .05em; font-size: .84rem; }
 .section-sheet .nav-sub a, .section-sheet .nav-list ul a { text-transform: uppercase; letter-spacing: .05em; }
+/* v146: „O voce pentru natură”, pe telefon: puțin mai departe (150 % în loc de 190 %), iar copacul nu mai stă fix în mijloc, ci spre dreapta */
+@media (max-width: 760px) {
+  .propunerea > .prop-banda.banda-foto.vede { background-size: auto 150%; background-position: 62% 36%; }
+}
+/* v146: „25 de lecții”, pe telefon: fotografia de fundal mutată puțin spre dreapta (se vede mai mult din partea ei stângă) */
+@media (max-width: 760px) { .lectii-banda.vede { background-position: 25% 0%; } }
+/* v146: „Întrebări”: secțiunea se termină în culoarea ei, ca celelalte secțiuni, nu cu marginea desenului lipită de fotografia
+   care urmează (Alex: „nu-mi place trecerea asta”). Pe calculator, partea de jos a desenului se estompează în albastru;
+   pe telefon, desenul stă sus, în spatele titlului, și se estompează spre întrebări. */
+.faq-fundal { background:
+  linear-gradient(180deg, rgba(34, 45, 124, 0) 70%, rgb(34, 45, 124) 100%) no-repeat,
+  linear-gradient(90deg, rgb(34, 45, 124) 0, rgb(34, 45, 124) 35%, rgba(34, 45, 124, 0) 55%) no-repeat,
+  rgb(34, 45, 124) url("../img/vizual-intrebari-munti.webp") no-repeat 100% 100% / auto 100%; }
+@media (max-width: 760px) {
+  .faq-fundal { padding-bottom: clamp(2.6rem, 6vw, 4.9rem); background:
+    linear-gradient(180deg, rgba(34, 45, 124, .55) 0, rgba(34, 45, 124, 0) 28vw, rgba(34, 45, 124, 0) 40vw, rgb(34, 45, 124) 64vw) no-repeat,
+    rgb(34, 45, 124) url("../img/vizual-intrebari-munti-700.webp") no-repeat 50% 0 / 100% auto; }
+  .faq-fundal .section-head h2, .faq-fundal .section-head .eyebrow { text-shadow: 0 2px 12px rgba(18, 22, 48, .6); }
+}

@@ -1769,3 +1769,12 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 
 /* v149: subsolul fără blocul „Inițiativa” (Alex, 22.11.2026): rămân două coloane, numele inițiativei și „Mergi la” */
 @media (min-width: 901px) { .footer-top { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); } }
+
+/* v150: caseta inițiatorului: toată caseta duce la rightsfornature.eu, iar rândul de jos la registrul Comisiei */
+.org-dublu { position: relative; }
+.org-dublu .org-acoperire { color: inherit; text-decoration: none; }
+.org-dublu .org-acoperire::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.org-dublu .org-acoperire:focus-visible { outline: none; }
+.org-dublu:has(.org-acoperire:focus-visible) { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.org-dublu .org-registru { position: relative; z-index: 1; margin: .2rem 0 0; font-size: .9rem; line-height: 1.4; }
+.org-dublu .org-registru a { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding-block: .3rem; }

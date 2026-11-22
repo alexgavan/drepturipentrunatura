@@ -1959,3 +1959,21 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { .oameni-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .56) 0, rgba(18, 22, 48, .36) 22%, rgba(18, 22, 48, .2) 40%, rgba(18, 22, 48, .4) 100%), url("../img/fundal-foto-salcudean-mobil.webp"); background-position: 50% 0%; } }
 /* v167: banda de după fotografie păstrează spațierea benzilor următoare (înainte, prima bandă albă o avea de la regula .oameni-banda + .oameni-banda) */
 .people-section > .oameni-foto + .oameni-banda { padding-block: clamp(2.4rem, 5vw, 3.8rem); }
+
+/* v168 (Alex: „un pic mai transparente să fie căsuțele”; „acum poza e puțin neclară, să îi dai zoom out”):
+   - casetele de pe fotografie: 0,72 în loc de 0,86, fără estomparea fotografiei din spatele lor;
+   - pe telefon, fotografia nu mai e mărită cât toată banda (în v167, cu casetele, banda s-a înălțat și imaginea a ajuns
+     la 2,2 pixeli de ecran pe pixel de imagine): acoperă lățimea și partea de sus (înălțimea imaginii: 150 % din lățimea ecranului; 1,4 pixeli de ecran pe pixel de imagine
+     la densitatea 3), apoi se topește într-un verde foarte închis, ca la amurg. */
+.oameni-foto .org { background: rgba(44, 54, 126, .72); -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (max-width: 760px) {
+  .oameni-foto { background-color: rgb(26, 34, 22); }
+  .oameni-foto.vede {
+    background-image: linear-gradient(180deg, rgba(18, 22, 48, .56) 0, rgba(18, 22, 48, .36) 22%, rgba(18, 22, 48, .2) 40%, rgba(18, 22, 48, .4) 100%),
+      linear-gradient(180deg, rgba(26, 34, 22, 0) 45%, rgb(26, 34, 22) 96%),
+      url("../img/fundal-foto-salcudean-mobil.webp");
+    background-size: 100% 100%, 100% 150vw, auto 150vw;
+    background-position: 0 0, 0 0, 50% 0;
+    background-repeat: no-repeat;
+  }
+}

@@ -1177,3 +1177,54 @@
   window.addEventListener('hashchange', laIntrebare);
   window.addEventListener('load', laIntrebare);
 })();
+
+// v139: pe telefon, întrebările frecvente au deasupra un rând cu cele 5 teme; tema aleasă își arată imediat
+// răspunsurile, pe cartonașe care se trag cu degetul (Alex, 22.11.2026: „Răspunsuri la întrebările frecvente – tot cu glisare”)
+(function () {
+  var faq = document.querySelector('#intrebari .faq');
+  if (!faq) return;
+  var grupuri = Array.prototype.slice.call(faq.querySelectorAll(':scope > details.faq-group'));
+  if (grupuri.length < 2) return;
+  var mq = window.matchMedia('(max-width: 760px)');
+  var bara = document.createElement('div'); bara.className = 'faq-teme'; bara.setAttribute('role', 'tablist'); bara.setAttribute('aria-label', 'Temele întrebărilor');
+  var butoane = grupuri.map(function (g) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'faq-tema'; b.setAttribute('role', 'tab');
+    var t = g.querySelector('.faq-group-title'), c = g.querySelector('.faq-count');
+    b.innerHTML = '<span></span><small></small>';
+    b.firstChild.textContent = t ? t.textContent.trim() : '';
+    b.lastChild.textContent = c ? c.textContent.trim() : '';
+    b.setAttribute('aria-controls', g.id);
+    b.addEventListener('click', function () { alege(g, true); });
+    bara.appendChild(b); return b;
+  });
+  faq.parentNode.insertBefore(bara, faq);
+  var activ = grupuri[0];
+  function alege(g, deLaOm) {
+    activ = g;
+    grupuri.forEach(function (x, k) {
+      var da = x === g;
+      x.classList.toggle('faq-activ', da);
+      butoane[k].classList.toggle('is-on', da);
+      butoane[k].setAttribute('aria-selected', da ? 'true' : 'false');
+      if (da && mq.matches) x.open = true;
+    });
+    if (deLaOm) { var r = g.querySelector('.toggles'); if (r) r.scrollLeft = 0; var bi = butoane[grupuri.indexOf(g)]; bara.scrollTo({ left: bi.offsetLeft - 16, behavior: 'smooth' }); }
+  }
+  function mod() { faq.classList.toggle('faq-tab', mq.matches); if (mq.matches) alege(activ, false); }
+  if (mq.addEventListener) mq.addEventListener('change', mod);
+  // linkul unei teme sau al unei întrebări alege tema ei
+  function dinAdresa() {
+    if (!location.hash) return;
+    var t = document.getElementById(location.hash.slice(1)); if (!t) return;
+    var g = t.closest ? t.closest('details.faq-group') : null;
+    if (g && grupuri.indexOf(g) >= 0) alege(g, false);
+    var r = t.parentElement;
+    if (mq.matches && t.matches('.faq-group > .toggles > details.toggle')) {
+      var muta = function () { r.scrollLeft += t.getBoundingClientRect().left - r.getBoundingClientRect().left - parseFloat(getComputedStyle(r).paddingLeft || 0); };
+      muta(); setTimeout(muta, 400); window.addEventListener('load', function () { setTimeout(muta, 300); });
+    }
+  }
+  window.addEventListener('hashchange', function () { dinAdresa(); });
+  dinAdresa();
+  mod();
+})();

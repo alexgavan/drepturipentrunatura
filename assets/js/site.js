@@ -1322,9 +1322,19 @@
 (function () {
   var r = document.querySelector('.lectii-banda .lessons');
   if (!r) return;
-  var nota = document.createElement('p'); nota.className = 'lectii-nota'; nota.setAttribute('aria-hidden', 'true');
-  nota.textContent = 'Glisează pentru celelalte lecții \u2192';
-  r.parentNode.insertBefore(nota, r);
+  // v148: fără text („Glisează…”); se înțelege din mișcarea cartonașelor, ca la „Întrebări” (Alex, 22.11.2026)
+  var nota = { style: {} };
+  var mq = window.matchMedia('(max-width: 760px)');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var atins = false;
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { r.addEventListener(ev, function () { atins = true; }, { passive: true, once: true }); });
+    var arata = function () { if (atins) return; r.classList.remove('teme-hint'); void r.offsetWidth; r.classList.add('teme-hint'); };
+    var io = new IntersectionObserver(function (e) {
+      if (!e[0].isIntersecting || !mq.matches) return;
+      io.disconnect(); arata(); setTimeout(arata, 4500);
+    }, { threshold: 0.4 });
+    io.observe(r);
+  }
   r.addEventListener('scroll', function () {
     r.classList.toggle('la-capat', r.scrollLeft + r.clientWidth >= r.scrollWidth - 4);
     if (r.scrollLeft > 10) nota.style.visibility = 'hidden';

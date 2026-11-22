@@ -136,6 +136,7 @@
     btn.className = cuPlus ? 'plus-btn' : 'btn btn-outline btn-small';
     btn.setAttribute('aria-expanded', 'false');
     var textInchis = lista.getAttribute('data-un-rand-text') || 'Vezi toate';
+    var minim = parseInt(lista.getAttribute('data-un-rand-min') || '0', 10) || 0;   // v163: primele N rămân la vedere
     if (cuPlus) btn.setAttribute('aria-label', textInchis);
     var p = document.createElement('p');
     p.className = 'row-toggle';
@@ -148,8 +149,8 @@
       if (deschis) { p.hidden = false; return; }
       var sus = elementVizibil(items[0]).getBoundingClientRect().top;
       var ascunse = 0;
-      items.forEach(function (li) {
-        if (elementVizibil(li).getBoundingClientRect().top > sus + 4) { li.classList.add('row-more'); ascunse++; }
+      items.forEach(function (li, k) {
+        if (k >= minim && elementVizibil(li).getBoundingClientRect().top > sus + 4) { li.classList.add('row-more'); ascunse++; }
       });
       p.hidden = ascunse === 0;
       if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y);

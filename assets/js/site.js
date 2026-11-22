@@ -966,15 +966,12 @@
   });
 })();
 
-// v127 (N3, N4, aprobate de Alex): căutare în „Întrebări” și „Copiază linkul” sub fiecare răspuns.
+// v127 (N4, aprobată de Alex): „Copiază linkul” sub fiecare răspuns. (N3, căutarea, a ieșit în v132: „scoate caută o întrebare”.)
 (function () {
   var faq = document.querySelector('#intrebari .faq');
   if (!faq) return;
-  var grupuri = Array.prototype.slice.call(faq.querySelectorAll('details.faq-group'));
   var intrebari = Array.prototype.slice.call(faq.querySelectorAll('details.toggle[id]'));
   if (!intrebari.length) return;
-  var simplu = function (s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' '); };
-  intrebari.forEach(function (d) { d._text = simplu(d.textContent); });
 
   // N4: linkul fiecărei întrebări; cine îl deschide ajunge la ea, deschisă (vezi „deschiderea întrebării din adresă”)
   intrebari.forEach(function (d) {
@@ -997,34 +994,7 @@
     });
   });
 
-  // N3: câmpul de căutare, deasupra temelor
-  var cutie = document.createElement('div'); cutie.className = 'faq-search';
-  cutie.innerHTML = '<label class="faq-search-label" for="cauta-intrebare">Caută o întrebare</label>' +
-    '<input id="cauta-intrebare" type="search" autocomplete="off" spellcheck="false" placeholder="de exemplu: teren, CNP, eoliene">' +
-    '<p class="faq-search-status" aria-live="polite"></p>';
-  faq.insertBefore(cutie, faq.firstChild);
-  var camp = cutie.querySelector('input'), stare = cutie.querySelector('.faq-search-status');
-  var initial = null;
-  function cauta() {
-    var q = simplu(camp.value).trim();
-    if (q.length < 2) {
-      if (initial) {
-        intrebari.forEach(function (d) { d.hidden = false; d.open = initial.get(d); });
-        grupuri.forEach(function (g) { g.hidden = false; g.open = initial.get(g); });
-        initial = null;
-      }
-      stare.textContent = '';
-      return;
-    }
-    if (!initial) { initial = new Map(); intrebari.concat(grupuri).forEach(function (d) { initial.set(d, d.open); }); }
-    var gasite = 0;
-    intrebari.forEach(function (d) { var da = d._text.indexOf(q) !== -1; d.hidden = !da; d.open = da; if (da) gasite++; });
-    grupuri.forEach(function (g) { var are = !!g.querySelector('details.toggle[id]:not([hidden])'); g.hidden = !are; g.open = are; });
-    stare.textContent = gasite === 0 ? 'Nicio întrebare nu conține „' + camp.value.trim() + '”.' : gasite === 1 ? 'O întrebare găsită.' : gasite + ' întrebări găsite.';
-  }
-  camp.addEventListener('input', cauta);
-  camp.addEventListener('search', cauta);
-  // linkul unei întrebări: după ce scripturile au adăugat câmpul și butoanele, întrebarea se aduce din nou sub antet
+  // linkul unei întrebări: după ce scripturile au adăugat butoanele, întrebarea se aduce din nou sub antet
   // (fără animație, ca imaginile încărcate între timp să nu mute ținta; nu se mai corectează după ce omul derulează singur)
   var miscat = false;
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, function () { miscat = true; }, { passive: true, once: true }); });

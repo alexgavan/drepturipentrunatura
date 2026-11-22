@@ -1,3 +1,5 @@
+// v169 (T79): „de” după numerale (1 596 de semnături, 1 413 semnături)
+function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : ''; }
 (function () {
   'use strict';
   var header = document.getElementById('antet');
@@ -205,7 +207,7 @@
     var b = bloc._plusBtn;
     b.setAttribute('aria-expanded', deschis ? 'true' : 'false');
     b.textContent = deschis ? '−' : '+';
-    b.setAttribute('aria-label', (deschis ? 'Mai puțin: ' : 'Mai mult: ') + bloc._plusNume);
+    b.setAttribute('aria-label', bloc._plusEticheta ? (deschis ? 'Mai puțin ' : 'Mai mult ') + bloc._plusEticheta : (deschis ? 'Mai puțin: ' : 'Mai mult: ') + bloc._plusNume);
     if (bloc._plusGrup) actualizeazaGrup(bloc._plusGrup);
   }
   function actualizeazaGrup(grup) {
@@ -219,6 +221,7 @@
     if (!corpuri.length) return;
     var titlu = bloc.querySelector('.step-title, h3, .lesson-rule, .gain-title, .doc-title') || bloc.querySelector('.lead');
     bloc._plusNume = ((bloc.querySelector('h3, .lesson-rule, .gain-title, .doc-title') || {}).textContent || 'acest text').trim().replace(/:$/, '');
+    bloc._plusEticheta = bloc.getAttribute('data-plus-eticheta') || '';   // v169 (T82)
     bloc._plusCorpuri = corpuri;
     var ids = corpuri.map(function (el) { if (!el.id) el.id = 'plus-' + (++n); return el.id; });
     var b = document.createElement('button');
@@ -437,7 +440,7 @@
       var j = (i + 1) % panouri.length;
       var nb = document.createElement('button');
       nb.type = 'button'; nb.className = 'tab-next';
-      nb.textContent = urm + ': ' + panouri[j].getAttribute('data-tab') + ' →';
+      nb.textContent = panouri[j].getAttribute('data-tab') + ' →';
       nb.addEventListener('click', function () { arata(j, true); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       p.appendChild(nb);
     });
@@ -660,10 +663,13 @@
       if (b) { b.setAttribute('data-final', nr(v)); b.textContent = nr(v); }
       if (fill) fill.style.setProperty('--p', Math.min(100, v / din * 100).toFixed(2) + '%');
       if (nota) nota.textContent = pct(v, din) + ' ' + m.getAttribute('data-nota');
-      if (tr) tr.setAttribute('aria-label', m.getAttribute('data-nume') + ': ' + nr(v) + ' de semnături din ' + m.getAttribute('data-aria') + nr(din) + ', adică ' + pct(v, din));
+      if (tr) tr.setAttribute('aria-label', m.getAttribute('data-nume') + ': ' + nr(v) + ' ' + deNr(v) + 'semnături din ' + m.getAttribute('data-aria') + nr(din) + ', adică ' + pct(v, din));
     });
     Array.prototype.forEach.call(document.querySelectorAll('[data-contor-nr]'), function (el) {
       var v = d[el.getAttribute('data-contor-nr')]; if (typeof v === 'number') el.textContent = nr(v);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-contor-de]'), function (el) {
+      var v = d[el.getAttribute('data-contor-de')]; if (typeof v === 'number') el.textContent = deNr(v);
     });
     gata();
   }).catch(gata);
@@ -849,7 +855,7 @@
     y += lh - mar * .82 - 30;
     ctx.fillStyle = C.paper; ctx.font = '700 54px ' + FM;
     ctx.fillText(mari('Sunt vocea'), m, y);
-    if (aSemnat()) { ctx.fillStyle = C.yellow; ctx.font = '700 34px ' + FM; ctx.fillText(mari('Am semnat inițiativa'), m, y - 76); }
+    if (aSemnat()) { ctx.fillStyle = C.yellow; ctx.font = '700 34px ' + FM; ctx.fillText(mari('Am semnat'), m, y - 76); }
   }
 
   function desen() {
@@ -864,8 +870,8 @@
   function textPostare() {
     return 'Sunt vocea ' + locul() + '.\n\n' +
       'Un râu nu poate spune ce i se întâmplă. Nici o pădure.\n\n' +
-      'Am semnat inițiativa cetățenească europeană „Drepturi pentru Natură”, care cere o lege a Uniunii prin care natura să aibă drepturi și oameni care s-o apere.\n\n' +
-      'Semnează și tu, durează cam un minut: ' + SITE + '\n\n' +
+      (aSemnat() ? 'Am semnat' : 'Susțin') + ' inițiativa cetățenească europeană „Drepturi pentru Natură”, care cere o lege a Uniunii Europene prin care natura să aibă drepturi și oameni care s-o apere.\n\n' +
+      (aSemnat() ? 'Semnează și tu, durează un minut: ' : 'Semnează, durează un minut: ') + SITE + '\n\n' +
       intrebare();
   }
 
@@ -1344,7 +1350,7 @@
   if (!document.documentElement.classList.contains('anim')) return;
   var benzi = Array.prototype.slice.call(document.querySelectorAll('.quote-band .quote-art-foto')).map(function (f) { return f.parentElement; });
   // v145: și benzile cu fotografie pe fundal („O voce pentru natură”, „25 de lecții”): fotografia trece într-un strat care se mișcă
-  var cuStrat = Array.prototype.slice.call(document.querySelectorAll('.prop-banda.banda-foto, .lectii-banda'));
+  var cuStrat = Array.prototype.slice.call(document.querySelectorAll('.prop-banda.banda-foto, .lectii-banda, .oameni-foto')   /* v169: și banda „Cei ce dau voce naturii” (Alex) */);
   function strat(b) {
     if (!b.classList.contains('vede')) return;
     var f = b._strat;

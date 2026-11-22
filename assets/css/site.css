@@ -1621,3 +1621,16 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
     scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); grid-auto-columns: min(80vw, 20rem);
   }
 }
+
+/* ---------- v140: fotografiile de sub citate (bușteni, vale, poluare) devin dinamice (Alex, 22.11.2026) ----------
+   Când banda intră pe ecran, fotografia se apropie încet (zoom); pe calculator, se mișcă și puțin mai lent decât pagina.
+   Pe telefon pornește de la încadrarea de până acum; pe calculator, de la 104 %, ca paralaxa să nu descopere marginile.
+   Cu „mișcare redusă” nu există clasa .anim, deci totul rămâne static. */
+.anim .quote-band .quote-art-foto { inset: 0; transform: none; translate: 0 var(--pyf, 0px); scale: var(--zf0, 1); will-change: scale, translate; }
+.anim .quote-band.foto-zoom .quote-art-foto { scale: var(--zf1, 1.08); transition: scale 10s cubic-bezier(.2, .6, .3, 1); }
+.anim .quote-art-busteni { transform-origin: 50% 0%; }
+.anim .quote-art-vale, .anim .quote-art-poluare { transform-origin: 50% 70%; }
+@media (min-width: 761px) {
+  .anim .quote-band .quote-art-foto { --zf0: 1.04; --zf1: 1.1; transform-origin: 50% 50%; }
+}
+@media (max-width: 760px) { .anim .quote-art-poluare { transform-origin: 50% 0%; } }

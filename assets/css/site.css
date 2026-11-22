@@ -1879,4 +1879,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v154: în antet, cele 6 secțiuni stau pe un singur rând de la 1260 px în sus (înainte, 8 elemente pe două rânduri de câte
    patru); între 1041 și 1259 px, pe două rânduri de câte trei, ca butonul „Semnează” să rămână pe ecran. */
 .nav > .nav-list { grid-template-columns: repeat(3, auto); }
-@media (min-width: 1260px) { .nav > .nav-list { grid-template-columns: repeat(6, auto); } }
+/* v155: meniul stă pe două rânduri de câte trei la toate lățimile de calculator (Alex: pe un rând „ajunge până la siglă”). */
+/* v155: la „25 de lecții”, creditul fotografiei stă jos în stânga, ca la celelalte fotografii (din v143 stătea în dreapta). */
+.lectii-banda .foto-credit-banda { left: clamp(.8rem, 2vw, 1.4rem); right: auto; bottom: .55rem; }

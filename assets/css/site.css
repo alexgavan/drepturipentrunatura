@@ -1758,3 +1758,11 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .faq-teme.swipe-hint > * { animation: none; }
 }
 @media (prefers-reduced-motion: reduce) { .faq-teme.teme-hint > * { animation: none; } }
+
+/* v148: „25 de lecții”, pe telefon: fără text de glisare; cartonașele alunecă vizibil spre stânga și revin, ca temele de la „Întrebări” */
+@media (max-width: 760px) {
+  .lectii-banda .lessons.swipe-hint > * { animation: none; }
+  .lectii-banda .lessons.teme-hint > *, .lectii-banda .lessons.teme-hint.swipe-hint > * { animation: rfn-teme 1.8s cubic-bezier(.4, 0, .2, 1) .2s 1; }
+  .lectii-nota { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) { .lectii-banda .lessons.teme-hint > * { animation: none; } }

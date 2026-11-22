@@ -1199,8 +1199,8 @@
   });
   faq.parentNode.insertBefore(bara, faq);
   // v143: semnul că rândul se trage cu degetul
-  var nota = document.createElement('p'); nota.className = 'faq-teme-nota'; nota.setAttribute('aria-hidden', 'true'); nota.textContent = 'Glisează pentru celelalte teme \u2192';
-  faq.parentNode.insertBefore(nota, faq);
+  // v147: fără text („Glisează…”); se înțelege din mișcarea temelor (Alex, 22.11.2026)
+  var nota = { style: {} };
   bara.addEventListener('scroll', function () {
     var capat = bara.scrollLeft + bara.clientWidth >= bara.scrollWidth - 4;
     bara.classList.toggle('la-capat', capat);
@@ -1210,7 +1210,10 @@
     var ioT = new IntersectionObserver(function (e) {
       if (!e[0].isIntersecting || !mq.matches) return;
       ioT.disconnect();
-      bara.classList.add('swipe-hint'); setTimeout(function () { bara.classList.remove('swipe-hint'); }, 1700);
+      var atins = false;
+      ['touchstart', 'scroll'].forEach(function (ev) { bara.addEventListener(ev, function () { atins = true; }, { passive: true, once: true }); });
+      var arata = function () { if (atins) return; bara.classList.remove('teme-hint'); void bara.offsetWidth; bara.classList.add('teme-hint'); };
+      arata(); setTimeout(arata, 4500);   // a doua oară, dacă omul n-a atins încă rândul
     }, { threshold: 0.8 });
     ioT.observe(bara);
   }

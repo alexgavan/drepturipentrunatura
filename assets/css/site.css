@@ -1836,3 +1836,43 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .sup-contact a, .footer-jos a, .pagina-simpla .ps-text a, .pagina-simpla .ps-subsol a { overflow-wrap: anywhere; }
 .footer-jos a { max-width: 100%; }
 .pagina-simpla .ps-text h1 { font-size: clamp(1.35rem, 7vw, 2.6rem); overflow-wrap: anywhere; }
+
+/* v153: „O voce pentru natură”: se vede mai mult din tulpina copacului și din pajiștea cu ceață (Alex, 22.11.2026).
+   Textul rămâne la mijlocul benzii; voalul de jos e mai ușor, ca ceața să se vadă. */
+.propunerea > .prop-banda.banda-foto.vede { background-position: 50% 50%; background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .06) 45%, rgba(18, 22, 48, .3) 100%), url("../img/fundal-foto-ceata.webp"); }
+@media (min-width: 1600px) and (min-resolution: 1.5dppx) { .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .06) 45%, rgba(18, 22, 48, .3) 100%), url("../img/fundal-foto-ceata-mare.webp"); } }
+@media (max-width: 760px) {
+  .propunerea > .prop-banda.banda-foto { min-height: 170vw; }
+  .propunerea > .prop-banda.banda-foto.vede { background-size: auto 120%; background-position: 62% 0%; background-image: linear-gradient(180deg, rgba(18, 22, 48, .14) 0, rgba(18, 22, 48, .08) 40%, rgba(18, 22, 48, .28) 100%), url("../img/fundal-foto-ceata-mobil.webp"); }
+}
+/* v153: „25 de lecții”: fără voalul din colțul de sus, care ascundea cerul (Alex: „nu se vede cerul”); cifra și paragraful
+   rămân lizibile printr-o umbră a textului */
+.lectii-banda::after { display: none; }
+.lectii-banda .figure-line p:not(.lesson-rule):not(.lesson-answer):not(.place) { text-shadow: 0 0 2px rgba(10, 12, 32, .85), 0 2px 10px rgba(10, 12, 32, .8), 0 0 26px rgba(10, 12, 32, .6); }
+/* v153: „25 de lecții”, restrânse, pe calculator: fotografia mai aproape și aliniată sus, ca cerul să se vadă ca atunci
+   când lecțiile sunt desfăcute (Alex: „la lecții nu se vede cerul când nu sunt expandate”) */
+@media (min-width: 761px) {
+  .lectii-banda.vede:has(.lessons > .row-more) { background-size: 100% 100%, auto 190%; background-position: 0 0, 40% 0%; }
+}
+/* v153: cerul se vede, iar textul de pe el rămâne lizibil: un voal albastru uniform în partea de sus, unde stă textul */
+@media (min-width: 761px) {
+  .lectii-banda.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .64) 0, rgba(18, 22, 48, .52) 22%, rgba(18, 22, 48, .18) 46%, rgba(18, 22, 48, .42) 100%), url("../img/fundal-foto-dji.webp"); }
+}
+@media (max-width: 760px) {
+  .lectii-banda.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .6) 0, rgba(18, 22, 48, .42) 24%, rgba(18, 22, 48, .2) 45%, rgba(18, 22, 48, .45) 100%), url("../img/fundal-foto-dji-mobil.webp"); }
+}
+@media (min-width: 761px) {
+  /* v153: în banda strânsă, textul din stânga stă deasupra luminii de la orizont: voalul coboară până sub text, cerul de deasupra rămâne la vedere */
+  .lectii-banda.vede:has(.lessons > .row-more) { background-image: linear-gradient(180deg, rgba(18, 22, 48, .6) 0, rgba(18, 22, 48, .52) 40%, rgba(18, 22, 48, .2) 56%, rgba(18, 22, 48, .42) 100%), url("../img/fundal-foto-dji.webp"); }
+  .lectii-banda .lead-pair p:not(.stat-num) { text-shadow: 0 0 2px rgba(10, 12, 32, .9), 0 1px 6px rgba(10, 12, 32, .85), 0 0 16px rgba(10, 12, 32, .75), 0 0 32px rgba(10, 12, 32, .55); }
+}
+/* v153: numărătoarea „1 / 5” de pe fotografia cu ceață rămâne lizibilă și acum, când pajiștea luminoasă se vede mai mult */
+@media (max-width: 760px) { .banda-foto .swipe-nav { text-shadow: 0 0 2px rgba(10, 12, 32, .9), 0 1px 8px rgba(10, 12, 32, .75), 0 0 18px rgba(10, 12, 32, .55); } }
+/* v153: „Întrebări”, pe calculator: desenul cu munți intră mai mult sub întrebări (Alex: „imaginea cu munții suprapusă puțin
+   mai mult cu textul”). Voalul din stânga acoperă numai marginea desenului (29,5 %) și se stinge la 45 %, nu la 55 %. */
+@media (min-width: 761px) {
+  .faq-fundal { background:
+    linear-gradient(180deg, rgba(34, 45, 124, 0) 70%, rgb(34, 45, 124) 100%) no-repeat,
+    linear-gradient(90deg, rgb(34, 45, 124) 0, rgb(34, 45, 124) 29.5%, rgba(34, 45, 124, 0) 45%) no-repeat,
+    rgb(34, 45, 124) url("../img/vizual-intrebari-munti.webp") no-repeat 100% 100% / auto 100%; }
+}

@@ -1778,3 +1778,56 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .org-dublu:has(.org-acoperire:focus-visible) { outline: 2px solid var(--yellow); outline-offset: 3px; }
 .org-dublu .org-registru { position: relative; z-index: 1; margin: .2rem 0 0; font-size: .9rem; line-height: 1.4; }
 .org-dublu .org-registru a { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding-block: .3rem; }
+
+/* v151: deciziile din auditul complet (22.11.2026) */
+/* P1: pe telefon, fraza de început înaintea siglelor partenerilor */
+@media (max-width: 760px) { .hero-inner .hero-partners { order: 1; } }
+/* P3 */
+.hero-durata { margin: -.5rem 0 0; font-size: .85rem; line-height: 1.4; color: color-mix(in srgb, var(--paper) 88%, transparent); }
+/* S1, S4: butonul spre formular sub titlu, cu rândul despre date */
+.sign-cta-sus { display: grid; gap: .55rem; justify-items: start; }
+.sign-cta-sus .sign-date { margin: 0; font-size: .85rem; line-height: 1.45; max-width: 52ch; }
+/* S2: în secțiunea „Semnează”, bara duce direct la formular */
+.sign-bar.is-direct .sign-bar-count { display: none; }
+.sign-bar.is-direct .btn { flex: 1 1 auto; justify-content: center; text-align: center; font-size: .78rem; letter-spacing: .03em; padding-inline: .8rem; }
+/* V4: pe telefon, „↑” nu stă peste text cât timp bara de jos e pe ecran */
+@media (max-width: 760px) { body.has-sign-bar .to-top { display: none !important; } }
+/* V5: ținte mai mari: butoanele de distribuire pe telefon, legăturile din subsol */
+@media (max-width: 760px) { .share-btn { min-height: 44px; display: inline-flex; align-items: center; } }
+.footer-pagina .nav-list a { display: inline-block; padding-block: .3rem; }
+.footer-jos { margin: 1.5rem 0 0; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); font-size: .85rem; }
+.footer-jos a { color: inherit; display: inline-block; padding-block: .35rem; }
+/* V1: voal puțin mai dens în colțul de sus al benzii „25 de lecții”, în spatele cifrei și al paragrafului */
+.lectii-banda { isolation: isolate; }
+.lectii-banda::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 60%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 75% 85% at 22% 18%, rgba(18, 22, 48, .62) 0, rgba(18, 22, 48, .35) 50%, rgba(18, 22, 48, 0) 80%); }
+@media (max-width: 760px) { .lectii-banda::after { height: 45%; background: radial-gradient(ellipse 120% 90% at 35% 25%, rgba(18, 22, 48, .62) 0, rgba(18, 22, 48, .3) 60%, rgba(18, 22, 48, 0) 90%); } }
+/* V2: titlul de la „Întrebări”, lizibil și peste vârfurile albe */
+.faq-fundal .section-head h2 { text-shadow: 0 2px 8px rgba(16, 20, 64, .9), 0 0 3px rgba(16, 20, 64, .95), 0 0 14px rgba(16, 20, 64, .6); }
+/* V3: textele mici, mai închise */
+.lectii-banda .lesson .place { color: #8a2c0f; }
+.faq-count { color: #3f474d; }
+.faq-fundal .faq-tema.is-on small { color: var(--indigo); }
+/* C2: „+ Fă-ți imaginea” */
+.plus-btn.plus-btn-eticheta { width: auto; height: auto; min-height: 2.4rem; padding: .4rem 1rem; border-radius: 999px; font: 600 .9rem/1.2 var(--font-display); letter-spacing: .02em; }
+/* C3: două butoane în banda de final */
+.closing-actions { justify-content: center; }
+/* C5 */
+.voce-semnat { display: inline-flex; align-items: center; gap: .55rem; margin-top: .6rem; font-weight: 600; cursor: pointer; }
+.voce-semnat input { width: 1.15rem; height: 1.15rem; accent-color: var(--indigo); }
+/* T6: un rând la vedere pentru fiecare câștig; dispare când se deschid detaliile */
+.gain-title .gain-scurt { color: var(--paper); font-weight: 400; }
+.gains li:has(.plus-body:not([hidden])) .gain-scurt { display: none; }
+/* L2 */
+.sup-contact { margin: .35rem 0 0; }
+/* L3, L5: paginile mici (confidențialitate, 404, /semneaza) */
+.pagina-simpla { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; background: var(--paper); color: var(--ink); }
+.pagina-simpla .ps-antet { background: var(--indigo); padding-block: 1rem; }
+.pagina-simpla .ps-antet img { height: 48px; width: auto; display: block; }
+.pagina-simpla main { padding-block: clamp(2rem, 6vw, 4rem); }
+.pagina-simpla .ps-text { max-width: 44rem; display: grid; gap: 1rem; }
+.pagina-simpla .ps-text h1 { font: 600 clamp(1.8rem, 4vw, 2.6rem)/1.15 var(--font-display); color: var(--indigo); margin: 0; }
+.pagina-simpla .ps-text h2 { font: 600 1.15rem/1.3 var(--font-display); color: var(--indigo); margin: .8rem 0 0; }
+.pagina-simpla .ps-text p { margin: 0; line-height: 1.6; }
+.pagina-simpla .ps-text a { color: var(--link); }
+.pagina-simpla .ps-subsol { padding-block: 1.25rem; font-size: .85rem; border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }

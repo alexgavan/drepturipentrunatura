@@ -161,6 +161,7 @@
       else btn.textContent = deschis ? 'Arată mai puține' : textInchis;
       aseaza();
       if (!deschis) lista.scrollIntoView({ block: 'nearest' });
+      try { window.dispatchEvent(new Event('resize')); } catch (e) {}   // v153: fotografia din bandă se potrivește noii înălțimi
     });
     btn.textContent = cuPlus ? '+' : textInchis;
     aseaza();

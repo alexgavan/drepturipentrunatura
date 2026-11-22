@@ -1510,11 +1510,11 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 @media (max-width: 760px) { .meter-update { justify-content: flex-start; text-align: left; } }
 /* v130: „O voce pentru natură”: copacul se vede mai bine (Alex, 22.11.2026). Textul și cartonașele stau jos, voalul e
    deschis sus și închis doar unde e textul, iar încadrarea cuprinde toată coroana. */
-.propunerea > .prop-banda.banda-foto { align-content: end; background-position: 50% 22%; }
+.propunerea > .prop-banda.banda-foto { align-content: center; background-position: 50% 22%; }
 .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .08) 40%, rgba(18, 22, 48, .62) 100%), url("../img/fundal-foto-ceata.webp"); }
 @media (min-width: 1600px) and (min-resolution: 1.5dppx) { .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .12) 0, rgba(18, 22, 48, .08) 40%, rgba(18, 22, 48, .62) 100%), url("../img/fundal-foto-ceata-mare.webp"); } }
 @media (max-width: 760px) {
-  .propunerea > .prop-banda.banda-foto { min-height: 120vw; padding-top: 3rem; }
+  .propunerea > .prop-banda.banda-foto { min-height: 120vw; }
   .propunerea > .prop-banda.banda-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .1) 0, rgba(18, 22, 48, .1) 30%, rgba(18, 22, 48, .66) 100%), url("../img/fundal-foto-ceata-mobil.webp"); background-position: 70% 20%; }
 }
 /* Pe calculator, titlul și cartonașele stau în stânga, pe trei coloane, iar copacul (în dreapta fotografiei) rămâne liber. */
@@ -1539,3 +1539,5 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 }
 /* „O voce pentru natură”: casetele albastre, puțin transparente, ca să se vadă fotografia din spate. */
 .prop-light.banda-foto .keep { background: color-mix(in srgb, var(--indigo) 74%, transparent); border-color: color-mix(in srgb, var(--paper) 22%, transparent); }
+
+/* v135: „O voce pentru natură”: textul și casetele stau la distanțe egale de marginea de sus și de cea de jos a fotografiei (Alex, 22.11.2026) */

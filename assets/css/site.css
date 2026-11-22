@@ -1894,3 +1894,9 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .propunerea > .prop-banda.banda-foto { min-height: clamp(32rem, 56.25vw, 62rem); }
   .lectii-banda { min-height: clamp(32rem, 56.25vw, 62rem); align-content: center; }
 }
+/* v159: „25 de lecții” mai clară (Alex: „poza de la lecții pare cam neclară”). Fotografia vine din originalul de 5081 px
+   (3600 px pe calculator, 1480 × 1600 pe telefon; înainte, 2400 și 1000 × 1080), iar banda strânsă nu o mai mărește de
+   1,9 ori: de când banda are 16:9 (v158), fotografia încape pe toată înălțimea, deci cerul se vede fără mărire. */
+@media (min-width: 761px) {
+  .lectii-banda.vede:has(.lessons > .row-more) { background-size: 100% 100%, cover; background-position: 0 0, 40% 0%; }
+}

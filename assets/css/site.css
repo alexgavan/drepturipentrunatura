@@ -1766,3 +1766,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .lectii-nota { display: none !important; }
 }
 @media (prefers-reduced-motion: reduce) { .lectii-banda .lessons.teme-hint > * { animation: none; } }
+
+/* v149: subsolul fără blocul „Inițiativa” (Alex, 22.11.2026): rămân două coloane, numele inițiativei și „Mergi la” */
+@media (min-width: 901px) { .footer-top { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); } }

@@ -1295,3 +1295,16 @@
   addEventListener('resize', misca);
   misca();
 })();
+
+// v144: la „25 de lecții”, pe telefon, semnul că rândul se trage cu degetul
+(function () {
+  var r = document.querySelector('.lectii-banda .lessons');
+  if (!r) return;
+  var nota = document.createElement('p'); nota.className = 'lectii-nota'; nota.setAttribute('aria-hidden', 'true');
+  nota.textContent = 'Glisează pentru celelalte lecții \u2192';
+  r.parentNode.insertBefore(nota, r);
+  r.addEventListener('scroll', function () {
+    r.classList.toggle('la-capat', r.scrollLeft + r.clientWidth >= r.scrollWidth - 4);
+    if (r.scrollLeft > 10) nota.style.visibility = 'hidden';
+  }, { passive: true });
+})();

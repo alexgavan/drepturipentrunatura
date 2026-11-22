@@ -1876,3 +1876,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
     linear-gradient(90deg, rgb(34, 45, 124) 0, rgb(34, 45, 124) 29.5%, rgba(34, 45, 124, 0) 45%) no-repeat,
     rgb(34, 45, 124) url("../img/vizual-intrebari-munti.webp") no-repeat 100% 100% / auto 100%; }
 }
+/* v154: în antet, cele 6 secțiuni stau pe un singur rând de la 1260 px în sus (înainte, 8 elemente pe două rânduri de câte
+   patru); între 1041 și 1259 px, pe două rânduri de câte trei, ca butonul „Semnează” să rămână pe ecran. */
+.nav > .nav-list { grid-template-columns: repeat(3, auto); }
+@media (min-width: 1260px) { .nav > .nav-list { grid-template-columns: repeat(6, auto); } }

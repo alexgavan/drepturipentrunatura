@@ -1597,3 +1597,27 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .faq-group .swipe-nav { margin: 0 0 1rem; }
   .anim #drumul .timeline .reveal, .anim .sign-steps .reveal, .anim .faq .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ---------- v139: întrebările frecvente, pe telefon: rândul cu teme și răspunsurile pe cartonașe glisante ---------- */
+.faq-teme { display: none; }
+@media (max-width: 760px) {
+  .faq-teme {
+    display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: .2rem;
+    margin-left: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gutter), env(safe-area-inset-right, 0px)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+  }
+  .faq-teme::-webkit-scrollbar { display: none; }
+  .faq-tema { flex: none; display: grid; gap: .15rem; text-align: left; max-width: 12.5rem; padding: .6rem .85rem; border: 2px solid var(--indigo); border-radius: var(--radius-md); background: var(--paper); color: var(--indigo); font: 600 .85rem/1.2 var(--font-display); cursor: pointer; }
+  .faq-tema small { font: 400 .72rem/1.2 var(--font-body); color: var(--muted); }
+  .faq-tema.is-on { background: var(--indigo); color: var(--yellow); }
+  .faq-tema.is-on small { color: color-mix(in srgb, var(--paper) 80%, transparent); }
+  .faq-tema:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  .faq.faq-tab .faq-group:not(.faq-activ) { display: none; }
+  .faq.faq-tab .faq-group { border: 0; background: none; }
+  .faq.faq-tab .faq-group > .faq-group-sum { display: none; }
+  .faq.faq-tab .faq-group > .toggles {
+    margin: 0; margin-left: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gutter), env(safe-area-inset-right, 0px)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); grid-auto-columns: min(80vw, 20rem);
+  }
+}

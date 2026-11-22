@@ -1690,3 +1690,40 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .lectii-banda .lessons.la-capat { -webkit-mask-image: none; mask-image: none; }
 }
 .lectii-banda p.lectii-nota { color: var(--yellow); }
+
+/* ---------- v145 (Alex, 22.11.2026) ---------- */
+/* „25 de lecții”: fotografia se vede mai bine (voal mai ușor); pe telefon se vede și cerul; cartonașele sunt puțin transparente */
+.lectii-banda.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .5) 0, rgba(18, 22, 48, .15) 40%, rgba(18, 22, 48, .4) 100%), url("../img/fundal-foto-dji.webp"); }
+@media (max-width: 760px) { .lectii-banda.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .45) 0, rgba(18, 22, 48, .2) 40%, rgba(18, 22, 48, .45) 100%), url("../img/fundal-foto-dji-mobil.webp"); background-position: 50% 0%; } }
+.lectii-banda .lesson { background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.lectii-banda h3, .lectii-banda p:not(.lesson-rule):not(.lesson-answer):not(.place) { text-shadow: 0 1px 12px rgba(0, 0, 0, .7), 0 0 3px rgba(0, 0, 0, .5); }
+
+/* „Întrebări”: grupurile și cartonașele puțin transparente, ca să se vadă desenul din spate */
+.faq-fundal .faq-group { background: rgba(255, 255, 255, .8); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.faq-fundal .faq-group[open] { background: rgba(255, 255, 255, .86); }
+@media (max-width: 760px) {
+  .faq-fundal .faq.faq-tab .faq-group { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .faq-fundal .faq-group > .toggles > .toggle { background: rgba(255, 255, 255, .8); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  .faq-fundal .faq-tema:not(.is-on) { background: rgba(255, 255, 255, .8); }
+}
+
+/* Fotografiile de fundal ale benzilor („O voce pentru natură”, „25 de lecții”) se mișcă și ele: un strat cu fotografia,
+   pus de script sub conținut, face același zoom și aceeași mișcare după derulare ca fotografiile de sub citate */
+.are-strat { background-image: none !important; isolation: isolate; overflow: hidden; }
+.foto-strat { position: absolute; inset: 0; z-index: -1; pointer-events: none; transform-origin: 50% 50%; scale: var(--zs, 1.08); translate: 0 var(--pyf, 0px); will-change: scale, translate; }
+
+/* „Întrebări”: vizualul se vede întreg (zoom out). Pe calculator stă în dreapta, cât înălțimea secțiunii, iar cerul lui
+   continuă cu aceeași culoare spre stânga; pe telefon stă jos, pe toată lățimea, cu loc liber sub întrebări ca să se vadă. */
+.faq-fundal { background: linear-gradient(90deg, rgb(34, 45, 124) 0, rgb(34, 45, 124) 35%, rgba(34, 45, 124, 0) 55%) no-repeat, rgb(34, 45, 124) url("../img/vizual-intrebari-munti.webp") no-repeat 100% 100% / auto 100%; }
+@media (max-width: 760px) {
+  .faq-fundal { background: rgb(34, 45, 124) url("../img/vizual-intrebari-munti-700.webp") no-repeat 50% 100% / 100% auto; padding-bottom: calc(66vw - 1rem); }
+}
+/* „O voce pentru natură”, pe telefon: fotografia mai aproape, cu copacul în mijlocul benzii (Alex, 22.11.2026) */
+@media (max-width: 760px) {
+  .propunerea > .prop-banda.banda-foto.vede { background-size: auto 190%; background-position: 70% 33%; }
+}
+/* Meniul din antet, cu majuscule, ca titlurile secțiunilor (Alex, 22.11.2026: „să-l facem cu majuscule”) */
+.nav > .nav-list a { text-transform: uppercase; font-size: clamp(.78rem, .95vw, .86rem); letter-spacing: .07em; line-height: 1.5; }
+.is-scrolled .nav > .nav-list a { font-size: .76rem; line-height: 1.35; }
+.nav > .nav-list .nav-sub a, .nav > .nav-list ul a { text-transform: none; letter-spacing: 0; }
+@media (max-width: 760px) { .faq-fundal .faq.faq-tab .faq-group { box-shadow: none; } }

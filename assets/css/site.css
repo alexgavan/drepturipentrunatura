@@ -1928,3 +1928,22 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   /* jos se văd acum mai mult pietrele luminoase: voalul se îndesește în ultimele 14 %, unde stă creditul */
   .lectii-banda.vede:has(.lessons > .row-more) { background-image: linear-gradient(180deg, rgba(18, 22, 48, .6) 0, rgba(18, 22, 48, .52) 40%, rgba(18, 22, 48, .2) 56%, rgba(18, 22, 48, .42) 86%, rgba(18, 22, 48, .62) 100%), url("../img/fundal-foto-rosia-mare.webp"); background-size: 100% 100%, 112% auto; background-position: 0 0, 55% 70%; }
 }
+/* v166: „25 de lecții” (Alex: „acum se vede așa [fără cer], vreau să se vadă cerul și cariera”). Fără mărire, iar poziția
+   de 20 % pune linia orizontului cam la 15 % din înălțimea benzii, pe orice lățime de ecran: deasupra, o fâșie de cer;
+   dedesubt, munții și toată cariera. (La 112 % și 70 %, pe ecranele foarte late cerul dispărea cu totul.) */
+@media (min-width: 761px) {
+  .lectii-banda.vede:has(.lessons > .row-more) { background-size: 100% 100%, cover; background-position: 0 0, 50% 20%; }
+}
+/* v166: „Organizațiile și oamenii inițiativei” se deschide cu o bandă pe fotografia lui Radu Sălcudean (Roșia Montană,
+   Tăul Brazi și Tăul Anghel), cu titlul secțiunii sus, peste apus; pe calculator, aceeași înălțime ca celelalte benzi (16:9). */
+.oameni-foto { position: relative; display: grid; align-content: start; min-height: clamp(30rem, 120vw, 40rem); padding-block: clamp(2.6rem, 6vw, 4.9rem) clamp(3rem, 6vw, 4.5rem); background: rgb(52, 58, 36) no-repeat 50% 15% / cover; color: var(--paper); overflow: hidden; }
+.oameni-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .42) 0, rgba(18, 22, 48, .22) 28%, rgba(18, 22, 48, 0) 50%, rgba(18, 22, 48, .28) 100%), url("../img/fundal-foto-salcudean.webp"); }
+@media (max-width: 760px) { .oameni-foto.vede { background-image: linear-gradient(180deg, rgba(18, 22, 48, .56) 0, rgba(18, 22, 48, .36) 30%, rgba(18, 22, 48, .06) 52%, rgba(18, 22, 48, .34) 100%), url("../img/fundal-foto-salcudean-mobil.webp"); background-position: 50% 0%; } }
+@media (min-width: 761px) { .oameni-foto { min-height: clamp(32rem, 56.25vw, 62rem); } }
+.oameni-foto .section-head h2 { color: var(--paper); }
+.oameni-foto .section-head h2, .oameni-foto .section-head .eyebrow { text-shadow: 0 0 2px rgba(10, 12, 32, .9), 0 1px 6px rgba(10, 12, 32, .85), 0 0 16px rgba(10, 12, 32, .75), 0 0 32px rgba(10, 12, 32, .55); }
+.oameni-foto p.foto-credit-banda { color: var(--paper); text-shadow: 0 0 2px rgba(10, 12, 32, .95), 0 1px 5px rgba(10, 12, 32, .9), 0 0 12px rgba(10, 12, 32, .7); }
+/* v166: prima pagină, pe ecranele late (de la 1600 px): între „Parteneri în România” și sigla Pachamama se vedea o linie
+   verticală subțire (Alex). Era marginea ilustrației animate, care cade între doi pixeli. Voalul ilustrației trece acum cu
+   3 px dincolo de margine (ilustrația e întoarsă în oglindă, deci marginea din dreapta a voalului e cea vizibilă în stânga). */
+@media (min-width: 1600px) { .hero-art::after { right: -3px; } }

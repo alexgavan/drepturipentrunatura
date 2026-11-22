@@ -1634,3 +1634,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .anim .quote-band .quote-art-foto { --zf0: 1.04; --zf1: 1.1; transform-origin: 50% 50%; }
 }
 @media (max-width: 760px) { .anim .quote-art-poluare { transform-origin: 50% 0%; } }
+
+/* v142: „05 / Oamenii” are deasupra același spațiu ca celelalte secțiuni (era clamp(3.5rem, 8vw, 6.5rem); Alex, 22.11.2026) */
+.people-section > .people-band:first-child { padding-top: clamp(2.6rem, 6vw, 4.9rem); }

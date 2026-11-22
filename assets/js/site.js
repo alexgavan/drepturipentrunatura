@@ -1030,7 +1030,7 @@
 (function () {
   var mq = window.matchMedia('(max-width: 760px)');
   var redus = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  Array.prototype.forEach.call(document.querySelectorAll('.rights, .keeps-cards, .steps.steps-4, .lessons, .docs-strip .docs'), function (r) {
+  Array.prototype.forEach.call(document.querySelectorAll('.rights, .keeps-cards, .steps.steps-4, .lessons, .docs-strip .docs, #drumul .timeline, .sign-steps, .faq-group > .toggles, .patterns'), function (r) {
     var items = Array.prototype.slice.call(r.children);
     if (items.length < 2) return;
     var nav = document.createElement('div'); nav.className = 'swipe-nav'; nav.setAttribute('aria-hidden', 'true');
@@ -1127,4 +1127,53 @@
     Array.prototype.forEach.call(lista.children, function (x) { var v = t[x.dataset.cod]; if (typeof v === 'number') x.dataset.semn = v; });
     aseaza();
   });
+})();
+
+// v136: „+” numai pe telefon (Alex, 22.11.2026): „Tu a cui voce ești?”, după primul paragraf, și notele de la „Semnează inițiativa”
+(function () {
+  var n = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-plus-tel]'), function (bl) {
+    var dupa = bl.querySelector('[data-plus-tel-dupa]'), corpuri = bl.querySelectorAll('.plus-tel-body');
+    if (!dupa || !corpuri.length) return;
+    var nume = bl.getAttribute('data-plus-tel-nume') || dupa.textContent.trim();
+    var ids = Array.prototype.map.call(corpuri, function (c) { if (!c.id) c.id = 'plus-tel-' + (++n); return c.id; });
+    var p = document.createElement('p'); p.className = 'plus-tel-rand';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'plus-btn';
+    b.setAttribute('aria-controls', ids.join(' '));
+    p.appendChild(b); dupa.insertAdjacentElement('afterend', p);
+    function seteaza(d) {
+      bl.classList.toggle('plus-tel-deschis', d);
+      b.setAttribute('aria-expanded', d ? 'true' : 'false');
+      b.textContent = d ? '\u2212' : '+';
+      b.setAttribute('aria-label', (d ? 'Mai puțin: ' : 'Mai mult: ') + nume);
+    }
+    bl._plusTel = seteaza;
+    seteaza(false);
+    b.addEventListener('click', function () { seteaza(!bl.classList.contains('plus-tel-deschis')); });
+    if (dupa.tagName === 'H3') dupa.addEventListener('click', function () { if (window.matchMedia('(max-width: 760px)').matches) seteaza(!bl.classList.contains('plus-tel-deschis')); });
+  });
+  // linkurile spre „Tu a cui voce ești?” deschid unealta
+  var voce = document.querySelector('#voce [data-plus-tel]');
+  function deschideVoce() { if (voce && voce._plusTel && (location.hash === '#voce' || location.hash.indexOf('#voce-') === 0)) voce._plusTel(true); }
+  document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#voce"]'); if (a && voce && voce._plusTel) voce._plusTel(true); });
+  window.addEventListener('hashchange', deschideVoce);
+  deschideVoce();
+})();
+
+// v136: pe telefon, răspunsurile la întrebări stau pe cartonașe care se trag cu degetul, deschise
+(function () {
+  var mq = window.matchMedia('(max-width: 760px)');
+  var toate = document.querySelectorAll('.faq-group > .toggles > details.toggle');
+  function aplica() { if (mq.matches) Array.prototype.forEach.call(toate, function (d) { d.open = true; }); }
+  if (mq.addEventListener) mq.addEventListener('change', aplica);
+  aplica();
+  // linkul unei întrebări: rândul se derulează la cartonașul ei
+  function laIntrebare() {
+    if (!mq.matches || !location.hash) return;
+    var d = document.getElementById(location.hash.slice(1));
+    if (!d || !d.matches('.faq-group > .toggles > details.toggle')) return;
+    var r = d.parentElement; r.scrollLeft = d.offsetLeft - r.offsetLeft - parseFloat(getComputedStyle(r).paddingLeft || 0);
+  }
+  window.addEventListener('hashchange', laIntrebare);
+  window.addEventListener('load', laIntrebare);
 })();

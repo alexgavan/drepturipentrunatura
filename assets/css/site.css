@@ -1831,3 +1831,8 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .pagina-simpla .ps-text p { margin: 0; line-height: 1.6; }
 .pagina-simpla .ps-text a { color: var(--link); }
 .pagina-simpla .ps-subsol { padding-block: 1.25rem; font-size: .85rem; border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+
+/* v152: adresa de contact, mai lungă, se rupe pe ecranele înguste */
+.sup-contact a, .footer-jos a, .pagina-simpla .ps-text a, .pagina-simpla .ps-subsol a { overflow-wrap: anywhere; }
+.footer-jos a { max-width: 100%; }
+.pagina-simpla .ps-text h1 { font-size: clamp(1.35rem, 7vw, 2.6rem); overflow-wrap: anywhere; }

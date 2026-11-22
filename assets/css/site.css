@@ -1727,3 +1727,6 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 .is-scrolled .nav > .nav-list a { font-size: .76rem; line-height: 1.35; }
 .nav > .nav-list .nav-sub a, .nav > .nav-list ul a { text-transform: none; letter-spacing: 0; }
 @media (max-width: 760px) { .faq-fundal .faq.faq-tab .faq-group { box-shadow: none; } }
+/* v146: lista de jos de pe telefon (din bara cu contorul), cu majuscule, ca lista de sus (Alex, 22.11.2026) */
+.section-sheet .nav-list > li > a { text-transform: uppercase; letter-spacing: .05em; font-size: .84rem; }
+.section-sheet .nav-sub a, .section-sheet .nav-list ul a { text-transform: uppercase; letter-spacing: .05em; }

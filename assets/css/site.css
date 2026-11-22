@@ -1680,3 +1680,13 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
   .faq-teme-nota { display: block; margin: .35rem 0 0; font: 600 .74rem/1.2 var(--font-display); letter-spacing: .05em; color: var(--yellow); }
   .faq-teme.swipe-hint > * { animation: rfn-impinge 1.1s ease-in-out .25s 1; }
 }
+
+/* v144: la „25 de lecții”, pe telefon, se vede că rândul se trage cu degetul: marginea din dreapta se estompează și, deasupra
+   cartonașelor, scrie „Glisează pentru celelalte lecții →” (Alex, 22.11.2026) */
+.lectii-nota { display: none; }
+@media (max-width: 760px) {
+  .lectii-nota { display: block; margin: 0 0 -.4rem; font: 600 .74rem/1.2 var(--font-display); letter-spacing: .05em; color: var(--yellow); }
+  .lectii-banda .lessons { -webkit-mask-image: linear-gradient(to right, #000 0, #000 80%, transparent 100%); mask-image: linear-gradient(to right, #000 0, #000 80%, transparent 100%); }
+  .lectii-banda .lessons.la-capat { -webkit-mask-image: none; mask-image: none; }
+}
+.lectii-banda p.lectii-nota { color: var(--yellow); }

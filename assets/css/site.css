@@ -1545,7 +1545,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* ---------- v136 (Alex, 22.11.2026) ---------- */
 /* „Ce câștigăm”, pe telefon: decupajul cu copilul care se uită după pasăre, ca pasărea să se vadă mai bine. */
 @media (max-width: 760px) {
-  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { aspect-ratio: 1000 / 709; background-image: url("../img/vizual-cale-padure-tel.webp"); background-position: 50% 50%; }
+  .band-castig .band-art-castig, .anim .band-castig .band-art.band-art-castig { aspect-ratio: 1000 / 709; background-image: url("../img/vizual-cale-padure-tel-2.webp"); background-position: 50% 50%; }
 }
 /* „+” numai pe telefon: „Tu a cui voce ești?” (după primul paragraf) și cele trei note de la „Semnează inițiativa”. */
 .plus-tel-rand { display: none; margin: 0; }

@@ -1989,3 +1989,10 @@ html { text-size-adjust: 100%; }
 /* v173 (Alex: „la Vâlsan apare un buton jos care nu își are rostul”): pe calculator, filele de sus ajung; butonul de
    trecere la celălalt exemplu rămâne doar pe telefon, unde filele sunt departe, sus. */
 @media (min-width: 761px) { .tabs-exemple .tab-next { display: none; } }
+
+/* v181 (Alex, G1: „să se vadă cerul ca o fâșie”): pe calculator, fotografia de la „Oamenii” e încadrată puțin mai sus și se mărește
+   spre partea de jos, astfel că deasupra munților rămâne o fâșie de cer. Pe telefon, neschimbat. */
+@media (min-width: 761px) {
+  .oameni-foto { background-position: 50% 4%; }
+  .oameni-foto .foto-strat { transform-origin: 50% 40%; }
+}

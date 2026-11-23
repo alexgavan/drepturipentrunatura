@@ -1998,3 +1998,9 @@ html { text-size-adjust: 100%; }
   .oameni-foto { min-height: clamp(32rem, 64vw, 72rem); background-position: 50% 7%; }
   .oameni-foto .foto-strat { transform-origin: 50% 38%; }
 }
+
+/* v184 (Alex): caseta „Dacă Delta Dunării ar fi desemnată” pe desenul cu canalele Deltei; imaginea se încarcă la apropiere (.vede). */
+.note-wrap-foto { max-width: none; position: relative; padding: clamp(2.5rem, 7vw, 6rem) clamp(1rem, 4vw, 3rem); border-radius: var(--radius-lg); overflow: hidden; background: rgb(39, 44, 120) no-repeat 50% 55% / cover; }
+.note-wrap-foto.vede { background-image: url("../img/fundal-delta-canale.webp"); }
+@media (max-width: 760px) { .note-wrap-foto.vede { background-image: url("../img/fundal-delta-canale-mobil.webp"); } }
+.note-wrap-foto .note-card { position: relative; max-width: 62rem; margin-inline: auto; }

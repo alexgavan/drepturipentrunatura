@@ -281,7 +281,7 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
   root.classList.add('anim');
 
   // apariție la derulare
-  var sel = '.section-head, .step, .right, .lesson, .pattern, .tl-item, .stat, .figure-line, .section-art, .doc, .ambassador, .note-card, .aside-card, .band-panel, .example-text, .toggle, .partner-card, .initiator, .quote-band blockquote, .quote-band .band-line, .closing-inner, .keeps li';  // v141: și fraza de la „Problema” (Alex: „textele de la fotografii inițial erau animate”)
+  var sel = '.section-head, .step, .right, .lesson, .pattern, .tl-item, .stat, .figure-line, .section-art, .doc, .ambassador, .note-card, .aside-card, .band-panel, .example-text, .toggle, .partner-card, .initiator, .quote-band blockquote, .quote-band .band-line, .closing-inner, .keeps li, .banda-foto .section-head, .banda-foto .sub-head, .banda-foto .keep, .quote-band-foto .quote-text';  // v141: și fraza de la „Problema” (Alex: „textele de la fotografii inițial erau animate”)
   var io = new IntersectionObserver(function (intrari) {
     intrari.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
@@ -290,7 +290,8 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
     var r = el.getBoundingClientRect();
     if (r.top < innerHeight) return; // deja pe ecran: nu-l ascundem
     el.classList.add('reveal');
-    el.style.transitionDelay = ((i % 5) * 0.06) + 's';
+    // v175 (D15): pe fotografii, textul apare la fel peste tot, fără întârzieri diferite
+    el.style.transitionDelay = el.closest('.quote-band-foto, .banda-foto') ? '0s' : ((i % 5) * 0.06) + 's';
     io.observe(el);
   });
 
@@ -1375,8 +1376,10 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
       var f = b.querySelector('.quote-art-foto') || b._strat, r = b.getBoundingClientRect();
       if (!f) return;
       if (r.bottom < -50 || r.top > innerHeight + 50) return;
-      var p = Math.max(0, Math.min(1, (innerHeight - r.top) / (innerHeight + r.height)));   // 0 când intră jos, 1 când iese sus
-      var s = 1.08 + 0.1 * p, max = r.height * Math.min(0.035, (s - 1) / 2 - 0.005);
+      // v175 (D14): aceeași viteză pentru toate fotografiile, oricât de înaltă e banda: progresul se măsoară pe un drum
+      // fix (înălțimea ecranului + 800 px), cu jumătatea la mijlocul benzii
+      var p = Math.max(0, Math.min(1, 0.5 + (innerHeight / 2 - (r.top + r.height / 2)) / (innerHeight + 800)));
+      var s = 1.08 + 0.1 * p, max = Math.min(28, r.height * ((s - 1) / 2 - 0.005));
       f.style.setProperty('--zs', s.toFixed(4));
       f.style.setProperty('--pyf', ((0.5 - p) * 2 * max).toFixed(1) + 'px');
     });

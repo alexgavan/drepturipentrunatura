@@ -2006,3 +2006,6 @@ html { text-size-adjust: 100%; }
 .note-wrap-delta .note-card { border-radius: 0; align-content: center; padding: clamp(1.5rem, 3.5vw, 2.75rem); grid-template-columns: 1fr !important; }
 @media (max-width: 760px) { .note-wrap-delta { grid-template-columns: 1fr; } .note-wrap-delta .note-vizual { height: auto; } }
 .note-wrap-delta .note-card:hover { transform: none; box-shadow: none; }
+
+/* v186 (Alex): la „Ținta”, sub prima frază, restul textului se deschide cu „+”, ca la „Problema”. */
+.goal-head .goal-lead { font-size: inherit; line-height: inherit; }

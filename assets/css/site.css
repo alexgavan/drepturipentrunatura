@@ -1885,7 +1885,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* v156: buștenii („Când nimeni nu invocă legea la timp…”), din fotografia mare de la Alex (2048 px, înainte 1600 px):
    banda nu se mai mărește la derulare și, pe calculator, are proporția fotografiei (16:9), ca să se vadă toată și clar. */
 .quote-band.quote-band-foto.quote-problema { min-height: clamp(32rem, 56.25vw, 62rem); }
-.anim .quote-band.quote-band-foto.quote-problema .quote-art-foto, .anim .quote-band.quote-band-foto.foto-zoom.quote-problema .quote-art-foto { scale: 1; translate: none; }
+/* v175 (D14, Alex): buștenii se mișcă la fel ca celelalte fotografii (regula de oprire din v156 a ieșit). */
 /* v158: pe calculator, toate benzile cu fotografie de fundal au aceeași înălțime, proporția 16:9 a buștenilor
    (Alex: „fotografiile de background nu ar trebui să aibă toate aceeași lățime?”; la lecții banda era mai joasă).
    Ceața și lecțiile își păstrează conținutul la mijloc; lecțiile deschise cresc cât e nevoie. Pe telefon, neschimbat. */

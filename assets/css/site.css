@@ -1992,7 +1992,9 @@ html { text-size-adjust: 100%; }
 
 /* v181 (Alex, G1: „să se vadă cerul ca o fâșie”): pe calculator, fotografia de la „Oamenii” e încadrată puțin mai sus și se mărește
    spre partea de jos, astfel că deasupra munților rămâne o fâșie de cer. Pe telefon, neschimbat. */
+/* v182 (Alex: „să se vadă cât mai mult din fotografie, dar cu cer puțin”): banda mai înaltă pe calculator (64vw, cel mult
+   72rem, aproape de proporția fotografiei), deci se taie mai puțin; deasupra munților, tot o fâșie de cer. */
 @media (min-width: 761px) {
-  .oameni-foto { background-position: 50% 4%; }
-  .oameni-foto .foto-strat { transform-origin: 50% 40%; }
+  .oameni-foto { min-height: clamp(32rem, 64vw, 72rem); background-position: 50% 7%; }
+  .oameni-foto .foto-strat { transform-origin: 50% 38%; }
 }

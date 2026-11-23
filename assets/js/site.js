@@ -360,7 +360,7 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
 
   // filmul de la final pornește când ajunge pe ecran
   var film = document.querySelector('.quote-video');
-  if (film) {
+  if (film && !(navigator.connection && navigator.connection.saveData)) {   // v180 (E12): la economisirea datelor rămâne imaginea
     var io4 = new IntersectionObserver(function (intrari) {
       intrari.forEach(function (e) {
         if (e.isIntersecting) {
@@ -977,6 +977,7 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
   var v = document.querySelector('.hero-video');
   if (!v || !v.play) return;
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (navigator.connection && navigator.connection.saveData) return; // v180 (E12): fără film la economisirea datelor
   function porneste() {
     var art = v.parentElement, r = art.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
     var lat = innerWidth <= 760 ? r.height * 0.48 * 1.5 : Math.max(r.width, r.height * 1.5);

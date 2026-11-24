@@ -1465,6 +1465,8 @@ var RFN_SIN = { gardia: 'reprez', gardie: 'reprez', tutore: 'reprez', tutori: 'r
 function rfnExtinde(q) {
   var n = rfnNorm(q);
   if (/noi toti|cu totii|toata lumea|tuturor/.test(n)) q += ' castigam comunitatile firmele europa oamenii apa hrana sanatoase';
+  // v198: întrebările despre oamenii din spatele inițiativei (cine e în spate, cine sunteți, cine o face, cine plătește).
+  if (/in spate|in spatele|cine sunteti|cine sunt organizator|cine (a )?(face|facut|organizeaza|initiat|propus|condu)|cine (o )?(sustine|finanteaza|plateste campania)|ce organizatii|cine sta/.test(n)) q += ' organizeaza finanteaza organizatori retea parteneri Pachamama Centura Verde Rechte Natur fundatii';
   return rfnExtinde0(q);
 }
 function rfnExtinde0(q) { return /c[aâ]t[ea]?\b[^?]*semn[aă]tur|num[aă]r[^?]*semn[aă]tur/i.test(rfnNorm(q)) || /c[aâ]te semn/i.test(q) ? q + ' prag pragul' : q; }

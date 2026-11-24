@@ -1498,7 +1498,7 @@ if (typeof module !== 'undefined') module.exports = { rfnTok: rfnTok, rfnIndex: 
       a.addEventListener('click', function (e) { e.preventDefault(); deschideIntrebarea(ch.q); }); return a; }
     if (ch.d === 'site') { a.href = ch.a || '#'; a.textContent = 'Pe această pagină'; return a; }
     if (d.url) { a.href = d.url + (ch.p ? '#page=' + ch.p : ''); a.target = '_blank'; a.rel = 'noopener'; }
-    a.textContent = (d.titlu || 'Document') + (ch.p ? ', pagina ' + ch.p : '');
+    a.textContent = (d.titlu || ch.titlu || 'Document') + (ch.p ? ', pagina ' + ch.p : '');
     if (!d.url) { var s = el('span', 'intreaba-sursa', a.textContent); return s; }
     return a;
   }

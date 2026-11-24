@@ -1534,6 +1534,16 @@ if (typeof module !== 'undefined') module.exports = { rfnTok: rfnTok, rfnIndex: 
     var p = el('div', 'intreaba-raspuns'); String(r.raspuns || '').split(/\n{2,}/).forEach(function (par) { p.appendChild(el('p', null, par)); }); rez.appendChild(p);
     if (r.surse && r.surse.length) { rez.appendChild(el('p', 'intreaba-et-surse', 'Surse')); var ul = el('ul', 'intreaba-lista'); r.surse.forEach(function (ch) { var li = el('li'); li.appendChild(link(ch)); ul.appendChild(li); }); rez.appendChild(ul); }
   }
+  // v194: mesaje separate pentru limita pe oră și pentru limita zilnică (se reface la 00:00 UTC, afișat în ora locală).
+  function mesajLimita(e) {
+    if (e.eroare === 'limita_ora') return 'Ai pus multe întrebări în ultima oră (cel mult ' + (e.limita || 20) + '). Mai încearcă peste puțin; până atunci, iată pasajele care se potrivesc:';
+    if (e.eroare === 'limita_zi') {
+      var n = new Date(), r = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate() + 1));
+      var ora = ('0' + r.getHours()).slice(-2) + ':' + ('0' + r.getMinutes()).slice(-2);
+      return 'Asistentul a atins limita de întrebări pentru azi și revine la ora ' + ora + '. Până atunci, iată pasajele care se potrivesc:';
+    }
+    return 'Asistentul nu poate răspunde acum. Iată pasajele care se potrivesc:';
+  }
   form.addEventListener('submit', function (e) {
     e.preventDefault(); var q = inp.value.trim(); if (q.length < 3) { inp.focus(); return; }
     rez.hidden = false; rez.innerHTML = ''; rez.appendChild(el('p', 'intreaba-mesaj', ai ? 'Caut în textele inițiativei și formulez răspunsul…' : 'Caut…'));
@@ -1541,9 +1551,9 @@ if (typeof module !== 'undefined') module.exports = { rfnTok: rfnTok, rfnIndex: 
       var hits = rfnCauta(ix, q, 4);
       if (!ai) { arataPasaje(q, hits); return; }
       fetch(ai, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: q }) })
-        .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
+        .then(function (r) { if (!r.ok) return r.json().then(function (j) { throw j; }, function () { throw {}; }); return r.json(); })
         .then(arataRaspuns)
-        .catch(function () { arataPasaje(q, hits, 'Asistentul nu poate răspunde acum (de exemplu, s-a atins limita zilnică). Iată pasajele care se potrivesc:'); });
+        .catch(function (e) { arataPasaje(q, hits, mesajLimita(e || {})); });
     });
   });
 })();

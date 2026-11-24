@@ -1461,7 +1461,13 @@ function rfnIndex(baza) {
 // v192: cuvinte pe care oamenii le folosesc, dar textele spun altfel (doar în întrebare).
 var RFN_SIN = { gardia: 'reprez', gardie: 'reprez', tutore: 'reprez', tutori: 'reprez', custod: 'reprez', avocat: 'reprez' };
 // Întrebări despre „câte semnături” caută și pragul.
-function rfnExtinde(q) { return /c[aâ]t[ea]?\b[^?]*semn[aă]tur|num[aă]r[^?]*semn[aă]tur/i.test(rfnNorm(q)) || /c[aâ]te semn/i.test(q) ? q + ' prag pragul' : q; }
+// v195: „pentru noi toți”, „cu toții” trimit la ce câștigă fiecare (secțiunea „Câștigăm cu toții” și legătura cu oamenii).
+function rfnExtinde(q) {
+  var n = rfnNorm(q);
+  if (/noi toti|cu totii|toata lumea|tuturor/.test(n)) q += ' castigam comunitatile firmele europa oamenii apa hrana sanatoase';
+  return rfnExtinde0(q);
+}
+function rfnExtinde0(q) { return /c[aâ]t[ea]?\b[^?]*semn[aă]tur|num[aă]r[^?]*semn[aă]tur/i.test(rfnNorm(q)) || /c[aâ]te semn/i.test(q) ? q + ' prag pragul' : q; }
 function rfnCauta(ix, q, n) {
   q = rfnExtinde(q);
   var qt = rfnTok(q).map(function (t) { return RFN_SIN[t] || t; }), sc = [], k1 = 1.4, b = 0.75;

@@ -2016,13 +2016,7 @@ html { text-size-adjust: 100%; }
   .hero { padding-block: calc(var(--antet, 72px) + min(42vw, 220px) + 1rem) 9rem; }
   .hero-art { height: min(42vw, 220px); }
 }
-/* L3: paragrafele în RFN Display, la grosime normală; RFN Mono rămâne la etichete, butoane, cifre și texte scurte */
-main p, main li, main dd { font-family: var(--font-display); font-weight: 400; letter-spacing: 0; }
-main p b, main p strong, main li b, main li strong { font-weight: 600; }
-main .btn, main button, main .chip, main .kicker, main .doc-meta, main .foto-credit-banda, main .sign-date,
-main .hero-partners-label, main .takeaway-label, main .share-label, main .meter, main .meter *, main .sup-state,
-main .lesson-where, main .voce-et, main .row-toggle, main .plus-tools, main .stat-num, main .lesson-num,
-main .right-num, main .step-num, main .meter-num, main .tara-nume, main .ambassador p { font-family: var(--font-body); }
+/* L3: v190 (Alex, M2: B): paragrafele au revenit la RFN Mono, ca în restul identității. */
 /* L8: titlurile exemplelor sunt acum de nivel 3, cu aceeași mărime; numele organizațiilor din subsol, text */
 .example h3.ex-titlu { font-size: clamp(1.7rem, 3.6vw, 2.6rem); line-height: 1.1; letter-spacing: 0; }
 .footer-org .footer-org-name { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); margin: 0; }

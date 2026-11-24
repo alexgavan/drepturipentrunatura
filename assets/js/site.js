@@ -1436,3 +1436,111 @@ function deNr(n) { return n >= 20 && (n % 100 === 0 || n % 100 >= 20) ? 'de ' : 
     else copiazaVechi();
   });
 })();
+
+
+// v192: căutarea în baza de texte (aceeași în pagină și în serviciul intermediar): BM25, fără diacritice, rădăcini de 6 litere.
+var RFN_STOP = ' si sau dar de la in din pe cu pentru ca care ce este sunt un o una unei unui al ale a ai lui le lor se sa nu mai fi fost va vor ar cum cand unde cine acest aceasta aceste acesti prin dupa despre fara catre intre doar tot toate toti eu tu el ea noi voi ei ele ma mi imi iti ne va lea poate pot daca sau ori asa atunci decat foarte '.split(' ');
+function rfnNorm(s) {
+  return (s || '').toLowerCase().replace(/[şș]/g, 's').replace(/[ţț]/g, 't').normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+function rfnTok(s) {
+  var out = [], w = rfnNorm(s).split(/[^a-z0-9]+/);
+  for (var i = 0; i < w.length; i++) { var t = w[i]; if (t.length < 3 || RFN_STOP.indexOf(t) >= 0) continue; out.push(t.length > 6 ? t.slice(0, 6) : t); }
+  return out;
+}
+function rfnIndex(baza) {
+  var N = baza.chunks.length, df = {}, docs = [], tot = 0;
+  for (var i = 0; i < N; i++) {
+    var c = baza.chunks[i], tf = {}, toks = rfnTok(c.t + ' ' + (c.q || '') + ' ' + (c.q || ''));
+    for (var j = 0; j < toks.length; j++) tf[toks[j]] = (tf[toks[j]] || 0) + 1;
+    for (var k in tf) df[k] = (df[k] || 0) + 1;
+    docs.push({ tf: tf, len: toks.length }); tot += toks.length;
+  }
+  return { N: N, df: df, docs: docs, avg: tot / Math.max(1, N), baza: baza };
+}
+// v192: cuvinte pe care oamenii le folosesc, dar textele spun altfel (doar în întrebare).
+var RFN_SIN = { gardia: 'reprez', gardie: 'reprez', tutore: 'reprez', tutori: 'reprez', custod: 'reprez', avocat: 'reprez' };
+function rfnCauta(ix, q, n) {
+  var qt = rfnTok(q).map(function (t) { return RFN_SIN[t] || t; }), sc = [], k1 = 1.4, b = 0.75;
+  if (!qt.length) return [];
+  for (var i = 0; i < ix.N; i++) {
+    var d = ix.docs[i], s = 0;
+    for (var j = 0; j < qt.length; j++) {
+      var f = d.tf[qt[j]]; if (!f) continue;
+      var idf = Math.log(1 + (ix.N - ix.df[qt[j]] + 0.5) / (ix.df[qt[j]] + 0.5));
+      s += idf * f * (k1 + 1) / (f + k1 * (1 - b + b * d.len / ix.avg));
+    }
+    var ch = ix.baza.chunks[i];
+    if (s > 0) sc.push({ i: i, s: s * (ch.d === 'faq' ? 1.35 : ch.d === 'site' ? 1.15 : 1) });
+  }
+  sc.sort(function (a, b2) { return b2.s - a.s; });
+  return sc.slice(0, n || 5).map(function (x) { return ix.baza.chunks[x.i]; });
+}
+if (typeof module !== 'undefined') module.exports = { rfnTok: rfnTok, rfnIndex: rfnIndex, rfnCauta: rfnCauta, rfnNorm: rfnNorm };
+
+// v192: „Pune o întrebare” (Alex, N1–N5, O1): căutare în textele site-ului și ale documentelor; asistent AI când există serviciul
+(function () {
+  var box = document.getElementById('intreaba'); if (!box) return;
+  var form = box.querySelector('form'), inp = box.querySelector('input'), rez = box.querySelector('.intreaba-rez');
+  var ai = (box.getAttribute('data-ai') || '').trim(), nota = box.querySelector('.intreaba-nota');
+  if (ai) nota.textContent = nota.getAttribute('data-nota-ai');
+  var ix = null, inc = null;
+  function incarca() { if (!inc) inc = fetch('assets/data/intrebari-baza.json').then(function (r) { return r.json(); }).then(function (b) { ix = rfnIndex(b); return ix; }); return inc; }
+  inp.addEventListener('focus', incarca, { once: true });
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function docDe(id) { var d = ix.baza.docs; for (var i = 0; i < d.length; i++) if (d[i].id === id) return d[i]; return null; }
+  function link(ch) {
+    var d = docDe(ch.d) || {}, a = el('a', 'intreaba-sursa');
+    if (ch.d === 'faq') { a.href = '#intrebari'; a.textContent = 'Întrebări frecvente: ' + ch.q;
+      a.addEventListener('click', function (e) { e.preventDefault(); deschideIntrebarea(ch.q); }); return a; }
+    if (ch.d === 'site') { a.href = ch.a || '#'; a.textContent = 'Pe această pagină'; return a; }
+    if (d.url) { a.href = d.url + (ch.p ? '#page=' + ch.p : ''); a.target = '_blank'; a.rel = 'noopener'; }
+    a.textContent = (d.titlu || 'Document') + (ch.p ? ', pagina ' + ch.p : '');
+    if (!d.url) { var s = el('span', 'intreaba-sursa', a.textContent); return s; }
+    return a;
+  }
+  function deschideIntrebarea(q) {
+    var sum = Array.prototype.slice.call(document.querySelectorAll('#intrebari details summary')).filter(function (s) { return s.textContent.trim() === q; })[0];
+    if (!sum) { location.hash = '#intrebari'; return; }
+    var grup = sum.closest('.faq-group'); if (grup && !grup.open) grup.open = true;
+    var det = sum.closest('details'); if (det) det.open = true;
+    sum.scrollIntoView({ behavior: 'smooth', block: 'center' }); sum.focus && sum.focus();
+  }
+  function extras(t, q) {
+    var qt = rfnTok(q), nt = rfnNorm(t), best = 0, bi = 0;
+    for (var i = 0; i < qt.length; i++) { var k = nt.indexOf(qt[i]); if (k >= 0 && (best === 0 || k < bi)) { bi = k; best = 1; } }
+    return taie(t, Math.max(0, bi - 80), 230);
+  }
+  // v192: fragmentul se taie la margine de cuvânt.
+  function taie(t, s, lung) {
+    if (s > 0) { var sp = t.indexOf(' ', s); s = sp > 0 && sp < s + 30 ? sp + 1 : s; }
+    var e = Math.min(t.length, s + lung);
+    if (e < t.length) { var sp2 = t.lastIndexOf(' ', e); if (sp2 > s + lung / 2) e = sp2; }
+    return (s > 0 ? '…' : '') + t.slice(s, e).trim().replace(/[,;:.]$/, '') + (e < t.length ? '…' : '');
+  }
+  function arataPasaje(q, hits, mesaj) {
+    rez.innerHTML = ''; rez.hidden = false;
+    if (mesaj) rez.appendChild(el('p', 'intreaba-mesaj', mesaj));
+    if (!hits.length) { rez.appendChild(el('p', 'intreaba-mesaj', 'Nu am găsit nimic potrivit. Încearcă alte cuvinte sau uită-te în întrebările de mai jos.')); return; }
+    var ul = el('ul', 'intreaba-lista');
+    hits.forEach(function (ch) { var li = el('li'); li.appendChild(el('p', 'intreaba-extras', ch.d === 'faq' ? taie(ch.t.slice(ch.q.length).trim(), 0, 230) : extras(ch.t, q))); li.appendChild(link(ch)); ul.appendChild(li); });
+    rez.appendChild(ul);
+  }
+  function arataRaspuns(r) {
+    rez.innerHTML = ''; rez.hidden = false;
+    var p = el('div', 'intreaba-raspuns'); String(r.raspuns || '').split(/\n{2,}/).forEach(function (par) { p.appendChild(el('p', null, par)); }); rez.appendChild(p);
+    if (r.surse && r.surse.length) { rez.appendChild(el('p', 'intreaba-et-surse', 'Surse')); var ul = el('ul', 'intreaba-lista'); r.surse.forEach(function (ch) { var li = el('li'); li.appendChild(link(ch)); ul.appendChild(li); }); rez.appendChild(ul); }
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var q = inp.value.trim(); if (q.length < 3) { inp.focus(); return; }
+    rez.hidden = false; rez.innerHTML = ''; rez.appendChild(el('p', 'intreaba-mesaj', ai ? 'Caut în textele inițiativei și formulez răspunsul…' : 'Caut…'));
+    incarca().then(function () {
+      var hits = rfnCauta(ix, q, 4);
+      if (!ai) { arataPasaje(q, hits); return; }
+      fetch(ai, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: q }) })
+        .then(function (r) { if (!r.ok) throw r.status; return r.json(); })
+        .then(arataRaspuns)
+        .catch(function () { arataPasaje(q, hits, 'Asistentul nu poate răspunde acum (de exemplu, s-a atins limita zilnică). Iată pasajele care se potrivesc:'); });
+    });
+  });
+})();

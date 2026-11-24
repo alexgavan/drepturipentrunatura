@@ -1303,7 +1303,7 @@ td:first-child { width: 34%; font-weight: 700; color: var(--indigo); font-varian
 /* ---------- v127 (N1): un singur meniu, cu aceleași nume peste tot ---------- */
 .nav-list { list-style: none; margin: 0; padding: 0; }
 /* Antetul, pe calculator: lista pe două rânduri de câte patru, în ordinea paginii; „Început” e sigla, „Semnează” e butonul. */
-.nav > .nav-list { display: grid; grid-template-columns: repeat(4, auto); justify-content: end; column-gap: clamp(1rem, 1.5vw, 1.6rem); row-gap: 0; }
+.nav > .nav-list { display: grid; grid-template-columns: repeat(5, auto); justify-content: end; column-gap: clamp(1rem, 1.5vw, 1.6rem); row-gap: 0; }
 .nav > .nav-list > li { position: relative; }
 .nav > .nav-list a { font: 600 clamp(.95rem, 1.2vw, 1.05rem)/1.35 var(--font-display); letter-spacing: 0; }
 .is-scrolled .nav > .nav-list a { font-size: .9rem; line-height: 1.25; padding-block: 3px; }
@@ -2009,3 +2009,21 @@ html { text-size-adjust: 100%; }
 
 /* v186 (Alex): la „Ținta”, sub prima frază, restul textului se deschide cu „+”, ca la „Problema”. */
 .goal-head .goal-lead { font-size: inherit; line-height: inherit; }
+
+/* ---------- v189 (auditul de expert, Alex: L1, L3, L4, L8) ---------- */
+/* L1: pe telefon, ilustrația de început e o bandă mai joasă, ca titlul și textul să se vadă din primul ecran */
+@media (max-width: 760px) {
+  .hero { padding-block: calc(var(--antet, 72px) + min(42vw, 220px) + 1rem) 9rem; }
+  .hero-art { height: min(42vw, 220px); }
+}
+/* L3: paragrafele în RFN Display, la grosime normală; RFN Mono rămâne la etichete, butoane, cifre și texte scurte */
+main p, main li, main dd { font-family: var(--font-display); font-weight: 400; letter-spacing: 0; }
+main p b, main p strong, main li b, main li strong { font-weight: 600; }
+main .btn, main button, main .chip, main .kicker, main .doc-meta, main .foto-credit-banda, main .sign-date,
+main .hero-partners-label, main .takeaway-label, main .share-label, main .meter, main .meter *, main .sup-state,
+main .lesson-where, main .voce-et, main .row-toggle, main .plus-tools, main .stat-num, main .lesson-num,
+main .right-num, main .step-num, main .meter-num, main .tara-nume, main .ambassador p { font-family: var(--font-body); }
+/* L8: titlurile exemplelor sunt acum de nivel 3, cu aceeași mărime; numele organizațiilor din subsol, text */
+.example h3.ex-titlu { font-size: clamp(1.7rem, 3.6vw, 2.6rem); line-height: 1.1; letter-spacing: 0; }
+.footer-org .footer-org-name { font: 600 .78rem/1.3 var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); margin: 0; }
+.nav > .nav-list { grid-template-columns: repeat(5, auto); }   /* v189 (L4): un singur rând */

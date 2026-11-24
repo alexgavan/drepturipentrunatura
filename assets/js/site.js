@@ -1552,14 +1552,23 @@ if (typeof module !== 'undefined') module.exports = { rfnTok: rfnTok, rfnIndex: 
   }
   form.addEventListener('submit', function (e) {
     e.preventDefault(); var q = inp.value.trim(); if (q.length < 3) { inp.focus(); return; }
-    rez.hidden = false; rez.innerHTML = ''; rez.appendChild(el('p', 'intreaba-mesaj', ai ? 'Caut în textele inițiativei și formulez răspunsul…' : 'Caut…'));
+    // v196: cât timp caută, se vede o animație (trei puncte și o bară), iar butonul arată „Caut…”.
+    rez.hidden = false; rez.innerHTML = '';
+    var asteapta = el('div', 'intreaba-asteapta'); asteapta.setAttribute('role', 'status');
+    asteapta.appendChild(el('span', 'intreaba-puncte')); asteapta.lastChild.innerHTML = '<i></i><i></i><i></i>';
+    asteapta.appendChild(el('span', 'intreaba-mesaj', ai ? 'Caut în textele inițiativei și formulez răspunsul…' : 'Caut…'));
+    asteapta.appendChild(el('span', 'intreaba-bara'));
+    rez.appendChild(asteapta);
+    var btn = form.querySelector('button[type=submit]'), txt = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Caut…'; form.setAttribute('aria-busy', 'true');
+    var gata = function () { btn.disabled = false; btn.textContent = txt; form.removeAttribute('aria-busy'); };
     incarca().then(function () {
       var hits = rfnCauta(ix, q, 4);
-      if (!ai) { arataPasaje(q, hits); return; }
+      if (!ai) { gata(); arataPasaje(q, hits); return; }
       fetch(ai, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: q }) })
         .then(function (r) { if (!r.ok) return r.json().then(function (j) { throw j; }, function () { throw {}; }); return r.json(); })
-        .then(arataRaspuns)
-        .catch(function (e) { arataPasaje(q, hits, mesajLimita(e || {})); });
+        .then(function (r) { gata(); arataRaspuns(r); })
+        .catch(function (e) { gata(); arataPasaje(q, hits, mesajLimita(e || {})); });
     });
   });
 })();

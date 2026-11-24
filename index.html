@@ -30,13 +30,13 @@
 <link rel="preload" href="assets/img/ilustratie-rfn.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preload" href="assets/fonts/RFNDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/RFNMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v191">
+<link rel="stylesheet" href="assets/css/site.css?v192">
 </head>
 <body>
 <a class="skip" href="#continut">Sari la conținut</a>
 
 <header class="site-header" id="antet">
-  <div class="draft-strip"><div class="wrap">Machetă de lucru · v191 · 24 noiembrie 2026 · textele pachetului v88 · nepublicată</div></div>
+  <div class="draft-strip"><div class="wrap">Machetă de lucru · v192 · 24 noiembrie 2026 · textele pachetului v88 · nepublicată</div></div>
   <div class="wrap header-inner">
     <a class="brand" href="#sus" aria-label="Rights for Nature, începutul paginii">
       <img src="assets/img/sigla-rfn.png" alt="Rights for Nature" width="438" height="300">
@@ -968,6 +968,14 @@
         <p class="eyebrow eyebrow-on-light">06 / Întrebări</p>
         <h2 id="t-intrebari">Tot ce vrei să știi înainte să semnezi</h2>
       </header>
+      <div class="intreaba" id="intreaba" data-ai="">
+        <form class="intreaba-form" role="search" novalidate>
+          <label class="intreaba-et" for="intreaba-q">Pune o întrebare</label>
+          <div class="intreaba-rand"><input id="intreaba-q" type="search" maxlength="300" autocomplete="off" enterkeyhint="search" placeholder="De exemplu: Mai pot pescui în râu dacă e desemnat?"><button class="btn btn-cta" type="submit">Întreabă</button></div>
+          <p class="intreaba-nota" data-nota-ai="Răspunsurile sunt generate automat, pe baza textelor de pe acest site și a documentelor inițiativei, și pot conține greșeli. Textul exact e în documente.">Îți arătăm pasajele de pe site și din documentele inițiativei care se potrivesc cu întrebarea ta.</p>
+        </form>
+        <div class="intreaba-rez" aria-live="polite" hidden></div>
+      </div>
       <div class="faq-layout">
       <figure class="section-art faq-side" aria-hidden="true"><img src="assets/img/vizual-intrebari-munti.webp" srcset="assets/img/vizual-intrebari-munti-700.webp 700w, assets/img/vizual-intrebari-munti.webp 1400w" sizes="(max-width: 760px) 100vw, 460px" alt="" width="1400" height="933" loading="lazy"></figure>
       <div class="faq">
@@ -1393,6 +1401,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v191"></script>
+<script src="assets/js/site.js?v192"></script>
 </body>
 </html>

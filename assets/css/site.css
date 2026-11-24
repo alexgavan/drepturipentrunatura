@@ -2011,11 +2011,7 @@ html { text-size-adjust: 100%; }
 .goal-head .goal-lead { font-size: inherit; line-height: inherit; }
 
 /* ---------- v189 (auditul de expert, Alex: L1, L3, L4, L8) ---------- */
-/* L1: pe telefon, ilustrația de început e o bandă mai joasă, ca titlul și textul să se vadă din primul ecran */
-@media (max-width: 760px) {
-  .hero { padding-block: calc(var(--antet, 72px) + min(42vw, 220px) + 1rem) 9rem; }
-  .hero-art { height: min(42vw, 220px); }
-}
+/* L1: v191 (Alex): pe telefon, ilustrația de început revine la înălțimea dinainte (v126). */
 /* L3: v190 (Alex, M2: B): paragrafele au revenit la RFN Mono, ca în restul identității. */
 /* L8: titlurile exemplelor sunt acum de nivel 3, cu aceeași mărime; numele organizațiilor din subsol, text */
 .example h3.ex-titlu { font-size: clamp(1.7rem, 3.6vw, 2.6rem); line-height: 1.1; letter-spacing: 0; }

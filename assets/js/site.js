@@ -1460,7 +1460,10 @@ function rfnIndex(baza) {
 }
 // v192: cuvinte pe care oamenii le folosesc, dar textele spun altfel (doar în întrebare).
 var RFN_SIN = { gardia: 'reprez', gardie: 'reprez', tutore: 'reprez', tutori: 'reprez', custod: 'reprez', avocat: 'reprez' };
+// Întrebări despre „câte semnături” caută și pragul.
+function rfnExtinde(q) { return /c[aâ]t[ea]?\b[^?]*semn[aă]tur|num[aă]r[^?]*semn[aă]tur/i.test(rfnNorm(q)) || /c[aâ]te semn/i.test(q) ? q + ' prag pragul' : q; }
 function rfnCauta(ix, q, n) {
+  q = rfnExtinde(q);
   var qt = rfnTok(q).map(function (t) { return RFN_SIN[t] || t; }), sc = [], k1 = 1.4, b = 0.75;
   if (!qt.length) return [];
   for (var i = 0; i < ix.N; i++) {

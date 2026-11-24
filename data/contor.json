@@ -1,6 +1,6 @@
 {
  "sursa": "https://register.eci.ec.europa.eu/core/api/register/details/2026/000006",
- "total": 79966,
+ "total": 79972,
  "ro": 1605,
  "tari": {
   "AT": 2537,
@@ -8,10 +8,10 @@
   "BG": 391,
   "CY": 56,
   "CZ": 1288,
-  "DE": 15368,
+  "DE": 15371,
   "DK": 2120,
   "EE": 336,
-  "ES": 5253,
+  "ES": 5254,
   "FI": 1978,
   "FR": 8223,
   "GR": 486,
@@ -23,14 +23,14 @@
   "LU": 483,
   "LV": 614,
   "MT": 67,
-  "NL": 11725,
+  "NL": 11726,
   "PL": 4982,
   "PT": 1359,
   "RO": 1605,
-  "SE": 5889,
+  "SE": 5890,
   "SI": 308,
   "SK": 685
  },
- "actualizat_registru": "23/11/2026 22:55",
- "citit_la": "2026-11-23T21:59Z"
+ "actualizat_registru": "24/11/2026 02:20",
+ "citit_la": "2026-11-24T01:21Z"
 }

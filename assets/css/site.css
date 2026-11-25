@@ -2048,21 +2048,25 @@ html { text-size-adjust: 100%; }
 @keyframes intreaba-bara { 0% { left: -35%; } 100% { left: 100%; } }
 @media (prefers-reduced-motion: reduce) { .intreaba-puncte i, .intreaba-bara::after { animation-duration: 2.4s; } }
 
-/* v201 (P1: C): fotografia DJI (Alex Găvan) la secțiunea Problema.
-   Telefon: bandă luminoasă doar sub titlu. Calculator: fundal la toată secțiunea, întunecat sub text. */
-.section.problema-cu-foto { position: relative; }
+/* v201 (P1: C) + v202: fotografia DJI (Alex Găvan) la secțiunea Problema.
+   Telefon: bandă luminoasă doar sub titlu. Calculator: fundal sub titlu, text și îndemn, mai luminos (v202);
+   cifrele 81 % și 63 % ies din fotografie, pe o bandă de o singură culoare (gri deschis), ca să nu urmeze două fotografii una după alta. */
 .problema-banda .eyebrow { color: var(--yellow); }
 .problema-banda h2 { color: var(--paper); text-shadow: 0 2px 14px rgba(0, 0, 0, .55); }
+.problema-sus { position: relative; }
+.problema-cifre { margin-top: clamp(2rem, 4vw, 3rem); }
 @media (max-width: 760px) {
   .section.problema-cu-foto { padding-top: 0; }
   .problema-banda { position: relative; min-height: 78vw; display: flex; align-items: flex-end; padding-block: 3rem 2.6rem; margin-bottom: 2.5rem; background: rgb(40, 44, 60) center 40% / cover no-repeat; background-image: linear-gradient(0deg, rgba(18, 22, 48, .85) 0, rgba(18, 22, 48, .45) 50%, rgba(18, 22, 48, .05) 100%), url("../img/fundal-foto-dji-mobil.webp"); }
   .problema-banda > .wrap { width: 100%; }
 }
 @media (min-width: 761px) {
-  .section.problema-cu-foto { color: var(--paper); background: rgb(30, 34, 58) center 35% / cover no-repeat; background-image: linear-gradient(180deg, rgba(18, 22, 48, .55) 0, rgba(18, 22, 48, .78) 30%, rgba(18, 22, 48, .86) 100%), url("../img/fundal-foto-dji.webp"); }
-  .section.problema-cu-foto .prose, .section.problema-cu-foto .prose p { color: var(--paper); }
-  .section.problema-cu-foto .chapter-cta p { color: var(--yellow); }
-  .section.problema-cu-foto .stat { background: rgba(18, 22, 48, .55); border: 1px solid rgba(255, 255, 255, .25); }
-  .section.problema-cu-foto .plus-btn { color: var(--paper); }
+  .section.problema-cu-foto { padding-block: 0; background: var(--mist); }
+  .problema-sus { color: var(--paper); padding-block: clamp(4.5rem, 8vw, 7rem) clamp(4rem, 7vw, 6rem); background: rgb(30, 34, 58) center 40% / cover no-repeat; background-image: linear-gradient(90deg, rgba(18, 22, 48, .66) 0, rgba(18, 22, 48, .5) 55%, rgba(18, 22, 48, .25) 100%), url("../img/fundal-foto-dji.webp"); }
+  .problema-sus .prose, .problema-sus .prose p { color: var(--paper); text-shadow: 0 1px 10px rgba(0, 0, 0, .65), 0 0 2px rgba(0, 0, 0, .5); }
+  .problema-sus .chapter-cta p { color: var(--yellow); text-shadow: 0 1px 10px rgba(0, 0, 0, .65); }
+  .problema-sus .plus-btn { color: var(--paper); background: rgba(18, 22, 48, .45); }
   .problema-banda .foto-credit-banda { position: absolute; left: 1rem; bottom: .6rem; }
+  .problema-cifre { margin-top: 0; padding-block: clamp(3rem, 6vw, 4.5rem); }
+  .problema-cifre .stats { grid-template-columns: 1fr 1fr; }
 }

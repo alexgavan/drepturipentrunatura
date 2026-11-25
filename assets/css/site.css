@@ -2071,3 +2071,17 @@ html { text-size-adjust: 100%; }
   .problema-cifre { margin-top: 0; padding-block: clamp(3rem, 6vw, 4.5rem); }
   .problema-cifre .stats { grid-template-columns: 1fr 1fr; }
 }
+
+/* v211 (deciziile U1 A, U2 A, Alex, 25.11.2026): citirea pe mobil.
+   U1: benzile cu fotografie și citat mai scunde pe telefon; portretele din citate puțin mai mici.
+   U2: casetele inițiatorului și partenerilor compacte pe telefon, cu sigla mică în stânga. Pe calculator nu se schimbă nimic. */
+@media (max-width: 760px) {
+  .quote-band.quote-band-foto, .quote-band.quote-band-foto.quote-problema { min-height: 22rem; padding-block: 2.5rem; }
+  .quote-person { padding-block: 1.75rem; }
+  .quote-person .quote-photo { width: 84px; height: 84px; }
+  .people .org { grid-template-columns: 72px 1fr; column-gap: 1rem; row-gap: .2rem; padding: 1rem 1.1rem; align-items: center; }
+  .people .org .org-logo { grid-row: 1 / span 3; width: 72px; height: auto; max-height: 56px; object-fit: contain; }
+  .people .org h3 { font-size: 1.05rem; }
+  .people .org .org-persoana { font-size: .82rem; margin: 0; }
+  .people .org .org-registru { grid-column: 2; font-size: .8rem; margin: 0; }
+}

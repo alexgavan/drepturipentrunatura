@@ -1467,6 +1467,8 @@ function rfnExtinde(q) {
   if (/noi toti|cu totii|toata lumea|tuturor/.test(n)) q += ' castigam comunitatile firmele europa oamenii apa hrana sanatoase';
   // v198: întrebările despre oamenii din spatele inițiativei (cine e în spate, cine sunteți, cine o face, cine plătește).
   if (/in spate|in spatele|cine sunteti|cine sunt organizator|cine (a )?(face|facut|organizeaza|initiat|propus|condu)|cine (o )?(sustine|finanteaza|plateste campania)|ce organizatii|cine sta/.test(n)) q += ' organizeaza finanteaza organizatori retea parteneri Pachamama Centura Verde Rechte Natur fundatii';
+  // v213 (decizia A2, Alex): „cât durează să semnez / cât timp îmi ia” = timpul de semnare, nu durata campaniei.
+  if (/(cat|cit) (dureaza|timp|ia|imi ia)|dureaza mult|e rapid|cat de repede/.test(n) && /semn|formular|complet/.test(n) && !/campani|strang|strangerea/.test(n)) q += ' dureaza un minut pasii formular site oficial semneaza';
   return rfnExtinde0(q);
 }
 function rfnExtinde0(q) { return /c[aâ]t[ea]?\b[^?]*semn[aă]tur|num[aă]r[^?]*semn[aă]tur/i.test(rfnNorm(q)) || /c[aâ]te semn/i.test(q) ? q + ' prag pragul' : q; }

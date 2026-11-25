@@ -2062,9 +2062,10 @@ html { text-size-adjust: 100%; }
 }
 @media (min-width: 761px) {
   .section.problema-cu-foto { padding-block: 0; background: var(--mist); }
-  .problema-sus { color: var(--paper); padding-block: clamp(4.5rem, 8vw, 7rem) clamp(4rem, 7vw, 6rem); background: rgb(30, 34, 58) center 40% / cover no-repeat; background-image: linear-gradient(90deg, rgba(18, 22, 48, .66) 0, rgba(18, 22, 48, .5) 55%, rgba(18, 22, 48, .25) 100%), url("../img/fundal-foto-dji.webp"); }
-  .problema-sus .prose, .problema-sus .prose p { color: var(--paper); text-shadow: 0 1px 10px rgba(0, 0, 0, .65), 0 0 2px rgba(0, 0, 0, .5); }
-  .problema-sus .chapter-cta p { color: var(--yellow); text-shadow: 0 1px 10px rgba(0, 0, 0, .65); }
+  .problema-sus { color: var(--paper); padding-block: clamp(4.5rem, 8vw, 7rem) clamp(4rem, 7vw, 6rem); background: rgb(30, 34, 58) center 40% / cover no-repeat; background-image: linear-gradient(90deg, rgba(18, 22, 48, .5) 0, rgba(18, 22, 48, .32) 55%, rgba(18, 22, 48, .1) 100%), url("../img/fundal-foto-dji.webp"); }
+  .problema-sus .prose, .problema-sus .prose p { color: var(--paper); text-shadow: 0 1px 12px rgba(0, 0, 0, .8), 0 0 3px rgba(0, 0, 0, .7); }
+  .problema-sus h2 { text-shadow: 0 2px 16px rgba(0, 0, 0, .7); }
+  .problema-sus .chapter-cta p { color: var(--yellow); text-shadow: 0 1px 12px rgba(0, 0, 0, .8), 0 0 3px rgba(0, 0, 0, .6); }
   .problema-sus .plus-btn { color: var(--paper); background: rgba(18, 22, 48, .45); }
   .problema-banda .foto-credit-banda { position: absolute; left: 1rem; bottom: .6rem; }
   .problema-cifre { margin-top: 0; padding-block: clamp(3rem, 6vw, 4.5rem); }

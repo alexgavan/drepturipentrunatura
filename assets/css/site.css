@@ -2085,3 +2085,6 @@ html { text-size-adjust: 100%; }
   .people .org .org-persoana { font-size: .82rem; margin: 0; }
   .people .org .org-registru { grid-column: 2; font-size: .8rem; margin: 0; }
 }
+
+/* v212 (decizia D1 B): grupul „Documente de sprijin”, sub grila documentelor principale */
+.docs-sprijin-titlu { margin: clamp(1.75rem, 4vw, 2.5rem) 0 .9rem; font: 700 .85rem/1.3 var(--font-body); letter-spacing: .06em; text-transform: uppercase; color: var(--indigo); }
